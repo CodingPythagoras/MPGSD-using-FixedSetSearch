@@ -4,8 +4,20 @@ public class MPGSDGraph {
 	private LinkedList<SupplyVertex> listOfSupplyVertexes = new LinkedList<>();
 	private LinkedList<DemandVertex> listOfDemandVertexes = new LinkedList<>();
 	
-	public MPGSDGraph(int numberOfSupplyVertex, int numberOfDemandVertex) {
-		createFirstMPGSDGraph();
+	public MPGSDGraph(int graphNR) {
+		switch (graphNR) {
+		case 1:
+			createFirstMPGSDGraph();
+			break;
+
+		case 2:
+			createSecondMPGSDGraph();
+			break;
+		default:
+			
+			break;
+		}
+		
 	}
 	
 	public SupplyVertex getHighestSupplyVertex() {
@@ -101,6 +113,16 @@ public class MPGSDGraph {
 	}
 	
 
+	private void createSecondMPGSDGraph() {
+		Vertex ver1 = createVertex("supply", 1, 8);
+		Vertex ver2 = createVertex("supply", 2, 16);
+		Vertex ver3 = createVertex("supply", 3, 9);
+		Vertex ver4 = createVertex("supply", 4, 20);
+		Vertex ver5 = createVertex("supply", 5, 5);
+		Vertex ver6 = createVertex("supply", 6, 2);
+		
+	}
+	
 	public LinkedList<SupplyVertex> getListOfSupplyVertexes() {
 		return listOfSupplyVertexes;
 	}
@@ -129,6 +151,19 @@ public class MPGSDGraph {
 		int num = listOfSupplyVertexes.size();
 		return num;
 	}
+	
+	public Vertex createVertex(String type, int id, int value) {
+        if ("supply".equals(type)) {
+        	SupplyVertex v = new SupplyVertex(id, value);
+        	listOfSupplyVertexes.add(v);
+            return v;
+        } else if ("demand".equals(type)) {
+        	DemandVertex d = new DemandVertex(id, value);
+        	listOfDemandVertexes.add(d);
+            return d;
+        }
+        throw new IllegalArgumentException("Unknown vertex type");
+    }
 	
 	
 	

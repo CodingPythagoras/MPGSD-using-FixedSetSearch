@@ -103,4 +103,6 @@ public class GreedyMPGSDSolver {
 		return "The total coverage amounts to a total of " + totalCovDemand + "/" + totalDemand + 
 				" With a total supply use of " + supplyUsed + "/" + totalSupply;
 	}
+	
+
 }

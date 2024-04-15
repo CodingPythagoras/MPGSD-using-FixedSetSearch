@@ -6,8 +6,8 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		
-		MPGSDGraph testMPGSDGraph1 = new MPGSDGraph(0, 0);
-		MPGSDGraph testMPGSDGraph2 = new MPGSDGraph(0, 0);
+		MPGSDGraph testMPGSDGraph1 = new MPGSDGraph(1);
+		MPGSDGraph testMPGSDGraph2 = new MPGSDGraph(1);
 		
 		
 		//SolvedGraph solutionGraph1 = GreedyMPGSDSolver.GreedySolve1(testMPGSDGraph1);
