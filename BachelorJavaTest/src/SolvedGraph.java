@@ -10,15 +10,7 @@ public class SolvedGraph {
 	private int totalOriginalDemand;
 	private int totalCoveredDemand;
 	
-	
-	public SolvedGraph(int numberSupplyVertexes) {
-		numberOfSupplyVertexes = numberSupplyVertexes;
-		for (int i = 0; i <= numberSupplyVertexes - 1; i++) {
-			LinkedList<Vertex> subGraph = new LinkedList<Vertex>();
-			//graphOfSubgraphs.add(subGraph);
-		}
-	}
-	
+		
 	public SolvedGraph(MPGSDGraph g) {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
 		for (int i = 0; i <= numberOfSupplyVertexes - 1; i++) {

@@ -2,70 +2,44 @@ import java.util.LinkedList;
 
 public class GreedyMPGSDSolver {
 	
-	public static LinkedList<LinkedList<Vertex>> GreedySolve(MPGSDGraph g) {
-		LinkedList<LinkedList<Vertex>> allSubgraphs = new LinkedList<>();
-		
-		
-		for(int i = 0; i <=  g.getListOfSupplyVertexes().size() - 1; i++) {
-			
-			SupplyVertex SupV = g.getHighestSupplyVertex();
-			LinkedList<Vertex> subGraph = new LinkedList<Vertex>();
-			allSubgraphs.add(subGraph);
-			subGraph.add(SupV);
-			Vertex currentV = SupV;
-			
-			while(true) {
-				//TODO When demandVertex not null
-				Vertex[] demandPair = getHighestListAdjVertex(subGraph);
-				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
-				if(selctedAdjDemV == null) {
-					break;
-				}
-				currentV = demandPair[1];
-				currentV.addAdjVertex(selctedAdjDemV);
-				selctedAdjDemV.setPredecessor(currentV);
-				subGraph.add(selctedAdjDemV);
-				SupV.useSupply(selctedAdjDemV.getDemand());
-				selctedAdjDemV.setDemandAsCovered();
-			}
-			
-		}
-		
-		return allSubgraphs;
-	}
-	
 	/*
 	 * Solves the MPGSD Graph by completing one Subgraph and then continues
 	 */
-	public static SolvedGraph GreedySolve2(MPGSDGraph g) {
-		SolvedGraph graphOfSubGraphs = new SolvedGraph(g.getListOfSupplyVertexes().size());
+	public static SolvedGraph GreedySolve1(MPGSDGraph g) {
+		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
 		
-		for(int i = 0; i <=  g.getListOfSupplyVertexes().size() - 1; i++) {
+		for(int i = 0; i <=  g.getNumberofSupplyVertexes() - 1 ; i++) {
 			
-			SupplyVertex SupV = g.getHighestSupplyVertex();
-			LinkedList<Vertex> subGraph = graphOfSubGraphs.getSubgraph(i);
-			subGraph.add(SupV);
-			Vertex currentV = SupV;
+			SubGraph selctedSubGraph = graphOfSubGraphs.getSubgraphWithHigestSupply();
+			//could be added but not necessary because of for-loop
+			if(selctedSubGraph == null) {
+				break;
+			}
 			
 			while(true) {
-				//TODO When demandVertex not null
-				Vertex[] demandPair = getHighestListAdjVertex(subGraph);
-				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
-				if(selctedAdjDemV == null) {
-					break;
-				}
-				currentV = demandPair[1];
-				currentV.addAdjVertex(selctedAdjDemV);
-				selctedAdjDemV.setPredecessor(currentV);
-				subGraph.add(selctedAdjDemV);
-				SupV.useSupply(selctedAdjDemV.getDemand());
-				selctedAdjDemV.setDemandAsCovered();
 				
-				graphOfSubGraphs.addCoveredDemand(selctedAdjDemV.getDemand());
-				graphOfSubGraphs.addUsedSupply(selctedAdjDemV.getDemand());
-				graphOfSubGraphs.addNumberOfDemandVertexes(1);
+				Vertex[] demandPair = getHighestListAdjVertex(selctedSubGraph);
+				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
+				
+				if(selctedAdjDemV == null) {
+					selctedSubGraph.setComplete();
+					//selctedSubGraph is complete, when no fitting AdjVertexes could be found
+					break;
+				}else {
+					Vertex predecessorV = demandPair[1];
+					predecessorV.addAdjVertex(selctedAdjDemV);
+					selctedAdjDemV.setPredecessor(predecessorV);
+					selctedSubGraph.addVertex(selctedAdjDemV);
+					selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
+					selctedAdjDemV.setDemandAsCovered();
+							
+					graphOfSubGraphs.addCoveredDemand(selctedAdjDemV.getDemand());
+					graphOfSubGraphs.addUsedSupply(selctedAdjDemV.getDemand());
+					graphOfSubGraphs.addNumberOfDemandVertexes(1);
+				}
+				
 			}
 			
 		}
@@ -77,8 +51,8 @@ public class GreedyMPGSDSolver {
 	/*
 	 * Solves the MPGSD Graph by cyling between the higest remaining supply Subgraphs
 	 */
-	public static SolvedGraph GreedySolve3(MPGSDGraph g) {
-		SolvedGraph graphOfSubGraphs = new SolvedGraph(g.getListOfSupplyVertexes().size());
+	public static SolvedGraph GreedySolve2(MPGSDGraph g) {
+		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());

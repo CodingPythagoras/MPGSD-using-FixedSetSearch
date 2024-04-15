@@ -1,0 +1,31 @@
+//	public static LinkedList<LinkedList<Vertex>> GreedySolve(MPGSDGraph g) {
+//		LinkedList<LinkedList<Vertex>> allSubgraphs = new LinkedList<>();
+//		
+//		
+//		for(int i = 0; i <=  g.getListOfSupplyVertexes().size() - 1; i++) {
+//			
+//			SupplyVertex SupV = g.getHighestSupplyVertex();
+//			LinkedList<Vertex> subGraph = new LinkedList<Vertex>();
+//			allSubgraphs.add(subGraph);
+//			subGraph.add(SupV);
+//			Vertex currentV = SupV;
+//			
+//			while(true) {
+//				//TODO When demandVertex not null
+//				Vertex[] demandPair = getHighestListAdjVertex(subGraph);
+//				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
+//				if(selctedAdjDemV == null) {
+//					break;
+//				}
+//				currentV = demandPair[1];
+//				currentV.addAdjVertex(selctedAdjDemV);
+//				selctedAdjDemV.setPredecessor(currentV);
+//				subGraph.add(selctedAdjDemV);
+//				SupV.useSupply(selctedAdjDemV.getDemand());
+//				selctedAdjDemV.setDemandAsCovered();
+//			}
+//			
+//		}
+//		
+//		return allSubgraphs;
+//	}

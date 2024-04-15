@@ -34,4 +34,12 @@ public class SubGraph {
 	public LinkedList<Vertex> getVertexList(){
 		return subGraph;
 	}
+	
+	public String getMathematicalRepresentationOfSubgraph() {
+		//TODO [ID][Dem/Sup][Predecessor]
+		//int[][][] vertexAsArray = new int[1][1][1];
+		//vertexAsArray[] arrayOfVertexes = new vertexAsArray[7];
+		
+		return "test";
+	}
 }

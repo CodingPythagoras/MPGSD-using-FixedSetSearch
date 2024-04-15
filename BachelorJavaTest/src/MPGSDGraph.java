@@ -125,6 +125,11 @@ public class MPGSDGraph {
 		return totalMPGSDSup;
 	}
 	
+	public int getNumberofSupplyVertexes() {
+		int num = listOfSupplyVertexes.size();
+		return num;
+	}
+	
 	
 	
 	
