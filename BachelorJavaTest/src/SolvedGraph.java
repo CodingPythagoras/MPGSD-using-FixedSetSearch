@@ -35,6 +35,34 @@ public class SolvedGraph {
 		return currentMaxSupplySubgraph;
 	}
 	
+	/*
+	 * returns an String/ Array if changed representation of the solves Subgraph
+	 * possible use of StringBuilder to increase performance
+	 */
+	public String getSolvedGraphMathematical() {
+		String solutionString = "";
+		for(int i = 0; i <= graphOfSubgraphs.size() - 1; i++) {
+			SubGraph sub = graphOfSubgraphs.get(i);
+			int[][] subRepresentation = sub.getMathematicalRepresentationOfSubgraph();
+			//1st one is always the Supply one
+			String x = "[Subgraph " + (i+1) + "]\n Vertex " + 1 + ":" + "  ID: " + subRepresentation[0][0] + " Supply: " + subRepresentation[0][1] +
+					" Predecessor: " + subRepresentation[0][2] + "\n ";
+			
+			solutionString = solutionString.concat(x);
+			//start at j == 1 to start for loop with demand Vertexes
+			for(int j = 1; j <= subRepresentation.length - 1; j++) {
+
+				String z = "Vertex " + (j + 1) + ":" + "  ID: " + subRepresentation[j][0] + " Demand: " + subRepresentation[j][1] +
+						" Predecessor: " + subRepresentation[j][2] + "\n ";
+				solutionString = solutionString.concat(z);
+			}
+			String y = "\n" + "\n";
+			solutionString = solutionString.concat(y);
+		}
+		
+		return solutionString;
+	}
+	
 	public SubGraph getSubgraph(int pos) {
 		return graphOfSubgraphs.get(pos);
 	}

@@ -29,10 +29,8 @@ public class Main {
 		System.out.println(coverage1);
 		System.out.println(coverage2);
 		
-		System.out.println(solutionGraph1.getSubgraph(0).getVertexList());
-		System.out.println(solutionGraph1.getSubgraph(1).getVertexList());
-		System.out.println(solutionGraph1.getSubgraph(2).getVertexList());
-		System.out.println(solutionGraph1.getSubgraph(3).getVertexList());
+		System.out.println(solutionGraph1.getSolvedGraphMathematical());
+		System.out.println(solutionGraph2.getSolvedGraphMathematical());
 		
 		System.out.println("Finished");
 		

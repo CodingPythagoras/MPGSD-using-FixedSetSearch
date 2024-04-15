@@ -35,11 +35,25 @@ public class SubGraph {
 		return subGraph;
 	}
 	
-	public String getMathematicalRepresentationOfSubgraph() {
+	public int[][] getMathematicalRepresentationOfSubgraph() {
 		//TODO [ID][Dem/Sup][Predecessor]
-		//int[][][] vertexAsArray = new int[1][1][1];
-		//vertexAsArray[] arrayOfVertexes = new vertexAsArray[7];
+		int[][] vertexAsArray = new int[subGraph.size()][3];
+		for(int i = 0; i <= subGraph.size() - 1; i++) {
+			Vertex v = subGraph.get(i);
+			vertexAsArray[i][0] = v.getID();
+			if(v.isSupplyVertex) {
+				vertexAsArray[i][1] = ((SupplyVertex)v).getInitialSupply();
+				//Predecessor is itself
+				vertexAsArray[i][2] = ((SupplyVertex)v).getID();
+			}
+			if(!v.isSupplyVertex) {
+				vertexAsArray[i][1] = -((DemandVertex)v).getDemand();
+				vertexAsArray[i][2] = ((DemandVertex)v).getPredecessor().getID();
+			}
+			
+		}
 		
-		return "test";
+		
+		return vertexAsArray;
 	}
 }
