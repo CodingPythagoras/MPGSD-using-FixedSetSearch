@@ -1,5 +1,4 @@
-import java.util.LinkedList;
-import java.util.Random;
+
 
 public class Main {
 
@@ -11,7 +10,7 @@ public class Main {
 		MPGSDGraph testMPGSDGraph2 = new MPGSDGraph(0, 0);
 		
 		
-		SolvedGraph solutionGraph1 = GreedyMPGSDSolver.GreedySolve1(testMPGSDGraph1);
+		//SolvedGraph solutionGraph1 = GreedyMPGSDSolver.GreedySolve1(testMPGSDGraph1);
 		SolvedGraph solutionGraph2 = GreedyMPGSDSolver.GreedySolve2(testMPGSDGraph2);
 		
 //		for(int i = 0; i <= solutionGraph.size() - 1; i++) {
@@ -23,13 +22,13 @@ public class Main {
 //		}
 		
 		
-		String coverage1 = GreedyMPGSDSolver.getDemandCoverage(solutionGraph1);
+		//String coverage1 = GreedyMPGSDSolver.getDemandCoverage(solutionGraph1);
 		String coverage2 = GreedyMPGSDSolver.getDemandCoverage(solutionGraph2);
 		
-		System.out.println(coverage1);
+		//System.out.println(coverage1);
 		System.out.println(coverage2);
 		
-		System.out.println(solutionGraph1.getSolvedGraphMathematical());
+		//System.out.println(solutionGraph1.getSolvedGraphMathematical());
 		System.out.println(solutionGraph2.getSolvedGraphMathematical());
 		
 		System.out.println("Finished");

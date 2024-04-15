@@ -30,53 +30,160 @@
 //		return allSubgraphs;
 //	}
 
-
-
-[Subgraph 1]
- Vertex 1:  ID: 1 Supply: 10 Predecessor: 1
- Vertex 2:  ID: 9 Demand: -5 Predecessor: 1
- Vertex 3:  ID: 6 Demand: -4 Predecessor: 9
- 
-
-[Subgraph 2]
- Vertex 1:  ID: 2 Supply: 5 Predecessor: 2
- Vertex 2:  ID: 14 Demand: -3 Predecessor: 2
- 
-
-[Subgraph 3]
- Vertex 1:  ID: 3 Supply: 7 Predecessor: 3
- Vertex 2:  ID: 10 Demand: -4 Predecessor: 3
- Vertex 3:  ID: 11 Demand: -3 Predecessor: 10
- 
-
-[Subgraph 4]
- Vertex 1:  ID: 4 Supply: 8 Predecessor: 4
- Vertex 2:  ID: 16 Demand: -2 Predecessor: 4
- Vertex 3:  ID: 15 Demand: -1 Predecessor: 4
- Vertex 4:  ID: 8 Demand: -1 Predecessor: 4
- Vertex 5:  ID: 7 Demand: -2 Predecessor: 8
- 
- 
- [Subgraph 1]
- Vertex 1:  ID: 1 Supply: 10 Predecessor: 1
- Vertex 2:  ID: 9 Demand: -5 Predecessor: 1
- Vertex 3:  ID: 6 Demand: -4 Predecessor: 9
- 
-
-[Subgraph 2]
- Vertex 1:  ID: 2 Supply: 5 Predecessor: 2
- Vertex 2:  ID: 14 Demand: -3 Predecessor: 2
- 
-
-[Subgraph 3]
- Vertex 1:  ID: 3 Supply: 7 Predecessor: 3
- Vertex 2:  ID: 10 Demand: -4 Predecessor: 3
- Vertex 3:  ID: 11 Demand: -3 Predecessor: 10
- 
-
-[Subgraph 4]
- Vertex 1:  ID: 4 Supply: 8 Predecessor: 4
- Vertex 2:  ID: 16 Demand: -2 Predecessor: 4
- Vertex 3:  ID: 15 Demand: -1 Predecessor: 4
- Vertex 4:  ID: 8 Demand: -1 Predecessor: 4
- Vertex 5:  ID: 7 Demand: -2 Predecessor: 8
+public static Vertex[] getHighestListAdjVertex(SubGraph vListSubgraph) {
+		//because first element in subgraph is always the supply Vertex
+		
+		int remainingSupply = vListSubgraph.getSubgraphsSupplyVertex().getRemainingSupply();
+		//TODO null fix?
+		DemandVertex bestFittingDemandVertex = null;
+		Vertex predecessor = null;
+		int maxDem = 0;
+		LinkedList<Vertex> vList = vListSubgraph.getVertexList(); 
+		
+		for (int i = 0; i <= vList.size() - 1; i++ ) {
+			Vertex k = vList.get(i);
+			//getHighestFittingAdjVertex is swappable with function of choise
+			DemandVertex currentAdjDemV = (DemandVertex) k.getHighestFittingAdjVertex(remainingSupply /*, vList*/);
+			if(currentAdjDemV != null) {
+				/*
+				 * TODO currently only takes the one with the most demand of the given
+				 */
+				if(maxDem < currentAdjDemV.getDemand()) {
+					maxDem = currentAdjDemV.getDemand();
+					bestFittingDemandVertex = currentAdjDemV;
+					predecessor = k;
+				}
+			}
+			
+			
+		}
+		return new Vertex[] {bestFittingDemandVertex, predecessor};
+	}
+	
+	
+	/*
+	 * returns the highest fitting Vertex, that is not already in a subgraph (demand covered),
+	 * highest fitting, means Vertex with the most Adj Vertexes, which demand can be fullfilled
+	 */
+	public Vertex getVertexWMostAdjV(int remainingSupply) {
+		int currentMaxAdjV = 0;
+		Vertex currentMaxAdjVertex = null;
+		
+		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
+			Vertex k = AdjVertexList.get(i);
+			
+			if(!k.isSupplyVertex && ((DemandVertex) k).getDemandIsCovered() == false && remainingSupply >= ((DemandVertex) k).getDemand()) {
+				if(k.AdjVertexList.size() > currentMaxAdjV) {
+					currentMaxAdjV = k.AdjVertexList.size();
+					currentMaxAdjVertex = k;
+				}
+			}
+		}
+		return currentMaxAdjVertex;
+	}
+	
+	
+	/*
+	 * returns the highest fitting Vertex, that is not already in a subgraph (demand covered),
+	 * highest fitting, means Vertex with the most supply, which can be fullfilled
+	 */
+	public Vertex getHighestFittingAdjVertex(int remainingSupply /*, LinkedList<Vertex> vList*/) {
+		int currentMaxDemand = 0;
+		Vertex currentMaxAdjDemandVertex = null;
+		
+		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
+			Vertex k = AdjVertexList.get(i);
+			
+			
+			if (k instanceof DemandVertex) {
+				int currentDemand = ((DemandVertex) k).getDemand();
+				if(currentMaxDemand < currentDemand && currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false /*&& !vList.contains(k)*/) {
+					currentMaxDemand = currentDemand;
+					currentMaxAdjDemandVertex = k;
+				}
+				
+			}
+		}
+		return currentMaxAdjDemandVertex;	
+	}
+	
+	
+	
+		/*
+	 * returns the highest fitting Vertex, that is not already in a subgraph (demand covered),
+	 * highest fitting, means Vertex with the best Ratio of 1 / (demand / adjacent Vertexes that are not covered)
+	 * and that the demand can be fullfilled
+	 */
+	public Vertex getVertexUsingDemVertexRatio(int remainingSupply) {
+		double currentBestRatio = 0;
+		Vertex currentBestRatioVertex = null;
+		
+		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
+			Vertex k = AdjVertexList.get(i);
+			
+			if(!k.isSupplyVertex && ((DemandVertex) k).getDemandIsCovered() == false && remainingSupply >= ((DemandVertex) k).getDemand()) {
+				int numberOfAdjVDemNotCovered = 0;
+				/*
+				 * Determines how many Adj vertexes arent supplyed yet
+				 */
+				for(int j = 0; j <= k.AdjVertexList.size() - 1 ; j++) {
+					Vertex kj = k.AdjVertexList.get(j);
+					if(!kj.getIsSupplyVertex() && !((DemandVertex) kj).getDemandIsCovered()) {
+						numberOfAdjVDemNotCovered += 1;
+					}
+				}
+				int demToCov = ((DemandVertex) k).getDemand();
+				double x = demToCov / (numberOfAdjVDemNotCovered + 1);
+				double currentRatio = 1 / x;
+				System.out.println(x);
+				if(currentRatio > currentBestRatio) {
+					currentBestRatio = currentRatio;
+					currentBestRatioVertex = k;
+				}
+			}
+		}
+		return currentBestRatioVertex;
+	}
+	
+	
+		public Vertex getRandomAdjVertex(int remainingSupply) {
+		
+		Vertex ranAdjVer = null;
+		LinkedList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);
+		int sizeList = possibleAdjDemandVertexes.size();
+		if(sizeList > 0) {
+			Random randomNumber = new Random();
+			int ranAdj = randomNumber.nextInt(sizeList);
+			ranAdjVer = possibleAdjDemandVertexes.get(ranAdj);
+		}
+		return ranAdjVer;
+	}
+	
+	
+	/*
+	 * returns the highest fitting Vertex using either
+	 * getHighestFittingAdjVertex (Adj Vertex with highest demand)
+	 * getVertexWMostAdjV (Vertex with most adj Vertexes)
+	 * getVertexUsingDemVertexRatio (determines Vertex by combining both criteria)
+	 */
+	public Vertex getVertexUsingRandomTrait(int remainingSupply) {
+		Vertex randomBestVertex = null;
+		//Random number between 1 and 3
+		Random randomNumber = new Random();
+		int ranOneTwoThree = randomNumber.nextInt(3) + 1;
+		switch (ranOneTwoThree) {
+		case 1:
+			randomBestVertex = getHighestFittingAdjVertex(remainingSupply);
+			break;
+		case 2:
+			randomBestVertex = getVertexWMostAdjV(remainingSupply);
+			break;
+		case 3:
+			randomBestVertex = getVertexUsingDemVertexRatio(remainingSupply);
+			break;
+		default:
+			break;
+		}
+		
+		return randomBestVertex;
+	}

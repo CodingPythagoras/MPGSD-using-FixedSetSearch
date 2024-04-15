@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Random;
 
 public class SubGraph {
 	LinkedList<Vertex> subGraph; 
@@ -65,7 +66,7 @@ public class SubGraph {
 		DemandVertex bestFittingDemandVertex = null;
 		Vertex predecessor = null;
 		
-		int maxDem = 0;
+		int maxTrait = 0;
 		
 		//Iteration over every Vertex in Subgraph
 		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
@@ -78,9 +79,21 @@ public class SubGraph {
 					int currentDemand = ((DemandVertex)k).getDemand();
 					if(currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false) {
 						
+						int[] trait = new int[2];
+						
+						
+						
 						//implement trait by which element should be selected
-						if(maxDem < currentDemand) {
-							maxDem = currentDemand;
+						trait = traitMaxDemand(maxTrait, k);
+						
+						
+						
+						
+						
+						//trait[0] == 1 when true trait[1] == new max value
+						if(trait[0] == 1) {
+							
+							maxTrait = trait[1];
 							bestFittingDemandVertex = ((DemandVertex)k);
 							predecessor = v;
 						}
@@ -91,4 +104,125 @@ public class SubGraph {
 		}
 		return new Vertex[] {bestFittingDemandVertex, predecessor};
 	}
+	
+	//TODO add that it only checks for Adjacent which demand isnt covered
+	private int[] traitAdjacentVertex(int maxTrait, Vertex k) {
+		int[] trait = new int[2];
+		if(k.getAdjVertexList().size() > maxTrait) {
+			trait[0] = 1;
+			trait[1] = k.getAdjVertexList().size();
+			return trait;
+		}else {
+			trait[0] = 0;
+			trait[1] = 0;
+			return trait;
+		}	
+	}
+	
+	private int[] traitMaxDemand(int maxTrait, Vertex k) {
+		int[] trait = new int[2];
+		if(maxTrait < ((DemandVertex)k).getDemand()) {
+			trait[0] = 1;
+			trait[1] = ((DemandVertex)k).getDemand();
+			return trait;
+		}else {
+			trait[0] = 0;
+			trait[1] = 0;
+			return trait;
+		}
+	}
+	
+	private int[] traitDemandAdjVertexRatio(int maxTrait, Vertex k) {
+		int[] trait = new int[2];
+		LinkedList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertexes(getSubgraphsSupplyVertex().getRemainingSupply());
+		int numberOfAdjVDemNotCovered = listOfAdjVDemNotCovered.size();
+		
+		int demToCov = ((DemandVertex) k).getDemand();
+		double x = (double)demToCov / ((double)(numberOfAdjVDemNotCovered + 1));
+		double doubleRatio = 1 / x;
+		double upscaledRatio = doubleRatio * 100;
+		int currentRatio = (int) Math.floor(upscaledRatio);
+		if(currentRatio > maxTrait) {
+			trait[0] = 1;
+			trait[1] = currentRatio;
+			return trait;
+		}
+		else {
+			trait[0] = 0;
+			trait[1] = 0;
+			return trait;
+		}
+	}
+	
+	/*
+	 *uses a random trait of 3 as criteria
+	 */
+	public int[] traitRandomTrait(int remainingSupply, Vertex k) {
+		int[] trait = new int[2];
+		//Random number between 1 and 3
+		Random randomNumber = new Random();
+		int ranOneTwoThree = randomNumber.nextInt(3) + 1;
+		switch (ranOneTwoThree) {
+		case 1:
+			trait = traitAdjacentVertex(remainingSupply, k);
+			break;
+		case 2:
+			trait = traitMaxDemand(remainingSupply, k);
+			break;
+		case 3:
+			trait = traitDemandAdjVertexRatio(remainingSupply, k);
+			break;
+		default:
+			break;
+		}
+		
+		return trait;
+	}
+	
+	public Vertex[] getRandomVertex() {
+		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
+		//TODO null fix?
+		Vertex predecessor = null;
+		LinkedList<DemandVertex> listOfPossibleAdj = new LinkedList<>();
+		//TODO fix predecessor
+		LinkedList<Vertex> predecessorList = new LinkedList<>();
+		//Iteration over every Vertex in Subgraph
+		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
+			Vertex v = subGraph.get(i);
+			
+			//Iteration over ervery Adj Vertex of Vertex v
+			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
+				Vertex k = v.getAdjVertexList().get(j);
+				if(!k.isSupplyVertex) {
+					int currentDemand = ((DemandVertex)k).getDemand();
+					if(currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false) {
+						listOfPossibleAdj.add((DemandVertex) k);
+						predecessorList.add(v);
+					}
+				}
+					
+			}
+		}
+		//now all possible Vertexes are added to listOfPossibleAdj
+		Vertex ranAdjVer = null;
+		
+		int sizeList = listOfPossibleAdj.size();
+		if(sizeList > 0) {
+			Random randomNumber = new Random();
+			int ranAdj = randomNumber.nextInt(sizeList);
+			ranAdjVer = listOfPossibleAdj.get(ranAdj);
+			predecessor = predecessorList.get(ranAdj);
+		}
+		return new Vertex[] {ranAdjVer, predecessor};
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
 }

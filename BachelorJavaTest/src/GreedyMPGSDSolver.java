@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+
 
 public class GreedyMPGSDSolver {
 	
@@ -20,7 +20,7 @@ public class GreedyMPGSDSolver {
 			
 			while(true) {
 				
-				Vertex[] demandPair = getHighestListAdjVertex(selctedSubGraph);
+				Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
 				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 				
 				if(selctedAdjDemV == null) {
@@ -66,7 +66,9 @@ public class GreedyMPGSDSolver {
 			if(selctedSubGraph == null) {
 				break;
 			}
-			Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
+			//can be changed to random Vertex
+			Vertex[] demandPair = selctedSubGraph.getRandomVertex();
+			//Vertex[] demandPair = getHighestListAdjVertex(selctedSubGraph);
 			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 			
 			if(selctedAdjDemV == null) {
@@ -86,44 +88,12 @@ public class GreedyMPGSDSolver {
 			
 		}
 		
-		
-			
-		
-		
 		return graphOfSubGraphs;
 	}
 	
 	
 	
-	public static Vertex[] getHighestListAdjVertex(SubGraph vListSubgraph) {
-		//because first element in subgraph is always the supply Vertex
-		
-		int remainingSupply = vListSubgraph.getSubgraphsSupplyVertex().getRemainingSupply();
-		//TODO null fix?
-		DemandVertex bestFittingDemandVertex = null;
-		Vertex predecessor = null;
-		int maxDem = 0;
-		LinkedList<Vertex> vList = vListSubgraph.getVertexList(); 
-		
-		for (int i = 0; i <= vList.size() - 1; i++ ) {
-			Vertex k = vList.get(i);
-			//getHighestFittingAdjVertex is swappable with function of choise
-			DemandVertex currentAdjDemV = (DemandVertex) k.getHighestFittingAdjVertex(remainingSupply /*, vList*/);
-			if(currentAdjDemV != null) {
-				/*
-				 * TODO currently only takes the one with the most demand of the given
-				 */
-				if(maxDem < currentAdjDemV.getDemand()) {
-					maxDem = currentAdjDemV.getDemand();
-					bestFittingDemandVertex = currentAdjDemV;
-					predecessor = k;
-				}
-			}
-			
-			
-		}
-		return new Vertex[] {bestFittingDemandVertex, predecessor};
-	}
+	
 	
 	public static String getDemandCoverage(SolvedGraph solvedMPGSDGraphofSubgraphs) {
 		int totalCovDemand = solvedMPGSDGraphofSubgraphs.getTotalCoveredDemand();
