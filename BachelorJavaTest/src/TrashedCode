@@ -29,3 +29,54 @@
 //		
 //		return allSubgraphs;
 //	}
+
+
+
+[Subgraph 1]
+ Vertex 1:  ID: 1 Supply: 10 Predecessor: 1
+ Vertex 2:  ID: 9 Demand: -5 Predecessor: 1
+ Vertex 3:  ID: 6 Demand: -4 Predecessor: 9
+ 
+
+[Subgraph 2]
+ Vertex 1:  ID: 2 Supply: 5 Predecessor: 2
+ Vertex 2:  ID: 14 Demand: -3 Predecessor: 2
+ 
+
+[Subgraph 3]
+ Vertex 1:  ID: 3 Supply: 7 Predecessor: 3
+ Vertex 2:  ID: 10 Demand: -4 Predecessor: 3
+ Vertex 3:  ID: 11 Demand: -3 Predecessor: 10
+ 
+
+[Subgraph 4]
+ Vertex 1:  ID: 4 Supply: 8 Predecessor: 4
+ Vertex 2:  ID: 16 Demand: -2 Predecessor: 4
+ Vertex 3:  ID: 15 Demand: -1 Predecessor: 4
+ Vertex 4:  ID: 8 Demand: -1 Predecessor: 4
+ Vertex 5:  ID: 7 Demand: -2 Predecessor: 8
+ 
+ 
+ [Subgraph 1]
+ Vertex 1:  ID: 1 Supply: 10 Predecessor: 1
+ Vertex 2:  ID: 9 Demand: -5 Predecessor: 1
+ Vertex 3:  ID: 6 Demand: -4 Predecessor: 9
+ 
+
+[Subgraph 2]
+ Vertex 1:  ID: 2 Supply: 5 Predecessor: 2
+ Vertex 2:  ID: 14 Demand: -3 Predecessor: 2
+ 
+
+[Subgraph 3]
+ Vertex 1:  ID: 3 Supply: 7 Predecessor: 3
+ Vertex 2:  ID: 10 Demand: -4 Predecessor: 3
+ Vertex 3:  ID: 11 Demand: -3 Predecessor: 10
+ 
+
+[Subgraph 4]
+ Vertex 1:  ID: 4 Supply: 8 Predecessor: 4
+ Vertex 2:  ID: 16 Demand: -2 Predecessor: 4
+ Vertex 3:  ID: 15 Demand: -1 Predecessor: 4
+ Vertex 4:  ID: 8 Demand: -1 Predecessor: 4
+ Vertex 5:  ID: 7 Demand: -2 Predecessor: 8

@@ -56,4 +56,39 @@ public class SubGraph {
 		
 		return vertexAsArray;
 	}
+	
+	public Vertex[] getVertexToAdd() {
+		//because first element in subgraph is always the supply Vertex
+		
+		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
+		//TODO null fix?
+		DemandVertex bestFittingDemandVertex = null;
+		Vertex predecessor = null;
+		
+		int maxDem = 0;
+		
+		//Iteration over every Vertex in Subgraph
+		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
+			Vertex v = subGraph.get(i);
+			
+			//Iteration over ervery Adj Vertex of Vertex v
+			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
+				Vertex k = v.getAdjVertexList().get(j);
+				if(!k.isSupplyVertex) {
+					int currentDemand = ((DemandVertex)k).getDemand();
+					if(currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false) {
+						
+						//implement trait by which element should be selected
+						if(maxDem < currentDemand) {
+							maxDem = currentDemand;
+							bestFittingDemandVertex = ((DemandVertex)k);
+							predecessor = v;
+						}
+					}
+				}
+					
+			}
+		}
+		return new Vertex[] {bestFittingDemandVertex, predecessor};
+	}
 }

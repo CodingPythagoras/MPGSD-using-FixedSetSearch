@@ -66,7 +66,7 @@ public class GreedyMPGSDSolver {
 			if(selctedSubGraph == null) {
 				break;
 			}
-			Vertex[] demandPair = getHighestListAdjVertex(selctedSubGraph);
+			Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
 			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 			
 			if(selctedAdjDemV == null) {
