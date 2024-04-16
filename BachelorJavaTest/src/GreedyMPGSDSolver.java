@@ -86,6 +86,7 @@ public class GreedyMPGSDSolver {
 				Vertex predecessorV = demandPair[1];
 				predecessorV.addAdjVertex(selctedAdjDemV);
 				selctedAdjDemV.setPredecessor(predecessorV);
+				predecessorV.setSuccessor(selctedAdjDemV);
 				selctedSubGraph.addVertex(selctedAdjDemV);
 				selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
 				selctedAdjDemV.setDemandAsCovered();

@@ -42,14 +42,8 @@ public class FixedSetSearch {
 		
 		
 		//arrayOfBestGreedySolutions now contains the 10 best solutions
-		for(int j = 0; j <= m - 1; j++) {
-			for(int p = 0; p <= g.getNumberofSupplyVertexes() - 1; j++) {
-				Vertex lastV = arrayOfBestGreedySolutions[j].getSubgraph(p).getVertexList().getLast();
-				if(!lastV.getIsSupplyVertex()) {
-					
-				}
-			}
-		}
+		
+		//TODO analyse 10 best solutions
 	}
 
 }

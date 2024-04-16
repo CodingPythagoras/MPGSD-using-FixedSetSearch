@@ -8,6 +8,8 @@ public class Vertex {
 	private LinkedList<Vertex> AdjVertexList = new LinkedList<>();
 	protected boolean isSupplyVertex;
 	private int ID;
+	protected Vertex predecessor;
+	protected LinkedList<Vertex> successor;
 	
 	
 	public Vertex(int id) {
@@ -53,6 +55,22 @@ public class Vertex {
 	
 	public boolean getIsSupplyVertex() {
 		return isSupplyVertex;
+	}
+	
+	public void setPredecessor(Vertex v) {
+		predecessor = v;
+	}
+	
+	public Vertex getPredecessor() {
+		return predecessor;
+	}
+	
+	public void setSuccessor(Vertex v) {
+		successor.add(v);
+	}
+	
+	public LinkedList<Vertex> getSuccessor() {
+		return successor;
 	}
 	
 	

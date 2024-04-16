@@ -3,7 +3,7 @@ package VertexStructure;
 public class DemandVertex extends Vertex{
 	private int demand;
 	private boolean demandIsCovered;
-	private Vertex predecessor;
+	
 	
 	
 	/*
@@ -41,11 +41,5 @@ public class DemandVertex extends Vertex{
 		return demandIsCovered;
 	}
 	
-	public void setPredecessor(Vertex v) {
-		predecessor = v;
-	}
-	
-	public Vertex getPredecessor() {
-		return predecessor;
-	}
+
 }

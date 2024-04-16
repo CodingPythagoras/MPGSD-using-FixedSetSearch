@@ -15,6 +15,7 @@ public class SupplyVertex extends Vertex{
 		isSupplyVertex = true;
 		usedSupply = 0;
 		isInSubgraph = false;
+		predecessor = this;
 	}
 	
 	/*
@@ -26,6 +27,7 @@ public class SupplyVertex extends Vertex{
 		isSupplyVertex = true;
 		usedSupply = 0;
 		isInSubgraph = false;
+		predecessor = this;
 	}
 	
 	public int getRemainingSupply() {
