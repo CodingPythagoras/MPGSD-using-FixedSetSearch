@@ -1,5 +1,10 @@
+package GraphStructures;
 import java.util.LinkedList;
 import java.util.Random;
+
+import VertexStructure.DemandVertex;
+import VertexStructure.SupplyVertex;
+import VertexStructure.Vertex;
 
 public class SubGraph {
 	LinkedList<Vertex> subGraph; 
@@ -37,17 +42,17 @@ public class SubGraph {
 	}
 	
 	public int[][] getMathematicalRepresentationOfSubgraph() {
-		//TODO [ID][Dem/Sup][Predecessor]
+		// [ID][Dem/Sup][Predecessor]
 		int[][] vertexAsArray = new int[subGraph.size()][3];
 		for(int i = 0; i <= subGraph.size() - 1; i++) {
 			Vertex v = subGraph.get(i);
 			vertexAsArray[i][0] = v.getID();
-			if(v.isSupplyVertex) {
+			if(v.getIsSupplyVertex()) {
 				vertexAsArray[i][1] = ((SupplyVertex)v).getInitialSupply();
 				//Predecessor is itself
 				vertexAsArray[i][2] = ((SupplyVertex)v).getID();
 			}
-			if(!v.isSupplyVertex) {
+			if(!v.getIsSupplyVertex()) {
 				vertexAsArray[i][1] = -((DemandVertex)v).getDemand();
 				vertexAsArray[i][2] = ((DemandVertex)v).getPredecessor().getID();
 			}
@@ -75,7 +80,7 @@ public class SubGraph {
 			//Iteration over ervery Adj Vertex of Vertex v
 			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
 				Vertex k = v.getAdjVertexList().get(j);
-				if(!k.isSupplyVertex) {
+				if(!k.getIsSupplyVertex()) {
 					int currentDemand = ((DemandVertex)k).getDemand();
 					if(currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false) {
 						
@@ -193,7 +198,7 @@ public class SubGraph {
 			//Iteration over ervery Adj Vertex of Vertex v
 			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
 				Vertex k = v.getAdjVertexList().get(j);
-				if(!k.isSupplyVertex) {
+				if(!k.getIsSupplyVertex()) {
 					int currentDemand = ((DemandVertex)k).getDemand();
 					if(currentDemand <= remainingSupply && ((DemandVertex) k).getDemandIsCovered() == false) {
 						listOfPossibleAdj.add((DemandVertex) k);

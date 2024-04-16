@@ -1,3 +1,4 @@
+package JSONtoGraph;
 import com.google.gson.annotations.SerializedName;
 
 public class JSONVertexConfig {

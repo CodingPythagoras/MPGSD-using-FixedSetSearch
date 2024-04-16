@@ -1,3 +1,5 @@
+package JSONtoGraph;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -5,6 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
+
+import GraphStructures.MPGSDGraph;
+import VertexStructure.DemandVertex;
+import VertexStructure.SupplyVertex;
+import VertexStructure.Vertex;
 
 public class GraphBuilder {
 	/*

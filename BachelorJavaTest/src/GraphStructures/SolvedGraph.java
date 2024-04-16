@@ -1,3 +1,4 @@
+package GraphStructures;
 import java.util.LinkedList;
 
 public class SolvedGraph {

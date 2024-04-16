@@ -1,3 +1,4 @@
+package VertexStructure;
 
 public class DemandVertex extends Vertex{
 	private int demand;

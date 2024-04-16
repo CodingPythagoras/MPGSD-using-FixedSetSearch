@@ -1,3 +1,4 @@
+package VertexStructure;
 
 public class SupplyVertex extends Vertex{
 	private int supply;
@@ -5,9 +6,6 @@ public class SupplyVertex extends Vertex{
 	private boolean isInSubgraph;
 	
 	
-	
-
-
 	/*
 	 * Creates a SupplyVertex with a specific supply
 	 */

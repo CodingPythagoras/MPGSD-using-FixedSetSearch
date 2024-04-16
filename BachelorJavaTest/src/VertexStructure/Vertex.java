@@ -1,3 +1,4 @@
+package VertexStructure;
 import java.util.LinkedList;
 
 

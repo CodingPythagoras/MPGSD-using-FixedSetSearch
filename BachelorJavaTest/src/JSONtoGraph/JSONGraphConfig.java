@@ -1,3 +1,4 @@
+package JSONtoGraph;
 import java.util.List;
 
 public class JSONGraphConfig {

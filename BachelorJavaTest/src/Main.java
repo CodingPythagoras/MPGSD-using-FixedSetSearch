@@ -1,12 +1,16 @@
 import java.io.IOException;
 
+import GraphStructures.MPGSDGraph;
+import GraphStructures.SolvedGraph;
+import JSONtoGraph.GraphBuilder;
+
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		
-		compareJSONGraphAndManuell();
+		createAndSolveGraph("src\\JSONforGraph\\graph-config.json");
 		
 		System.out.println("Finished");
 		
@@ -14,20 +18,16 @@ public class Main {
 	
 	}
 	
-	private static void compareJSONGraphAndManuell() throws IOException {
-		MPGSDGraph manuellGraph = new MPGSDGraph(1);
-		MPGSDGraph JSONGraph = GraphBuilder.buildGraphFromJson("src/graph-config-2.json");
+	private static void createAndSolveGraph(String JSONPath) throws IOException {
 		
-		SolvedGraph manuellGraphSolution = GreedyMPGSDSolver.GreedySolve2(manuellGraph);
+		MPGSDGraph JSONGraph = GraphBuilder.buildGraphFromJson(JSONPath);
+		
 		SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(JSONGraph);
 		
-		String coverageManuell = GreedyMPGSDSolver.getDemandCoverage(manuellGraphSolution);
 		String coverageJSON = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution);
 		
-		System.out.println(coverageManuell);
 		System.out.println(coverageJSON);
 		
-		System.out.println(manuellGraphSolution.getSolvedGraphMathematical());
 		System.out.println(JSONGraphSolution.getSolvedGraphMathematical());
 	}
 
