@@ -9,7 +9,7 @@ public class GreedyMPGSDSolver {
 	/*
 	 * Solves the MPGSD Graph by completing one Subgraph and then continues
 	 */
-	public static SolvedGraph GreedySolve1(MPGSDGraph g) {
+	public static SolvedGraph GreedySolve1(MPGSDGraph g,int trait) {
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
@@ -24,7 +24,7 @@ public class GreedyMPGSDSolver {
 			
 			while(true) {
 				
-				Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
+				Vertex[] demandPair = selctedSubGraph.getVertexToAdd(trait);
 				DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 				
 				if(selctedAdjDemV == null) {
@@ -54,8 +54,13 @@ public class GreedyMPGSDSolver {
 	
 	/*
 	 * Solves the MPGSD Graph by cyling between the higest remaining supply Subgraphs
+	 * using a certain trait
+	 * 1: trait, which selects based on the max demand, which can be fullfilled
+	 * 2: trait, which selects based on the number of Adj. Vertices
+	 * 3: trait, which uses the Ratio between Demand / number of Adj Vertices
+	 * 4: by using random traits of the first three
 	 */
-	public static SolvedGraph GreedySolve2(MPGSDGraph g) {
+	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait) {
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
@@ -65,13 +70,14 @@ public class GreedyMPGSDSolver {
 		
 			
 		while(true) {
+			//always takes the Subgraph with the higest remainign Supply
 			SubGraph selctedSubGraph = graphOfSubGraphs.getSubgraphWithHigestSupply();
 			//selctedSubGraph is null, when all subgraphs are complete
 			if(selctedSubGraph == null) {
 				break;
 			}
 			//TODO (IMPORTANT) can be changed to random Vertex
-			Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
+			Vertex[] demandPair = selctedSubGraph.getVertexToAdd(trait);
 			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 			
 			if(selctedAdjDemV == null) {

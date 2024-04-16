@@ -63,7 +63,15 @@ public class SubGraph {
 		return vertexAsArray;
 	}
 	
-	public Vertex[] getVertexToAdd() {
+	/*
+	 * finds a fitting Vertex to add to the Subgraph
+	 * @param traitNumber selects by which criteria the Vertex should be selected
+	 * 1: trait, which selects based on the max demand, which can be fullfilled
+	 * 2: trait, which selects based on the number of Adj. Vertices
+	 * 3: trait, which uses the Ratio between Demand / number of Adj Vertices
+	 * 4: by using random traits of the first three
+	 */
+	public Vertex[] getVertexToAdd(int traitNumber) {
 		//because first element in subgraph is always the supply Vertex
 		
 		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
@@ -89,8 +97,8 @@ public class SubGraph {
 						
 						//TODO (IMPORTANT) can be changed to random trait
 						//implement trait by which element should be selected
-						trait = traitMaxDemand(maxTrait, k);
-						
+						//trait = traitMaxDemand(maxTrait, k);
+						trait = selectTrait(traitNumber, maxTrait, k);
 						
 						
 						
@@ -222,6 +230,27 @@ public class SubGraph {
 	}
 	
 	
+	/*
+	 * selctets the trait based on the int numberOfTrait
+	 */
+	public int[] selectTrait(int numberOfTrait, int remainingSupply, Vertex k) {
+		switch (numberOfTrait) {
+		case 1:
+			return traitMaxDemand(remainingSupply, k);
+			
+		case 2:
+			return traitAdjacentVertex(remainingSupply, k);
+			
+		case 3:
+			return traitDemandAdjVertexRatio(remainingSupply, k);
+		
+		case 4:
+			return traitRandomTrait(remainingSupply, k);
+			
+		default:
+			return traitAdjacentVertex(remainingSupply, k);
+		}
+	}
 
 	
 	

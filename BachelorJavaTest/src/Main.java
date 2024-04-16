@@ -22,7 +22,7 @@ public class Main {
 		
 		MPGSDGraph JSONGraph = GraphBuilder.buildGraphFromJson(JSONPath);
 		
-		SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(JSONGraph);
+		SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(JSONGraph, 1);
 		
 		String coverageJSON = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution);
 		
