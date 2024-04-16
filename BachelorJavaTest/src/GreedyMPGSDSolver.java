@@ -66,9 +66,8 @@ public class GreedyMPGSDSolver {
 			if(selctedSubGraph == null) {
 				break;
 			}
-			//can be changed to random Vertex
-			Vertex[] demandPair = selctedSubGraph.getRandomVertex();
-			//Vertex[] demandPair = getHighestListAdjVertex(selctedSubGraph);
+			//TODO (IMPORTANT) can be changed to random Vertex
+			Vertex[] demandPair = selctedSubGraph.getVertexToAdd();
 			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 			
 			if(selctedAdjDemV == null) {

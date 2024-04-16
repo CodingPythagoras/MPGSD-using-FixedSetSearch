@@ -1,10 +1,12 @@
 import java.util.LinkedList;
 
 public class MPGSDGraph {
-	private LinkedList<SupplyVertex> listOfSupplyVertexes = new LinkedList<>();
-	private LinkedList<DemandVertex> listOfDemandVertexes = new LinkedList<>();
+	private LinkedList<SupplyVertex> listOfSupplyVertexes;
+	private LinkedList<DemandVertex> listOfDemandVertexes;
 	
 	public MPGSDGraph(int graphNR) {
+		listOfSupplyVertexes = new LinkedList<>();
+		listOfDemandVertexes = new LinkedList<>();
 		switch (graphNR) {
 		case 1:
 			createFirstMPGSDGraph();
@@ -17,6 +19,12 @@ public class MPGSDGraph {
 			
 			break;
 		}
+		
+	}
+	
+	public MPGSDGraph(LinkedList<SupplyVertex> supList, LinkedList<DemandVertex> demList) {
+		listOfSupplyVertexes = supList;
+		listOfDemandVertexes = demList;
 		
 	}
 	
@@ -164,6 +172,24 @@ public class MPGSDGraph {
         }
         throw new IllegalArgumentException("Unknown vertex type");
     }
+
+	/*
+	 * currently goes over both LinkedLists to find the fitting Vertex by ID
+	 */
+	public Vertex getVertexById(int source) {
+		// TODO improve by sorting ArrayList by ID and using direct acess
+		for(SupplyVertex supv: listOfSupplyVertexes) {
+			if (supv.getID() == source) {
+				return supv;
+			}
+		}
+		for(DemandVertex supv: listOfDemandVertexes) {
+			if (supv.getID() == source) {
+				return supv;
+			}
+		}
+		return null;
+	}
 	
 	
 	

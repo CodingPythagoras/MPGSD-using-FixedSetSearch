@@ -82,7 +82,7 @@ public class SubGraph {
 						int[] trait = new int[2];
 						
 						
-						
+						//TODO (IMPORTANT) can be changed to random trait
 						//implement trait by which element should be selected
 						trait = traitMaxDemand(maxTrait, k);
 						
