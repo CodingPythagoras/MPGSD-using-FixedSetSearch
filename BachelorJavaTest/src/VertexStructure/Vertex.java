@@ -9,7 +9,7 @@ public class Vertex {
 	protected boolean isSupplyVertex;
 	private int ID;
 	protected Vertex predecessor;
-	protected LinkedList<Vertex> successor;
+	protected LinkedList<Vertex> successor = new LinkedList<>();
 	
 	
 	public Vertex(int id) {
