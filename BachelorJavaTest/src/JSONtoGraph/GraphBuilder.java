@@ -23,19 +23,25 @@ public class GraphBuilder {
         JSONGraphConfig config = gson.fromJson(reader, JSONGraphConfig.class);
         reader.close();
 
+        //creates a List of all supply vertices
         LinkedList<SupplyVertex> supplyVertices = new LinkedList<>();
         for (JSONVertexConfig vc : config.getSupplyVertices()) {
             supplyVertices.add(new SupplyVertex(vc.getId(), vc.getValue()));
             //System.out.println("Test supplyVertices: " + vc.getValue());
         }
         //System.out.println("Test supplyVertices: " + supplyVertices);
+        
+        //creates a List of all demand vertices
         LinkedList<DemandVertex> demandVertices = new LinkedList<>();
         for (JSONVertexConfig vc : config.getDemandVertices()) {
             demandVertices.add(new DemandVertex(vc.getId(), vc.getValue()));
         }
         //System.out.println("Test demandVertices: " + demandVertices);
+        
+        //creates the MPGSD graph using those List of vertices
         MPGSDGraph graph = new MPGSDGraph(supplyVertices, demandVertices);
      
+        //adds the adjacencies to all the vertices
         for (JSONAdjacencyConfig ac : config.getAdjacencies()) {
             Vertex source = graph.getVertexById(ac.getSource());
             for (Integer targetId : ac.getTargets()) {

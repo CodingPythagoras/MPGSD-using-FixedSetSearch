@@ -11,7 +11,9 @@ public class SolvedGraph {
 	private int totalOriginalDemand;
 	private int totalCoveredDemand;
 	
-		
+	/*
+	 * takes a MPGSD graph g, and creates a unique subgraph for each supply vertex in g
+	 */
 	public SolvedGraph(MPGSDGraph g) {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
 		for (int i = 0; i <= numberOfSupplyVertexes - 1; i++) {
@@ -21,6 +23,9 @@ public class SolvedGraph {
 		}
 	}
 	
+	/*
+	 * returns the subgraph with the highest remaining supply
+	 */
 	public SubGraph getSubgraphWithHigestSupply() {
 		int maxSupply = 0;
 		SubGraph currentMaxSupplySubgraph = null;

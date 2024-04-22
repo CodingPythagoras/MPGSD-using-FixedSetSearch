@@ -1,3 +1,5 @@
+Contains all the code which was removed due to improvement or is just not needed anymore
+
 //	public static LinkedList<LinkedList<Vertex>> GreedySolve(MPGSDGraph g) {
 //		LinkedList<LinkedList<Vertex>> allSubgraphs = new LinkedList<>();
 //		

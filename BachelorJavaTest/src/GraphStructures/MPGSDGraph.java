@@ -9,13 +9,19 @@ public class MPGSDGraph {
 	private LinkedList<SupplyVertex> listOfSupplyVertexes;
 	private LinkedList<DemandVertex> listOfDemandVertexes;
 	
-	
+	/*
+	 * creates a MPGSD graph using a List of supply vertices and List of demand vertices
+	 */
 	public MPGSDGraph(LinkedList<SupplyVertex> supList, LinkedList<DemandVertex> demList) {
 		listOfSupplyVertexes = supList;
 		listOfDemandVertexes = demList;
 		
 	}
 	
+	/*
+	 * returns the highest supply vertex in the MPGSD graph
+	 * TODO dont know if used
+	 */
 	public SupplyVertex getHighestSupplyVertex() {
 		int currentMaxSupply = 0;
 		SupplyVertex currentMaxSupplyVertex = null;
@@ -46,6 +52,9 @@ public class MPGSDGraph {
 		return listOfDemandVertexes;
 	}
 	
+	/*
+	 * returns the total demand of all demand vertices in the graph
+	 */
 	public int getTotalMPGSDDemand() {
 		int totalMPGSDDem = 0;
 		for (DemandVertex k: listOfDemandVertexes) {
@@ -54,6 +63,9 @@ public class MPGSDGraph {
 		return totalMPGSDDem;
 	}
 	
+	/*
+	 * returns the total supply of all supply vertices in the graph
+	 */
 	public int getTotalMPGSDSupply() {
 		int totalMPGSDSup = 0;
 		for (SupplyVertex k: listOfSupplyVertexes) {
@@ -62,29 +74,21 @@ public class MPGSDGraph {
 		return totalMPGSDSup;
 	}
 	
+	/*
+	 * returns the number of supply vertices, which the MPGSD graph contains
+	 */
 	public int getNumberofSupplyVertexes() {
 		int num = listOfSupplyVertexes.size();
 		return num;
 	}
 	
-	public Vertex createVertex(String type, int id, int value) {
-        if ("supply".equals(type)) {
-        	SupplyVertex v = new SupplyVertex(id, value);
-        	listOfSupplyVertexes.add(v);
-            return v;
-        } else if ("demand".equals(type)) {
-        	DemandVertex d = new DemandVertex(id, value);
-        	listOfDemandVertexes.add(d);
-            return d;
-        }
-        throw new IllegalArgumentException("Unknown vertex type");
-    }
 
 	/*
+	 * searches and returns the vertex with the fitting ID
 	 * currently goes over both LinkedLists to find the fitting Vertex by ID
 	 */
 	public Vertex getVertexById(int source) {
-		// TODO improve by sorting ArrayList by ID and using direct acess
+		// TODO improve by sorting ArrayList by ID and using direct access
 		for(SupplyVertex supv: listOfSupplyVertexes) {
 			if (supv.getID() == source) {
 				return supv;
@@ -97,6 +101,24 @@ public class MPGSDGraph {
 		}
 		return null;
 	}
+	
+	/*
+	 * creates a Vertex manually
+	 * with type being either demand or supply
+	 * TODO is obsolete?
+	 */
+	public Vertex createVertex(String type, int id, int value) {
+        if ("supply".equals(type)) {
+        	SupplyVertex v = new SupplyVertex(id, value);
+        	listOfSupplyVertexes.add(v);
+            return v;
+        } else if ("demand".equals(type)) {
+        	DemandVertex d = new DemandVertex(id, value);
+        	listOfDemandVertexes.add(d);
+            return d;
+        }
+        throw new IllegalArgumentException("Unknown vertex type");
+    }
 	
 	
 	

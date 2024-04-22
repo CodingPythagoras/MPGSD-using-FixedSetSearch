@@ -11,7 +11,9 @@ public class Vertex {
 	protected Vertex predecessor;
 	protected LinkedList<Vertex> successor = new LinkedList<>();
 	
-	
+	/*
+	 * creates a Vertex using a specified ID
+	 */
 	public Vertex(int id) {
 		ID = id;
 	}
@@ -45,6 +47,7 @@ public class Vertex {
 		
 	}
 	
+	
 	public LinkedList<Vertex> getAdjVertexList() {
 		return AdjVertexList;
 	}
@@ -53,10 +56,17 @@ public class Vertex {
 		return ID;
 	}
 	
+	/*
+	 * checks if the Object is a supplyVertex
+	 * returns true if Vertex is SupplyVertex
+	 */
 	public boolean getIsSupplyVertex() {
 		return isSupplyVertex;
 	}
 	
+	/*
+	 * sets a Vertex as a predecessor
+	 */
 	public void setPredecessor(Vertex v) {
 		predecessor = v;
 	}
@@ -65,6 +75,9 @@ public class Vertex {
 		return predecessor;
 	}
 	
+	/*
+	 * sets a Vertex as a successor of this Vertex
+	 */
 	public void setSuccessor(Vertex v) {
 		successor.add(v);
 	}
@@ -73,7 +86,10 @@ public class Vertex {
 		return successor;
 	}
 	
-	
+	/*
+	 * takes the remaining supply of a graph
+	 * returns all the possible vertices which could be coverd by the demand
+	 */
 	public LinkedList<Vertex> getListOfAdjNotCoveredFittingVertexes(int remainingSupply) {
 		LinkedList<Vertex> possibleAdjDemandVertexes = new LinkedList<Vertex>();
 		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
@@ -86,6 +102,10 @@ public class Vertex {
 		return possibleAdjDemandVertexes;
 	}
 	
+	/*
+	 * takes the remaining supply of a graph
+	 * returns an int, as the number of vertices that could be covered by the demand
+	 */
 	public int getNumberofAdjNotCoveredFittingVertexes(int remainingSupply) {
 		LinkedList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);
 		return possibleAdjDemandVertexes.size();

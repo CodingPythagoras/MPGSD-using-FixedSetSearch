@@ -10,11 +10,18 @@ public class SubGraph {
 	LinkedList<Vertex> subGraph; 
 	boolean isComplete = false;
 	
+	/*
+	 * creates a new Subgraph containing a SupplyVertex as starting vertex
+	 */
 	public SubGraph(SupplyVertex supV) {
 		subGraph = new LinkedList<>();
 		subGraph.add(supV);
 	}
 	
+	/*
+	 * sets the boolean isComplete true
+	 * this is used, when the supply is used up/ there are no more adjacent fitting vertices
+	 */
 	public void setComplete() {
 		isComplete = true;
 	}
@@ -41,6 +48,10 @@ public class SubGraph {
 		return subGraph;
 	}
 	
+	/*
+	 * returns an Array of the Subgraph
+	 * with every Vertex ID, Vertex Supply/Demand and its predecessor
+	 */
 	public int[][] getMathematicalRepresentationOfSubgraph() {
 		// [ID][Dem/Sup][Predecessor]
 		int[][] vertexAsArray = new int[subGraph.size()][3];
@@ -118,20 +129,34 @@ public class SubGraph {
 		return new Vertex[] {bestFittingDemandVertex, predecessor};
 	}
 	
-	//TODO add that it only checks for Adjacent which demand isnt covered
-	private int[] traitAdjacentVertex(int maxTrait, Vertex k) {
-		int[] trait = new int[2];
-		if(k.getAdjVertexList().size() > maxTrait) {
-			trait[0] = 1;
-			trait[1] = k.getAdjVertexList().size();
-			return trait;
-		}else {
-			trait[0] = 0;
-			trait[1] = 0;
-			return trait;
-		}	
+	
+	/*
+	 * selctets the trait based on the int numberOfTrait
+	 */
+	public int[] selectTrait(int numberOfTrait, int remainingSupply, Vertex k) {
+		switch (numberOfTrait) {
+		case 1:
+			return traitMaxDemand(remainingSupply, k);
+			
+		case 2:
+			return traitAdjacentVertex(remainingSupply, k);
+			
+		case 3:
+			return traitDemandAdjVertexRatio(remainingSupply, k);
+		
+		case 4:
+			return traitRandomTrait(remainingSupply, k);
+			
+		default:
+			return traitAdjacentVertex(remainingSupply, k);
+		}
 	}
 	
+	/*
+	 * trait 1
+	 * returns an Array with [0] being the best fitting Vertex and [1] being its predecessor
+	 * selects the best fitting vertex by selecting the adjacent vertex, which has the most uncovered demand
+	 */
 	private int[] traitMaxDemand(int maxTrait, Vertex k) {
 		int[] trait = new int[2];
 		if(maxTrait < ((DemandVertex)k).getDemand()) {
@@ -145,6 +170,30 @@ public class SubGraph {
 		}
 	}
 	
+	//TODO add that it only checks for Adjacent which demand isnt covered
+	/*
+	 * trait 2
+	 * returns an Array with [0] being the best fitting Vertex and [1] being its predecessor
+	 * selects the best fitting vertex by selecting the one with the most adjacent vertices
+	 */
+	private int[] traitAdjacentVertex(int maxTrait, Vertex k) {
+		int[] trait = new int[2];
+		if(k.getAdjVertexList().size() > maxTrait) {
+			trait[0] = 1;
+			trait[1] = k.getAdjVertexList().size();
+			return trait;
+		}else {
+			trait[0] = 0;
+			trait[1] = 0;
+			return trait;
+		}	
+	}
+	
+	/*
+	 * trait 3
+	 * returns an Array with [0] being the best fitting Vertex and [1] being its predecessor
+	 * selects the best fitting vertex by using a ratio of Demand/Number of adjacent vertices
+	 */
 	private int[] traitDemandAdjVertexRatio(int maxTrait, Vertex k) {
 		int[] trait = new int[2];
 		LinkedList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertexes(getSubgraphsSupplyVertex().getRemainingSupply());
@@ -168,7 +217,9 @@ public class SubGraph {
 	}
 	
 	/*
-	 *uses a random trait of 3 as criteria
+	 * trait 4
+	 * uses a random trait of 3 as criteria
+	 * returns an Array with [0] being the best fitting Vertex and [1] being its predecessor
 	 */
 	public int[] traitRandomTrait(int remainingSupply, Vertex k) {
 		int[] trait = new int[2];
@@ -192,6 +243,11 @@ public class SubGraph {
 		return trait;
 	}
 	
+	/*
+	 * returns an Array with [0] being the best fitting Vertex and [1] being its predecessor
+	 * with the vertex being a random adjacent vertex
+	 * is not a trait, but a function, which can replace the main function
+	 */
 	public Vertex[] getRandomVertex() {
 		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
 		//TODO null fix?
@@ -203,7 +259,7 @@ public class SubGraph {
 		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
 			Vertex v = subGraph.get(i);
 			
-			//Iteration over ervery Adj Vertex of Vertex v
+			//Iteration over every adjacent Vertex of Vertex v
 			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
 				Vertex k = v.getAdjVertexList().get(j);
 				if(!k.getIsSupplyVertex()) {
@@ -230,27 +286,7 @@ public class SubGraph {
 	}
 	
 	
-	/*
-	 * selctets the trait based on the int numberOfTrait
-	 */
-	public int[] selectTrait(int numberOfTrait, int remainingSupply, Vertex k) {
-		switch (numberOfTrait) {
-		case 1:
-			return traitMaxDemand(remainingSupply, k);
-			
-		case 2:
-			return traitAdjacentVertex(remainingSupply, k);
-			
-		case 3:
-			return traitDemandAdjVertexRatio(remainingSupply, k);
-		
-		case 4:
-			return traitRandomTrait(remainingSupply, k);
-			
-		default:
-			return traitAdjacentVertex(remainingSupply, k);
-		}
-	}
+
 
 	
 	
