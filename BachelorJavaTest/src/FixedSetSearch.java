@@ -6,6 +6,7 @@ import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
 import GraphStructures.SubGraph;
 import JSONtoGraph.GraphBuilder;
+import VertexStructure.DemandVertex;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
@@ -95,7 +96,9 @@ public class FixedSetSearch {
 		    }
 			ListForEachSupply.add(subgraphsForOneSupply);
 		}
-
+		
+		//reset Vertices now, because they get changed by creation of the subgraphs
+		GreedyMPGSDSolver.resetGraphVertices(g);
 		//now ListForEachSupply.get(0) should contain all subgraphs representing the Subgraphs containing SupplyVertex1 and so on...
 		for(int x = 0; x <= ListForEachSupply.size() - 1; x++) {
 			SubGraph fixedSet = findFixedSet(ListForEachSupply.get(x), g);
@@ -104,7 +107,7 @@ public class FixedSetSearch {
 		
 		
 		
-		
+		System.out.println(fixedSets.get(1).getVertexList());
 		return fixedSets;
 		
 	}
@@ -127,6 +130,7 @@ public class FixedSetSearch {
 		System.out.println(edgeFrequency); 
 		
 		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
+		// TODO at least 2 otherwise vertices could be occuring in more than one subgraph, which is to be forbidden
 	    int threshold = subgraphsForOneSupply.size() / 2;
 	    
 	    // Collect all edges that meet the frequency threshold
@@ -152,21 +156,40 @@ public class FixedSetSearch {
 	            int startVertexId = Integer.parseInt(parts[0]);
 	            int targetVertexId = Integer.parseInt(parts[1]);
 
-	            Vertex startVertex = g.getVertexById(startVertexId);
+	            Vertex firstVertex = g.getVertexById(startVertexId);
 	            Vertex targetVertex = g.getVertexById(targetVertexId);
 	            
-	            startVertex.addAdjVertex(startVertex);
+	            firstVertex.addAdjVertex(targetVertex);
+	            
+	            firstVertex.setSuccessor(targetVertex);
+	            targetVertex.setPredecessor(firstVertex);
 
 	            if (!addedVertices.contains(startVertexId) && supplyVertex.getID() != startVertexId) {
-	                fixedSet.addVertex(startVertex);
+	                fixedSet.addVertex(firstVertex);
+	                if(!firstVertex.getIsSupplyVertex()) {
+	                	((DemandVertex)firstVertex).setDemandAsCovered();
+	                }
 	                addedVertices.add(startVertexId);
 	            }
 	            if (!addedVertices.contains(targetVertexId) && supplyVertex.getID() != targetVertexId) {
 	                fixedSet.addVertex(targetVertex);
+	                if(!targetVertex.getIsSupplyVertex()) {
+	                	((DemandVertex)targetVertex).setDemandAsCovered();
+	                }
 	                addedVertices.add(targetVertexId);
 	            }
-	            fixedSet.addEdge(startVertex, targetVertex);
+	            fixedSet.addEdge(firstVertex, targetVertex);
+	           
 	        }
+	        //iterates over the new subgraph to determine its used demand and number of demand vertices
+	        for(int k = 0; k <= fixedSet.getVertexList().size() - 1; k++) {
+            	if(!fixedSet.getVertexList().get(k).getIsSupplyVertex()) {
+            		DemandVertex demV = (DemandVertex)fixedSet.getVertexList().get(k);
+            		fixedSet.addOneNumDemVer();
+            		fixedSet.updateSubsCovDemand(demV.getDemand());
+            		fixedSet.getSubgraphsSupplyVertex().useSupply(demV.getDemand());
+            	}
+            }
 	        return fixedSet;
 	    }
 	    

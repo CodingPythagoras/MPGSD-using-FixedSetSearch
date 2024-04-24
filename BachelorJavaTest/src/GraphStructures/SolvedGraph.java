@@ -29,12 +29,19 @@ public class SolvedGraph {
 		}
 	}
 	
+	/**
+	 * only with fixedSets!
+	 * @param g
+	 * @param fixedsetsfound
+	 */
 	public SolvedGraph(MPGSDGraph g, List<SubGraph> fixedsetsfound) {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
 		
 		for (int i = 0; i <= fixedsetsfound.size() - 1; i++) {
 			
 			graphOfSubgraphs.add(fixedsetsfound.get(i));
+			this.addUsedSupply(fixedsetsfound.get(i).getSubsCovDemand());
+			this.addCoveredDemand(fixedsetsfound.get(i).getSubsCovDemand());
 			numberOfSubgraphs += 1;
 		}
 	}

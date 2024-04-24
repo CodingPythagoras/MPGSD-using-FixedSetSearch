@@ -14,6 +14,10 @@ public class SubGraph {
 	private LinkedList<Edge> listOfEdges = new LinkedList<>();
 	boolean isComplete = false;
 	
+	private int subsCovDemand;
+	private int subsNumOfDemVer;
+	
+	
 	/*
 	 * creates a new Subgraph containing a SupplyVertex as starting vertex
 	 */
@@ -21,6 +25,7 @@ public class SubGraph {
 		subGraph = new LinkedList<>();
 		subGraph.add(supV);
 		subgraphsSupplyVertex = supV;
+		subsNumOfDemVer = 0;
 	}
 	
 	/*
@@ -323,6 +328,23 @@ public class SubGraph {
 			solutionString = solutionString.concat(arrayOfStrings[i] + " ");
 		}
 		return solutionString;
+	}
+
+	public int getSubsCovDemand() {
+		return subsCovDemand;
+	}
+	
+	public int getSubsNumOfDemVer() {
+		return subsNumOfDemVer;
+	}
+
+	
+	public void updateSubsCovDemand(int covDemand) {
+		subsCovDemand += covDemand;
+	}
+
+	public void addOneNumDemVer() {
+		subsNumOfDemVer += 1;
 	}
 
 

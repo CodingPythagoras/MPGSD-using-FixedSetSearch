@@ -131,11 +131,14 @@ public class GreedyMPGSDSolver {
 	
 	
 	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait, List<SubGraph> fixedsetsfound) {
-		resetGraphVertices(g);
+		//resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g, fixedsetsfound);
 		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
+		
+		String coverageBefore= GreedyMPGSDSolver.getDemandCoverage(graphOfSubGraphs);
+		System.out.println("Before GreedySolve: " + coverageBefore + graphOfSubGraphs.getSolvedGraphMathematical());
 			
 		while(true) {
 			//always takes the Subgraph with the higest remainign Supply
@@ -176,7 +179,7 @@ public class GreedyMPGSDSolver {
 	
 	
 	
-	private static void resetGraphVertices(MPGSDGraph g) {
+	public static void resetGraphVertices(MPGSDGraph g) {
 	    for (Vertex vertex : g.getAllVertices()) {  // Assuming you have a method to get all vertices
 	        if (vertex instanceof DemandVertex) {
 	            ((DemandVertex)vertex).resetDemandVertex();
