@@ -1,5 +1,10 @@
 package GraphStructures;
 import java.util.LinkedList;
+import java.util.List;
+
+import VertexStructure.DemandVertex;
+import VertexStructure.SupplyVertex;
+import VertexStructure.Vertex;
 
 public class SolvedGraph {
 	private LinkedList<SubGraph> graphOfSubgraphs = new LinkedList<>();
@@ -19,6 +24,16 @@ public class SolvedGraph {
 		for (int i = 0; i <= numberOfSupplyVertexes - 1; i++) {
 			SubGraph sub = new SubGraph(g.getListOfSupplyVertexes().get(i));
 			graphOfSubgraphs.add(sub);
+			numberOfSubgraphs += 1;
+		}
+	}
+	
+	public SolvedGraph(MPGSDGraph g, List<SubGraph> fixedsetsfound) {
+		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
+		
+		for (int i = 0; i <= fixedsetsfound.size() - 1; i++) {
+			
+			graphOfSubgraphs.add(fixedsetsfound.get(i));
 			numberOfSubgraphs += 1;
 		}
 	}
@@ -69,6 +84,21 @@ public class SolvedGraph {
 		return solutionString;
 	}
 	
+	
+	public Vertex findVertexById(int source) {
+		// TODO improve by sorting ArrayList by ID and using direct access
+		for(SubGraph subs: graphOfSubgraphs) {
+			for(Vertex vert: subs.getVertexList()) {
+				if (vert.getID() == source) {
+					return vert;
+				}
+			}
+		}
+			
+		
+		return null;
+	}
+	
 	public SubGraph getSubgraph(int pos) {
 		return graphOfSubgraphs.get(pos);
 	}
@@ -115,5 +145,10 @@ public class SolvedGraph {
 	
 	public int getTotalOriginalDemand() {
 		return totalOriginalDemand;
+	}
+
+	public LinkedList<SubGraph> getGraphOfSubgraphs() {
+		// TODO Auto-generated method stub
+		return graphOfSubgraphs;
 	}
 }

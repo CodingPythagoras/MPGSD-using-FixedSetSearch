@@ -1,7 +1,10 @@
+import java.util.List;
+
 import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
 import GraphStructures.SubGraph;
 import VertexStructure.DemandVertex;
+import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class GreedyMPGSDSolver {
@@ -10,6 +13,7 @@ public class GreedyMPGSDSolver {
 	 * Solves the MPGSD Graph by completing one Subgraph and then continues
 	 */
 	public static SolvedGraph GreedySolve1(MPGSDGraph g,int trait) {
+		resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
@@ -61,6 +65,8 @@ public class GreedyMPGSDSolver {
 	 * 4: by using random traits of the first three
 	 */
 	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait) {
+		//TODO carefull predecessor, successors etc at Vertex deleted aswell if needed/ need to create a new Graph everytime with own vertices
+		resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
@@ -112,6 +118,63 @@ public class GreedyMPGSDSolver {
 		int totalSupply = solvedMPGSDGraphofSubgraphs.getTotalGivenSupply();
 		return "The total coverage amounts to a total of " + totalCovDemand + "/" + totalDemand + 
 				" With a total supply use of " + supplyUsed + "/" + totalSupply;
+	}
+	
+	
+	
+	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait, List<SubGraph> fixedsetsfound) {
+		resetGraphVertices(g);
+		SolvedGraph graphOfSubGraphs = new SolvedGraph(g, fixedsetsfound);
+		
+		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
+		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
+		
+		
+		
+			
+		while(true) {
+			//always takes the Subgraph with the higest remainign Supply
+			SubGraph selctedSubGraph = graphOfSubGraphs.getSubgraphWithHigestSupply();
+			//selctedSubGraph is null, when all subgraphs are complete
+			if(selctedSubGraph == null) {
+				break;
+			}
+			//TODO (IMPORTANT) can be changed to random Vertex
+			Vertex[] demandPair = selctedSubGraph.getVertexToAdd(trait);
+			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
+			
+			if(selctedAdjDemV == null) {
+				selctedSubGraph.setComplete();
+			}else {
+				Vertex predecessorV = demandPair[1];
+				predecessorV.addAdjVertex(selctedAdjDemV);
+				selctedAdjDemV.setPredecessor(predecessorV);
+				predecessorV.setSuccessor(selctedAdjDemV);
+				selctedSubGraph.addVertex(selctedAdjDemV);
+				selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
+				selctedAdjDemV.setDemandAsCovered();
+						
+				graphOfSubGraphs.addCoveredDemand(selctedAdjDemV.getDemand());
+				graphOfSubGraphs.addUsedSupply(selctedAdjDemV.getDemand());
+				graphOfSubGraphs.addNumberOfDemandVertexes(1);
+			}
+			
+		}
+		
+		return graphOfSubGraphs;
+	}
+	
+	
+	
+	
+	private static void resetGraphVertices(MPGSDGraph g) {
+	    for (Vertex vertex : g.getAllVertices()) {  // Assuming you have a method to get all vertices
+	        if (vertex instanceof DemandVertex) {
+	            ((DemandVertex)vertex).resetDemandVertex();
+	        } else if (vertex instanceof SupplyVertex) {
+	            ((SupplyVertex)vertex).resetSupplyVertex();
+	        }
+	    }
 	}
 	
 

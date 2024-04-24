@@ -1,5 +1,7 @@
 package VertexStructure;
 
+import java.util.LinkedList;
+
 public class DemandVertex extends Vertex{
 	private int demand;
 	private boolean demandIsCovered;
@@ -39,6 +41,13 @@ public class DemandVertex extends Vertex{
 	
 	public boolean getDemandIsCovered() {
 		return demandIsCovered;
+	}
+	
+	public void resetDemandVertex() {
+		demandIsCovered = false;
+		successor = new LinkedList<>();
+		//TODO null
+		predecessor = null;
 	}
 	
 

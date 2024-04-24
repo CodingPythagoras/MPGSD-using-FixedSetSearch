@@ -1,9 +1,12 @@
 package VertexStructure;
 
+import java.util.LinkedList;
+
 public class SupplyVertex extends Vertex{
 	private int supply;
 	private int usedSupply;
 	private boolean isInSubgraph;
+	private int remainingSupply;
 	
 	
 	/*
@@ -16,6 +19,7 @@ public class SupplyVertex extends Vertex{
 		usedSupply = 0;
 		isInSubgraph = false;
 		predecessor = this;
+		remainingSupply = supply;
 	}
 	
 	/*
@@ -31,11 +35,12 @@ public class SupplyVertex extends Vertex{
 	}
 	
 	public int getRemainingSupply() {
-		return supply - usedSupply;
+		return remainingSupply;
 	}
 	
 	public void useSupply(int demandCovered) {
 		usedSupply += demandCovered;
+		remainingSupply = supply - usedSupply;
 	}
 	
 	public int getInitialSupply() {
@@ -52,5 +57,13 @@ public class SupplyVertex extends Vertex{
 	
 	public boolean getIsInSubGraph() {
 		return isInSubgraph;
+	}
+	
+	public void resetSupplyVertex() {
+		usedSupply =  0;
+		isInSubgraph = false;
+		remainingSupply = supply;
+		successor = new LinkedList<>();
+		predecessor  = this;
 	}
 }

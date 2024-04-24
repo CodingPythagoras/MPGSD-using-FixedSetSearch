@@ -8,6 +8,7 @@ import VertexStructure.Vertex;
 public class MPGSDGraph {
 	private LinkedList<SupplyVertex> listOfSupplyVertexes;
 	private LinkedList<DemandVertex> listOfDemandVertexes;
+	private LinkedList<Vertex> listOfAllVertices;
 	
 	/*
 	 * creates a MPGSD graph using a List of supply vertices and List of demand vertices
@@ -15,6 +16,23 @@ public class MPGSDGraph {
 	public MPGSDGraph(LinkedList<SupplyVertex> supList, LinkedList<DemandVertex> demList) {
 		listOfSupplyVertexes = supList;
 		listOfDemandVertexes = demList;
+		
+		listOfAllVertices = new LinkedList<Vertex>();
+		listOfAllVertices.addAll(listOfSupplyVertexes);
+		listOfAllVertices.addAll(listOfDemandVertexes);
+		
+	}
+	
+	/*
+	 * copy constructor
+	 */
+	public MPGSDGraph(MPGSDGraph originalGraph) {
+		listOfSupplyVertexes = originalGraph.getListOfSupplyVertexes();
+		listOfDemandVertexes = originalGraph.getListOfDemandVertexes();
+		
+		listOfAllVertices = new LinkedList<Vertex>();
+		listOfAllVertices.addAll(listOfSupplyVertexes);
+		listOfAllVertices.addAll(listOfDemandVertexes);
 		
 	}
 	
@@ -119,6 +137,10 @@ public class MPGSDGraph {
         }
         throw new IllegalArgumentException("Unknown vertex type");
     }
+	
+	public LinkedList<Vertex> getAllVertices(){
+		return listOfAllVertices;
+	}
 	
 	
 	
