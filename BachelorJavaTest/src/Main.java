@@ -12,7 +12,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		
-		//createAndSolveGraph("src\\JSONforGraph\\graph-config.json");
+		createAndSolveGraph("src\\JSONforGraph\\graph-config.json");
 		
 		System.out.println("Finished");
 		

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,11 @@ public class FixedSetSearch {
 	 *
 	 *	 minimal acceptance rate mi
 	 */
-	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m /*, int n, int k, int MaxStag*/){
+	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m /*, int n, int k, int MaxStag*/) throws IOException{
 		
+		
+		
+		int amountOfSubGraphs = g.getNumberofSupplyVertexes();
 		//TODO replace with arrayList?
 		List<SubGraph> fixedSets = new LinkedList<SubGraph>();
 		
@@ -35,6 +39,9 @@ public class FixedSetSearch {
 		
 		//solves the given graph g i times
 		for(int i = 0; i <= t; i++) {
+			//TODO currently Graph gets created everytime, beacause otherwise Vertexes would be resettet
+			
+			
 			//3 being random trait
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
@@ -73,7 +80,7 @@ public class FixedSetSearch {
 		//arrayOfBestGreedySolutions now contains the m best solutions
 		
 		//TODO fined fixed sets/ analyze m best solutions
-		int amountOfSubGraphs = g.getNumberofSupplyVertexes();
+		
 		
 		LinkedList<LinkedList<SubGraph>> ListForEachSupply = new LinkedList<>();
 		
@@ -91,7 +98,7 @@ public class FixedSetSearch {
 
 		//now ListForEachSupply.get(0) should contain all subgraphs representing the Subgraphs containing SupplyVertex1 and so on...
 		for(int x = 0; x <= ListForEachSupply.size() - 1; x++) {
-			SubGraph fixedSet = findFixedSet(ListForEachSupply.get(x));
+			SubGraph fixedSet = findFixedSet(ListForEachSupply.get(x), g);
 			fixedSets.add(fixedSet);
 		}
 		
@@ -105,87 +112,69 @@ public class FixedSetSearch {
 	//private static SubGraph findFixedSet(LinkedList<SubGraph> subgraphsForOneSupply)
 	
 	
-	
-	
-	private static Map<List<Integer>, Integer> createFrequencyMap(List<SubGraph> subgraphs) {
-	    Map<List<Integer>, Integer> frequencyMap = new HashMap<>();
-	    for (SubGraph subGraph : subgraphs) {
-	        List<Integer> vertexIds = subGraph.getVertexList().stream()
-	                                           .map(Vertex::getID)
-	                                           .collect(Collectors.toList());
-	        frequencyMap.merge(vertexIds, 1, Integer::sum);  // Count each occurrence
-	    }
-	    return frequencyMap;
-	}
-	
-	private static List<SubGraph> extractFixedSets(Map<List<Integer>, Integer> frequencyMap, int threshold) {
-	    List<SubGraph> fixedSets = new ArrayList<>();
-	    for (Map.Entry<List<Integer>, Integer> entry : frequencyMap.entrySet()) {
-	        if (entry.getValue() >= threshold) {
-	            // Convert list of IDs back into a subgraph if frequency is above threshold
-	            List<Integer> commonVertices = entry.getKey();
-	            SubGraph fixedSet = new SubGraph(new SupplyVertex(commonVertices.get(0), 0));  // Example
-	            fixedSets.add(fixedSet);
+
+	private static SubGraph findFixedSet(LinkedList<SubGraph> subgraphsForOneSupply, MPGSDGraph g) {
+		Map<String, Integer> edgeFrequency = new HashMap<>();
+		
+		for(int i = 0; i <= subgraphsForOneSupply.size() - 1;i++) {
+			
+			String[] edges = subgraphsForOneSupply.get(i).getSubgraphsEdgesStringArray();
+			for(int j = 0; j<= edges.length - 1; j++) {
+				edgeFrequency.merge(edges[j], 1, Integer::sum);
+			}
+			//System.out.println("Edges: " + i + subgraphsForOneSupply.get(i).getArrayOfEdgesAsString()); 
+		}
+		System.out.println(edgeFrequency); 
+		
+		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
+	    int threshold = subgraphsForOneSupply.size() / 2;
+	    
+	    // Collect all edges that meet the frequency threshold
+	    Set<String> commonEdges = new HashSet<>();
+	    for (Map.Entry<String, Integer> entry : edgeFrequency.entrySet()) {
+	        if (entry.getValue() > threshold) {
+	            commonEdges.add(entry.getKey());
 	        }
 	    }
-	    return fixedSets;
-	}
-	
-	 private static SubGraph findFixedSet(LinkedList<SubGraph> subgraphsForOneSupply) {
-	        Map<Integer, Integer> vertexFrequency = new HashMap<>();
-	        Map<String, Integer> edgeFrequency = new HashMap<>();
+	    
+	    if (!commonEdges.isEmpty()) {
+	        // Create a new subgraph using the common edges
+	    	// can take any random subgraph, because they all share the same supply Vertex
+	    	SupplyVertex supplyVertex = subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex();
+	    	
+	        SubGraph fixedSet = new SubGraph(supplyVertex); // Initialize with the common supply vertex
 
-	        // Count the frequency of each vertex and each edge
-	        for (SubGraph subgraph : subgraphsForOneSupply) {
-	            Set<Integer> visitedVertices = new HashSet<>();  // To prevent counting vertices multiple times in the same subgraph
-	            List<Vertex> vertices = subgraph.getVertexList();
+	        // Add vertices and edges to the fixed set
+	        Set<Integer> addedVertices = new HashSet<>();
+	        addedVertices.add(supplyVertex.getID());
+	        for (String edge : commonEdges) {
+	            String[] parts = edge.split("_");
+	            int startVertexId = Integer.parseInt(parts[0]);
+	            int targetVertexId = Integer.parseInt(parts[1]);
 
-	            for (int i = 0; i < vertices.size(); i++) {
-	                Vertex v = vertices.get(i);
-	                if (!visitedVertices.contains(v.getID())) {
-	                    vertexFrequency.merge(v.getID(), 1, Integer::sum);
-	                    visitedVertices.add(v.getID());
-	                }
+	            Vertex startVertex = g.getVertexById(startVertexId);
+	            Vertex targetVertex = g.getVertexById(targetVertexId);
+	            
+	            startVertex.addAdjVertex(startVertex);
 
-	                // Count edges if there is a subsequent vertex
-	                if (i < vertices.size() - 1) {
-	                    Vertex nextVertex = vertices.get(i + 1);
-	                    String edge = v.getID() + "-" + nextVertex.getID();
-	                    edgeFrequency.merge(edge, 1, Integer::sum);
-	                }
+	            if (!addedVertices.contains(startVertexId) && supplyVertex.getID() != startVertexId) {
+	                fixedSet.addVertex(startVertex);
+	                addedVertices.add(startVertexId);
 	            }
-	        }
-
-	        // Filter vertices and edges that appear in at least half of the subgraphs
-	        int threshold = subgraphsForOneSupply.size() / 2;
-	        List<Integer> commonVertices = vertexFrequency.entrySet().stream()
-	                                                      .filter(entry -> entry.getValue() > threshold)
-	                                                      .map(Map.Entry::getKey)
-	                                                      .collect(Collectors.toList());
-
-	        List<String> commonEdges = edgeFrequency.entrySet().stream()
-	                                                .filter(entry -> entry.getValue() > threshold)
-	                                                .map(Map.Entry::getKey)
-	                                                .collect(Collectors.toList());
-
-	        // Construct the fixed set SubGraph
-	        if (!commonVertices.isEmpty()) {
-	            SubGraph fixedSet = new SubGraph(new SupplyVertex(commonVertices.get(0), 0)); // Example, adjust accordingly
-
-	            // Add vertices
-	            for (Integer vertexId : commonVertices) {
-	                fixedSet.addVertex(new Vertex(vertexId)); // Assuming constructor exists
+	            if (!addedVertices.contains(targetVertexId) && supplyVertex.getID() != targetVertexId) {
+	                fixedSet.addVertex(targetVertex);
+	                addedVertices.add(targetVertexId);
 	            }
-
-	            // Here, you would also need to add edges to `fixedSet` if your subgraph structure supports this
-	            // This step is skipped here due to simplicity and lack of full context
-
-	            return fixedSet;
+	            fixedSet.addEdge(startVertex, targetVertex);
 	        }
-	        
-	        return null;  // No fixed set found
+	        return fixedSet;
 	    }
-	
+	    
+	    //if no common edges found, just returns a subgraph with a supply Vertex as Start
+		return new SubGraph(subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex());
+	}
+
+
 
 	
 	

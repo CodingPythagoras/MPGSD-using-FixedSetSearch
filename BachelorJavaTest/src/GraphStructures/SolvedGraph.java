@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import VertexStructure.DemandVertex;
+import VertexStructure.Edge;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 

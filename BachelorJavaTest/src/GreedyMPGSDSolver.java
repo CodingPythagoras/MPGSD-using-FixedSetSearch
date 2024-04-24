@@ -39,6 +39,10 @@ public class GreedyMPGSDSolver {
 					Vertex predecessorV = demandPair[1];
 					predecessorV.addAdjVertex(selctedAdjDemV);
 					selctedAdjDemV.setPredecessor(predecessorV);
+					predecessorV.setSuccessor(selctedAdjDemV);
+					
+					selctedSubGraph.addEdge(predecessorV, selctedAdjDemV);
+					
 					selctedSubGraph.addVertex(selctedAdjDemV);
 					selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
 					selctedAdjDemV.setDemandAsCovered();
@@ -88,11 +92,15 @@ public class GreedyMPGSDSolver {
 			
 			if(selctedAdjDemV == null) {
 				selctedSubGraph.setComplete();
+				
 			}else {
 				Vertex predecessorV = demandPair[1];
 				predecessorV.addAdjVertex(selctedAdjDemV);
 				selctedAdjDemV.setPredecessor(predecessorV);
 				predecessorV.setSuccessor(selctedAdjDemV);
+				
+				selctedSubGraph.addEdge(predecessorV, selctedAdjDemV);
+				
 				selctedSubGraph.addVertex(selctedAdjDemV);
 				selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
 				selctedAdjDemV.setDemandAsCovered();
@@ -128,9 +136,6 @@ public class GreedyMPGSDSolver {
 		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
-		
-		
-		
 			
 		while(true) {
 			//always takes the Subgraph with the higest remainign Supply
@@ -145,11 +150,15 @@ public class GreedyMPGSDSolver {
 			
 			if(selctedAdjDemV == null) {
 				selctedSubGraph.setComplete();
+				
 			}else {
 				Vertex predecessorV = demandPair[1];
 				predecessorV.addAdjVertex(selctedAdjDemV);
 				selctedAdjDemV.setPredecessor(predecessorV);
 				predecessorV.setSuccessor(selctedAdjDemV);
+				
+				selctedSubGraph.addEdge(predecessorV, selctedAdjDemV);
+				
 				selctedSubGraph.addVertex(selctedAdjDemV);
 				selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
 				selctedAdjDemV.setDemandAsCovered();

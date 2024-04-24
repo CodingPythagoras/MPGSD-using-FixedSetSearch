@@ -3,11 +3,15 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import VertexStructure.DemandVertex;
+import VertexStructure.Edge;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class SubGraph {
-	LinkedList<Vertex> subGraph; 
+	LinkedList<Vertex> subGraph;
+	private SupplyVertex subgraphsSupplyVertex;
+	//TODO if i dont want to create each graph new maybe.
+	private LinkedList<Edge> listOfEdges = new LinkedList<>();
 	boolean isComplete = false;
 	
 	/*
@@ -16,6 +20,7 @@ public class SubGraph {
 	public SubGraph(SupplyVertex supV) {
 		subGraph = new LinkedList<>();
 		subGraph.add(supV);
+		subgraphsSupplyVertex = supV;
 	}
 	
 	/*
@@ -37,7 +42,7 @@ public class SubGraph {
 	 * returns the Subgraphs SupplyVertex
 	 */
 	public SupplyVertex getSubgraphsSupplyVertex() {
-		return (SupplyVertex)subGraph.get(0);
+		return subgraphsSupplyVertex;
 	}
 	
 	public Vertex getSubgraphsVertex(int pos) {
@@ -47,6 +52,15 @@ public class SubGraph {
 	public LinkedList<Vertex> getVertexList(){
 		return subGraph;
 	}
+	
+	public LinkedList<Edge> getListOfEdges() {
+		return listOfEdges;
+	}
+	
+	public void addEdge(Vertex pre, Vertex succ) {
+		listOfEdges.add(new Edge(pre, succ));
+	}
+	
 	
 	/*
 	 * returns an Array of the Subgraph
@@ -284,6 +298,34 @@ public class SubGraph {
 		}
 		return new Vertex[] {ranAdjVer, predecessor};
 	}
+	
+	
+	public int[] getSubgraphsEdgesIDsAsArray() {
+		int[] arrayOfEdgesID = new int[listOfEdges.size()];
+		for(int i = 0; i <= arrayOfEdgesID.length - 1; i++) {
+			arrayOfEdgesID[i] = listOfEdges.get(i).getEdgeKey();
+		}
+		return arrayOfEdgesID;
+	}
+	
+	public String[] getSubgraphsEdgesStringArray() {
+		String[] arrayOfEdgesID = new String[listOfEdges.size()];
+		for(int i = 0; i <= arrayOfEdgesID.length - 1; i++) {
+			arrayOfEdgesID[i] = listOfEdges.get(i).getEdgeKeyString();
+		}
+		return arrayOfEdgesID;
+	}
+	
+	public String getArrayOfEdgesAsString() {
+		String solutionString = "Edges: ";
+		String[] arrayOfStrings = getSubgraphsEdgesStringArray();
+		for(int i = 0; i <= arrayOfStrings.length - 1; i++) {
+			solutionString = solutionString.concat(arrayOfStrings[i] + " ");
+		}
+		return solutionString;
+	}
+
+
 	
 	
 

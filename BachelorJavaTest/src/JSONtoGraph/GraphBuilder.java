@@ -54,4 +54,28 @@ public class GraphBuilder {
 
         return graph;
     }
+	
+	public static String getGraphByNumber(int gNum) {
+		switch (gNum) {
+		case 1:
+			return "src\\JSONforGraph\\graph-config.json";
+			
+		case 2:
+			return "src\\JSONforGraph\\graph-config-2.json";
+			
+		case 3:
+			
+			
+		case 4:
+			
+			
+		case 5:
+			
+			
+
+		default:
+			return "src\\JSONforGraph\\graph-config.json";
+			
+		}
+	}
 }
