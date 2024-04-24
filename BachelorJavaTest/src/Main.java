@@ -28,7 +28,7 @@ public class Main {
 		System.out.println(coverageFSSSol);
 		System.out.println(FSSJSONGraphSolution.getSolvedGraphMathematical());
 		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(100, g1, fixedsetsfound);
-		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSJSONGraphSolution);
+		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSSolutionOfIterations);
 		System.out.println(coverageFSSIt);
 		
 		
