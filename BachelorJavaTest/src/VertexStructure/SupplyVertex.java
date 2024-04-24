@@ -47,18 +47,6 @@ public class SupplyVertex extends Vertex{
 		return supply;
 	}
 	
-	
-	/*
-	 * TODO not used yet/ maybe not needed
-	 */
-	public void setInSubGraphTrue() {
-		isInSubgraph = true;
-	}
-	
-	public boolean getIsInSubGraph() {
-		return isInSubgraph;
-	}
-	
 	public void resetSupplyVertex() {
 		usedSupply =  0;
 		isInSubgraph = false;
@@ -66,4 +54,5 @@ public class SupplyVertex extends Vertex{
 		successor = new LinkedList<>();
 		predecessor  = this;
 	}
+	
 }

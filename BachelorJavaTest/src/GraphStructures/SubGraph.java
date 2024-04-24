@@ -305,14 +305,6 @@ public class SubGraph {
 	}
 	
 	
-	public int[] getSubgraphsEdgesIDsAsArray() {
-		int[] arrayOfEdgesID = new int[listOfEdges.size()];
-		for(int i = 0; i <= arrayOfEdgesID.length - 1; i++) {
-			arrayOfEdgesID[i] = listOfEdges.get(i).getEdgeKey();
-		}
-		return arrayOfEdgesID;
-	}
-	
 	public String[] getSubgraphsEdgesStringArray() {
 		String[] arrayOfEdgesID = new String[listOfEdges.size()];
 		for(int i = 0; i <= arrayOfEdgesID.length - 1; i++) {

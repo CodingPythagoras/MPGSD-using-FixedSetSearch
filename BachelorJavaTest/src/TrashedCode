@@ -261,3 +261,14 @@ public static Vertex[] getHighestListAdjVertex(SubGraph vListSubgraph) {
 		
 		
 	}
+	
+	IN SUPPLYVERTEX
+	
+	public void setInSubGraphTrue() {
+		isInSubgraph = true;
+	}
+	
+	public boolean getIsInSubGraph() {
+		return isInSubgraph;
+	}
+	
