@@ -42,7 +42,7 @@ public class FixedSetSearch {
 			//TODO currently Graph gets created everytime, beacause otherwise Vertexes would be resettet
 			
 			
-			//3 being random trait
+			//4 being random trait
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
 			int covdem = JSONGraphSolution.getTotalCoveredDemand();
