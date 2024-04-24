@@ -20,13 +20,18 @@ public class Main {
 		System.out.println("Initialize solution with FSS");
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
 		System.out.println("1");
-		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g1, 10000, 10);
+		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g1, 151000, 50);
 		System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
 		
 		String coverageFSSSol = GreedyMPGSDSolver.getDemandCoverage(FSSJSONGraphSolution);
 		System.out.println(coverageFSSSol);
 		System.out.println(FSSJSONGraphSolution.getSolvedGraphMathematical());
+		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(100, g1, fixedsetsfound);
+		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSJSONGraphSolution);
+		System.out.println(coverageFSSIt);
+		
+		
 	}
 	
 	private static void createAndSolveGraph(String JSONPath) throws IOException {

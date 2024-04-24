@@ -137,8 +137,6 @@ public class GreedyMPGSDSolver {
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
 		
-		String coverageBefore= GreedyMPGSDSolver.getDemandCoverage(graphOfSubGraphs);
-		System.out.println("Before GreedySolve: " + coverageBefore + graphOfSubGraphs.getSolvedGraphMathematical());
 			
 		while(true) {
 			//always takes the Subgraph with the higest remainign Supply

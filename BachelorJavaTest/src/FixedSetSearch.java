@@ -57,7 +57,7 @@ public class FixedSetSearch {
 					//looks for a free space in the array
 					if(arrayOfBestGreedySolutions[j] == null) {
 						arrayOfBestGreedySolutions[j] = JSONGraphSolution;
-						System.out.println("Hello null: " + i + " " +  j);
+						
 						placefound = true;
 						break;
 					}
@@ -67,7 +67,7 @@ public class FixedSetSearch {
 					if(arrayOfBestGreedySolutions[j2] != null && placefound == false) {
 						if(arrayOfBestGreedySolutions[j2].getTotalCoveredDemand() < JSONGraphSolution.getTotalCoveredDemand()) {
 							arrayOfBestGreedySolutions[j2] = JSONGraphSolution;
-							System.out.println("Helloj2: " + i + " " +  j2 + JSONGraphSolution.getSolvedGraphMathematical());
+							
 							break;
 						}
 						
@@ -107,7 +107,7 @@ public class FixedSetSearch {
 		
 		
 		
-		System.out.println(fixedSets.get(1).getVertexList());
+		
 		return fixedSets;
 		
 	}
@@ -199,7 +199,19 @@ public class FixedSetSearch {
 
 
 
-	
+	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, List<SubGraph> fixedSets) {
+		int currentBest = 0;
+		SolvedGraph bestGraph = null;
+		for(int i = 1; i <= iterations; i++) {
+			SolvedGraph solved = GreedyMPGSDSolver.GreedySolve2(g, 4, fixedSets);
+			int currentDemCov = solved.getTotalCoveredDemand();
+			if(currentBest < currentDemCov) {
+				currentBest = currentDemCov;
+				bestGraph = solved;
+			}
+		}
+		return bestGraph;
+	}
 	
 	
 
