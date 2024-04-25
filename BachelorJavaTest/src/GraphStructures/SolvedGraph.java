@@ -31,6 +31,7 @@ public class SolvedGraph {
 	
 	/**
 	 * only with fixedSets!
+	 * corrects the used Supply and Covered Demand!
 	 * @param g
 	 * @param fixedsetsfound
 	 */

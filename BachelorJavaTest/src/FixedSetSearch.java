@@ -200,9 +200,18 @@ public class FixedSetSearch {
 
 
 	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, List<SubGraph> fixedSets) {
+		//TODO doesnt work beacuse its not resettet, need to outsource the whole fixed set generation process
+		// from above and put that after the reset in MPGSDSolver2 with FSS
+		
+		
 		int currentBest = 0;
 		SolvedGraph bestGraph = null;
 		for(int i = 1; i <= iterations; i++) {
+			
+			//Resets the Vertices from previous solutions and rebuilds the Subsets
+			GreedyMPGSDSolver.resetGraphVertices(g);
+			rebuildFixedSetVertices(fixedSets);
+			
 			SolvedGraph solved = GreedyMPGSDSolver.GreedySolve2(g, 4, fixedSets);
 			int currentDemCov = solved.getTotalCoveredDemand();
 			if(currentBest < currentDemCov) {
@@ -213,6 +222,26 @@ public class FixedSetSearch {
 		return bestGraph;
 	}
 	
+	/**
+	 * rebuilds the Subgraphs after Vertices have been reseted using its edges
+	 * and updated the supply usage of the corresponding supply vertex
+	 * @param fixedSets a list of Subgraphs
+	 */
+	public static void rebuildFixedSetVertices(List<SubGraph> fixedSets) {
+		for(SubGraph subsInSet: fixedSets) {
+			
+			for(int i = 0; i <= subsInSet.getListOfEdges().size() - 1; i++) {
+				Vertex pre = subsInSet.getListOfEdges().get(i).getStartingVertex();
+				Vertex target = subsInSet.getListOfEdges().get(i).getTargetVertex();
+				//rebuilds all the adjacent vertices
+				pre.addAdjVertex(target);
+				
+				//Demand coverage needs to be adjusted
+				
+			}
+			subsInSet.getSubgraphsSupplyVertex().useSupply(subsInSet.getSubsCovDemand());
+		}
+	}
 	
 
 
