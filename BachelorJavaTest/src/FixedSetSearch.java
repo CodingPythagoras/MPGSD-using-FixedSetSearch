@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
 import GraphStructures.SubGraph;
@@ -27,7 +30,7 @@ public class FixedSetSearch {
 	 *
 	 *	 minimal acceptance rate mi
 	 */
-	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m /*, int n, int k, int MaxStag*/) throws IOException{
+	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m, double threshold /*, int n, int k, int MaxStag*/) throws IOException{
 		
 		
 		
@@ -46,12 +49,12 @@ public class FixedSetSearch {
 			//4 being random trait
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
-			int covdem = JSONGraphSolution.getTotalCoveredDemand();
-			int totaldem = JSONGraphSolution.getTotalOriginalDemand();
-			double percentCovered = (double)covdem / (double)totaldem;
+			int covSup = JSONGraphSolution.getTotalCoveredDemand();
+			int totalSup = JSONGraphSolution.getTotalOriginalDemand();
+			double supPercentCovered = (double)covSup / (double)totalSup;
 			
 			//if the solution graph full fills a certain percentage of covered demand, it is viewed as one of the best solutions
-			if(percentCovered > 0.5) {
+			if(supPercentCovered > threshold) {
 				boolean placefound = false;
 				for(int j = 0; j <= m - 1; j++) {
 					//looks for a free space in the array
@@ -76,6 +79,13 @@ public class FixedSetSearch {
 			}
 		}
 		
+		if(arrayOfBestGreedySolutions[0] == null) {
+			JOptionPane.showMessageDialog(new JFrame(), "No best Solutions could be found: please reduce Threshold.");
+			//create a solved graph with only SupplyVertices
+			SolvedGraph replacementGraph = new SolvedGraph(g);
+			arrayOfBestGreedySolutions[0] = replacementGraph;
+		}
+		
 		//m - 1; == arrayOfBestGreedySolutions.length - 1;
 		
 		//arrayOfBestGreedySolutions now contains the m best solutions
@@ -89,12 +99,16 @@ public class FixedSetSearch {
 			LinkedList<SubGraph> subgraphsForOneSupply = new LinkedList<>();
 			//get every 1st then 2nd etc... Subgraph of all Subgraphs
 			for(int p = 0; p <= arrayOfBestGreedySolutions.length - 1; p++) {
-				
 				SolvedGraph solvOne = arrayOfBestGreedySolutions[p];
+				if(solvOne == null) {
+					//System.out.println("Only found " + p + " best solutions: please reduce Threshold");
+					break;
+				}
 				subgraphsForOneSupply.add(solvOne.getSubgraph(n));   
 				
 		    }
 			ListForEachSupply.add(subgraphsForOneSupply);
+			
 		}
 		
 		//reset Vertices now, because they get changed by creation of the subgraphs

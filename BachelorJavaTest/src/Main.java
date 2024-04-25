@@ -19,8 +19,9 @@ public class Main {
 		
 		System.out.println("Initialize solution with FSS");
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
+		MPGSDGraph g3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-3.json");
 
-		solveGraphUsingFixedSetsSearch(g1, 10000, 20, 15, 4);
+		solveGraphUsingFixedSetsSearch(g3, 10000, 20, 2, 4);
  
 		
 		
@@ -55,7 +56,7 @@ public class Main {
 	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait) throws IOException
 	{
 		System.out.println("Initialize solution with FSS");
-		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions);
+		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.3);
 		
 		//System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		//SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
