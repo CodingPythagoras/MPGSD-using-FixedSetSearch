@@ -11,15 +11,17 @@ public class Vertex {
 	protected Vertex predecessor;
 	protected LinkedList<Vertex> successor = new LinkedList<>();
 	
-	/*
-	 * creates a Vertex using a specified ID
+	/**
+	 * creates a vertex using a specified ID
+	 * @param id vertex with specific ID
 	 */
 	public Vertex(int id) {
 		ID = id;
 	}
 	
-	/*
-	 * Adds a Vertex as adjacent
+	/**
+	 * adds an adjacent vertex to the current vertex
+	 * @param v the adjacent vertex
 	 */
 	public void addAdjVertex(Vertex v) {
 		//Adds Vertex v to Adjacent List
@@ -33,8 +35,9 @@ public class Vertex {
 		
 	}
 	
-	/*
-	 * Removes an adjacent Vertex 
+	/**
+	 * removes an adjacent vertex 
+	 * @param v the adjacent vertex, that should be removed out of the list
 	 */
 	public void removeAdjVertex(Vertex v) {
 		if(this.AdjVertexList.contains(v)) {
@@ -56,16 +59,17 @@ public class Vertex {
 		return ID;
 	}
 	
-	/*
-	 * checks if the Object is a supplyVertex
-	 * returns true if Vertex is SupplyVertex
+	/**
+	 * checks if the object is a supplyVertex
+	 * @return true if vertex is SupplyVertex
 	 */
 	public boolean getIsSupplyVertex() {
 		return isSupplyVertex;
 	}
 	
-	/*
-	 * sets a Vertex as a predecessor
+	/**
+	 * sets a vertex as a predecessor
+	 * @param v the vertex
 	 */
 	public void setPredecessor(Vertex v) {
 		predecessor = v;
@@ -75,20 +79,26 @@ public class Vertex {
 		return predecessor;
 	}
 	
-	/*
-	 * sets a Vertex as a successor of this Vertex
+	/**
+	 * sets vertex as a successor(target) of this vertex(this is start)
+	 * @param v the successor of this vertex
 	 */
 	public void setSuccessor(Vertex v) {
 		successor.add(v);
 	}
 	
+	/**
+	 * vertices, which are succesors to this vertex
+	 * @return LikedList of vertices
+	 */
 	public LinkedList<Vertex> getSuccessor() {
 		return successor;
 	}
 	
-	/*
-	 * takes the remaining supply of a graph
-	 * returns all the possible vertices which could be coverd by the demand
+	/**
+	 * 
+	 * @param remainingSupply takes the remaining supply of a graph
+	 * @return all the possible vertices which could potentially be coverd by the demand
 	 */
 	public LinkedList<Vertex> getListOfAdjNotCoveredFittingVertexes(int remainingSupply) {
 		LinkedList<Vertex> possibleAdjDemandVertexes = new LinkedList<Vertex>();
@@ -102,9 +112,11 @@ public class Vertex {
 		return possibleAdjDemandVertexes;
 	}
 	
-	/*
-	 * takes the remaining supply of a graph
-	 * returns an int, as the number of vertices that could be covered by the demand
+
+	/**
+	 * 
+	 * @param remainingSupply takes the remaining supply of a graph
+	 * @return an int, as the number of vertices that could potentially be covered by the demand
 	 */
 	public int getNumberofAdjNotCoveredFittingVertexes(int remainingSupply) {
 		LinkedList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);

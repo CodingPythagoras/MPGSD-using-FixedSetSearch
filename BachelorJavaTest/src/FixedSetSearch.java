@@ -50,8 +50,10 @@ public class FixedSetSearch {
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
 			int covSup = JSONGraphSolution.getTotalCoveredDemand();
-			int totalSup = JSONGraphSolution.getTotalOriginalDemand();
+			int totalSup = JSONGraphSolution.getTotalGivenSupply();
 			double supPercentCovered = (double)covSup / (double)totalSup;
+			//System.out.println(covSup + "/" + totalSup);
+			//System.out.println(supPercentCovered);
 			
 			//if the solution graph full fills a certain percentage of covered demand, it is viewed as one of the best solutions
 			if(supPercentCovered > threshold) {

@@ -88,6 +88,9 @@ public class GreedyMPGSDSolver {
 			}
 			//TODO (IMPORTANT) can be changed to random Vertex
 			Vertex[] demandPair = selctedSubGraph.getVertexToAdd(trait);
+			//Vertex[] demandPair = selctedSubGraph.getRandomVertex();
+			
+			
 			DemandVertex selctedAdjDemV = (DemandVertex) demandPair[0];
 			
 			if(selctedAdjDemV == null) {

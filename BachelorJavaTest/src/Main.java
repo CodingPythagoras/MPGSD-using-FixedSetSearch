@@ -10,19 +10,23 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Hello World");
+		//System.out.println("Hello World");
 		
 		//createAndSolveGraph("src\\JSONforGraph\\graph-config.json");
 		
-		System.out.println("Finished");
 		
 		
-		System.out.println("Initialize solution with FSS");
+		
+		System.out.println("Building MPGSD graphs");
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
 		MPGSDGraph g3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-3.json");
-
-		solveGraphUsingFixedSetsSearch(g3, 100, 2, 10, 4);
- 
+		MPGSDGraph g4 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_100x300.json");
+		MPGSDGraph g400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_400x8000.json");
+		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
+		System.out.println("Finished");
+		
+		solveGraphUsingFixedSetsSearch(g400_4000, 100, 2, 100, 4);
+		
 		
 		
 		
@@ -56,7 +60,8 @@ public class Main {
 	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait) throws IOException
 	{
 		System.out.println("Initialize solution with FSS");
-		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.3);
+		long startTime = System.currentTimeMillis();
+		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.80);
 		
 		//System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		//SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
@@ -67,6 +72,9 @@ public class Main {
 		
 		System.out.println(FSSSolutionOfIterations.getSolvedGraphMathematical());
 		System.out.println(coverageFSSIt);
+		
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println("Problem solved in: " + estimatedTime + " milliseconds?");
 		
 	}
 }
