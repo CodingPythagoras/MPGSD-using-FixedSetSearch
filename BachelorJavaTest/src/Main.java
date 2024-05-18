@@ -25,7 +25,7 @@ public class Main {
 		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
 		System.out.println("Finished");
 		
-		solveGraphUsingFixedSetsSearch(g400_4000, 100, 2, 100, 4);
+		solveGraphUsingFixedSetsSearch(g400_4000, 100, 20, 100, 4);
 		
 		
 		

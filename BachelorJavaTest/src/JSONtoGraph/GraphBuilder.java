@@ -14,12 +14,17 @@ import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class GraphBuilder {
-	/*
+	
+	/**
 	 * builds a MPGSD Graph using a JSON
+	 * @param jsonFilePath JSON which is used to create the graph
+	 * @return MPGSDGraph with adjacencies demand and supply
+	 * @throws IOException
 	 */
 	public static MPGSDGraph buildGraphFromJson(String jsonFilePath) throws IOException {
         Gson gson = new Gson();
         FileReader reader = new FileReader(jsonFilePath);
+        //gives the JSON structure a meaning
         JSONGraphConfig config = gson.fromJson(reader, JSONGraphConfig.class);
         reader.close();
 

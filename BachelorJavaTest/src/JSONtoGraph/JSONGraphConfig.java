@@ -1,11 +1,18 @@
 package JSONtoGraph;
 import java.util.List;
 
+/**
+ * functions as blueprint to convert the JSON text to concrete objects
+ * @author Manuel
+ *
+ */
 public class JSONGraphConfig {
     private List<JSONVertexConfig> supplyVertices;
     private List<JSONVertexConfig> demandVertices;
     private List<JSONAdjacencyConfig> adjacencies;
     // Getters and setters
+    
+    
     
 	public List<JSONVertexConfig> getSupplyVertices() {
 		return supplyVertices;
@@ -15,6 +22,8 @@ public class JSONGraphConfig {
 		this.supplyVertices = supplyVertices;
 	}
 	
+	
+	
 	public List<JSONVertexConfig> getDemandVertices() {
 		return demandVertices;
 	}
@@ -22,6 +31,8 @@ public class JSONGraphConfig {
 	public void setDemandVertices(List<JSONVertexConfig> demandVertices) {
 		this.demandVertices = demandVertices;
 	}
+	
+	
 	
 	public List<JSONAdjacencyConfig> getAdjacencies() {
 		return adjacencies;

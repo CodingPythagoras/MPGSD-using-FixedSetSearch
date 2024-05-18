@@ -1,6 +1,11 @@
 package JSONtoGraph;
 import java.util.List;
 
+/**
+ * sets the adjacencies between the vertices, using the JSON
+ * @author Manuel
+ *
+ */
 public class JSONAdjacencyConfig {
     private int source;
     private List<Integer> targets;
