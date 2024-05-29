@@ -272,3 +272,118 @@ public static Vertex[] getHighestListAdjVertex(SubGraph vListSubgraph) {
 		return isInSubgraph;
 	}
 	
+	
+	------------------------------------------------------------------------------------------------------------
+	//Not Trashed but for PseudoCode
+	public static SolvedGraph GreedySolve2(graph, trait) {
+		resetGraphVertices(graph);
+		SolvedGraph graphOfSubGraphs = new SolvedGraph(graph);
+		
+		graphOfSubGraphs.updateSupAndDem(graph.getSupAndDem())
+		
+		
+		
+			
+		while(true) {
+			
+			selctedSubGraph = graphOfSubGraphs.getSubgraphWithHigestSupply();
+			
+			if selctedSubGraph is null:
+				break;
+			
+			
+			selctedAdjDemV = selctedSubGraph.getVertexToAdd(trait);
+			
+			if(selctedAdjDemV == null) {
+				selctedSubGraph.setComplete();
+				
+			}else {
+				selctedAdjDemV.updateVertex();
+				selctedSubGraph.addVertex(selctedAdjDemV);	
+				graphOfSubGraphs.updateSupAndDem(selctedAdjDemV.getDemand());
+			}
+			
+		}
+		
+		return graphOfSubGraphs;
+	}
+	
+	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m, double threshold) throws IOException{
+		
+		
+		
+		int amountOfSubGraphs = g.getNumberofSupplyVertexes();
+		
+		List<SubGraph> fixedSets = new LinkedList<SubGraph>();
+		
+		SolvedGraph[] arrayOfBestGreedySolutions = new SolvedGraph[m];
+		
+		//solves the given graph g i times
+		for(int i = 0; i <= t; i++) {
+			
+			//4 being random trait
+			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
+			
+			int covSup = JSONGraphSolution.getTotalCoveredDemand();
+			int totalSup = JSONGraphSolution.getTotalGivenSupply();
+			double supPercentCovered = (double)covSup / (double)totalSup;
+
+			if(supPercentCovered > threshold) {
+				boolean placefound = false;
+				for(int j = 0; j <= m - 1; j++) {
+				
+					if(arrayOfBestGreedySolutions[j] == null) {
+						arrayOfBestGreedySolutions[j] = JSONGraphSolution;
+						
+						placefound = true;
+						break;
+					}
+				}
+				//otherwise checks if the current solution outperforms another and replaces it
+				for(int j2 = 0; j2 <= m - 1; j2++) {
+						if(arrayOfBestGreedySolutions[j2].getTotalCoveredDemand() < JSONGraphSolution.getTotalCoveredDemand()) {
+							arrayOfBestGreedySolutions[j2] = JSONGraphSolution;
+							
+							break;
+						}
+						
+					
+				}
+			}
+		}
+		
+		if(arrayOfBestGreedySolutions[0] == null) {
+			SolvedGraph replacementGraph = new SolvedGraph(g);
+			arrayOfBestGreedySolutions[0] = replacementGraph;
+		}
+		
+		LinkedList<LinkedList<SubGraph>> ListForEachSupply = new LinkedList<>();
+		
+		for(int n = 0; n <= amountOfSubGraphs - 1; n++) {
+			LinkedList<SubGraph> subgraphsForOneSupply = new LinkedList<>();
+			//get every 1st then 2nd etc... Subgraph of all Subgraphs
+			for(int p = 0; p <= arrayOfBestGreedySolutions.length - 1; p++) {
+				SolvedGraph solvOne = arrayOfBestGreedySolutions[p];
+				if(solvOne == null) {
+					//System.out.println("Only found " + p + " best solutions: please reduce Threshold");
+					break;
+				}
+				subgraphsForOneSupply.add(solvOne.getSubgraph(n));   
+				
+		    }
+			ListForEachSupply.add(subgraphsForOneSupply);
+			
+		}
+		
+		//reset Vertices now, because they get changed by creation of the subgraphs
+		GreedyMPGSDSolver.resetGraphVertices(g);
+		//now ListForEachSupply.get(0) should contain all subgraphs representing the Subgraphs containing SupplyVertex1 and so on...
+		for(int x = 0; x <= ListForEachSupply.size() - 1; x++) {
+			SubGraph fixedSet = findFixedSet(ListForEachSupply.get(x), g);
+			fixedSets.add(fixedSet);
+		}
+		
+		
+		
+		
+		return fixedSets;

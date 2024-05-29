@@ -43,8 +43,6 @@ public class FixedSetSearch {
 		
 		//solves the given graph g i times
 		for(int i = 0; i <= t; i++) {
-			//TODO currently Graph gets created everytime, beacause otherwise Vertexes would be resettet
-			
 			
 			//4 being random trait
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
@@ -69,6 +67,7 @@ public class FixedSetSearch {
 				}
 				//otherwise checks if the current solution outperforms another and replaces it
 				for(int j2 = 0; j2 <= m - 1; j2++) {
+					//TODO if abfrage vorziehen?
 					if(arrayOfBestGreedySolutions[j2] != null && placefound == false) {
 						if(arrayOfBestGreedySolutions[j2].getTotalCoveredDemand() < JSONGraphSolution.getTotalCoveredDemand()) {
 							arrayOfBestGreedySolutions[j2] = JSONGraphSolution;
@@ -146,7 +145,7 @@ public class FixedSetSearch {
 		System.out.println(edgeFrequency); 
 		
 		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
-		// TODO at least 2 otherwise vertices could be occuring in more than one subgraph, which is to be forbidden
+		// TODO at least 2 otherwise vertices could be occurring in more than one subgraph, which is to be forbidden
 	    int threshold = subgraphsForOneSupply.size() / 2;
 	    
 	    // Collect all edges that meet the frequency threshold
@@ -159,6 +158,9 @@ public class FixedSetSearch {
 	    
 	    if (!commonEdges.isEmpty()) {
 	        // Create a new subgraph using the common edges
+	    	
+	    	//TODO freqencymap bei lücken? assure that graph is connected!
+	    	
 	    	// can take any random subgraph, because they all share the same supply Vertex
 	    	SupplyVertex supplyVertex = subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex();
 	    	
