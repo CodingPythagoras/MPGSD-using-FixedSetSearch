@@ -47,6 +47,18 @@ public class SolvedGraph {
 		}
 	}
 	
+	public SolvedGraph(SolvedGraph currentSolution) {
+		graphOfSubgraphs = currentSolution.getGraphOfSubgraphs();
+		numberOfDemandVertexes = currentSolution.getNumberOfDemandVertexes();
+		numberOfSupplyVertexes = currentSolution.getNumberOfSupplyVertexes();
+		setNumberOfSubgraphs(numberOfSupplyVertexes);
+		totalGivenSupply = currentSolution.getTotalGivenSupply();
+		totalUsedSupply = currentSolution.getTotalUsedSupply();
+		totalOriginalDemand = currentSolution.getTotalOriginalDemand();
+		totalCoveredDemand = currentSolution.getTotalCoveredDemand();
+		
+	}
+	
 	/*
 	 * returns the subgraph with the highest remaining supply
 	 */
@@ -140,6 +152,10 @@ public class SolvedGraph {
 		return numberOfDemandVertexes;
 	}
 	
+	public void setNumberOfSubgraphs(int num) {
+		numberOfSubgraphs = num;
+	}
+	
 	public void setTotalGivenSupply(int num) {
 		totalGivenSupply = num;
 	}
@@ -159,5 +175,14 @@ public class SolvedGraph {
 	public LinkedList<SubGraph> getGraphOfSubgraphs() {
 		// TODO Auto-generated method stub
 		return graphOfSubgraphs;
+	}
+	
+	public SubGraph getSubgraphWithSupplyVertex(SupplyVertex supplyVertex) {
+		for(int i = 0; i < graphOfSubgraphs.size() - 1; i++) {
+			if(graphOfSubgraphs.get(i).getSubgraphsSupplyVertex().getID() == supplyVertex.getID()) {
+				return graphOfSubgraphs.get(i);
+			}
+		}
+		return null;
 	}
 }
