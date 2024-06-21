@@ -1,6 +1,9 @@
 package GraphStructures;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Set;
+import java.util.Stack;
 
 import VertexStructure.DemandVertex;
 import VertexStructure.Edge;
@@ -141,7 +144,8 @@ public class SubGraph {
 			Random randomNumber = new Random();
 			int ranOneTwoThree = randomNumber.nextInt(3) + 1;
 			traitNum = ranOneTwoThree;
-		}else if(traitNumber == 5) {
+			
+		}else if(traitNumber == 5) { //5 beeing random vertex
 			return getRandomVertex();
 		}else {
 			traitNum = traitNumber;
@@ -419,6 +423,38 @@ public class SubGraph {
 	 */
 	public void addOneNumDemVer() {
 		subsNumOfDemVer += 1;
+	}
+	
+	/**
+	 * Checks if the subgraphs vertices are connected.
+	 * @return boolean indicating if the subgraph is connected
+	 */
+	public boolean checkConnectivity() {
+		
+		//just in case, but wont happen, due to supply vertex initialisation
+		if(subGraph.isEmpty()) {
+			System.out.println("subgraph is empty");
+			return true;
+		}
+		
+		 // Use DFS to check connectivity
+        Set<Vertex> visited = new HashSet<>();
+        Stack<Vertex> stack = new Stack<>();
+        stack.push(subGraph.get(0));
+
+        while (!stack.isEmpty()) {
+            Vertex current = stack.pop();
+            if (!visited.contains(current)) {
+                visited.add(current);
+                for (Vertex neighbor : current.getAdjVertexList()) {
+                    if (subGraph.contains(neighbor) && !visited.contains(neighbor)) {
+                        stack.push(neighbor);
+                    }
+                }
+            }
+        }
+
+        return visited.size() == subGraph.size();
 	}
 
 	

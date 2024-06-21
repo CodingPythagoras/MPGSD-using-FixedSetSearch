@@ -18,17 +18,25 @@ public class Main {
 		
 		
 		System.out.println("Building MPGSD graphs");
+		MPGSDGraph failureTest = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\failureTest_01_connectivityFS.json");
+		
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
 		MPGSDGraph g3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-3.json");
 		MPGSDGraph g4 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_100x300.json");
+		MPGSDGraph g5 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_v2_100x300.json");
 		MPGSDGraph g400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_400x8000.json");
 		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
 		System.out.println("Finished");
 		
-		//solveGraphUsingFixedSetsSearch(g400_4000, 100, 20, 100, 4);
-		SolvedGraph optimal = OptimalTest.findOptimalSolution(g4);
+		solveGraphUsingFixedSetsSearch(failureTest, 100, 8, 100, 4);
 		
-		System.out.println(optimal.getTotalUsedSupply());
+		//SolvedGraph greedyX = GreedyMPGSDSolver.GreedySolveXTimes(5000, g400_4000);
+		
+		//createAndSolveGraph("src\\JSONforGraph\\graph_100x300.json");
+		
+		//SolvedGraph optimal = OptimalTest.findOptimalSolution(g4);
+		
+		//System.out.println(optimal.getTotalUsedSupply());
 		
 		
 		

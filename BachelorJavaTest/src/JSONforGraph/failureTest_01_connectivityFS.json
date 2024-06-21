@@ -1,0 +1,30 @@
+{
+    "supplyVertices": [
+      {"id": 1, "value": 10}
+    
+    ],
+    "demandVertices": [
+      {"id": 2, "value": 2},
+
+      {"id": 3, "value": 1},
+      {"id": 4, "value": 1},
+      {"id": 5, "value": 1},
+
+      {"id": 6, "value": 7}
+      
+ 
+  
+      
+   
+    ],
+    "adjacencies": [
+      {"source": 1, "targets": [2]},
+      {"source": 2, "targets": [3, 4, 5]},
+      {"source": 6, "targets": [3, 4, 5]}
+      
+   
+  
+  
+    ]
+  }
+  

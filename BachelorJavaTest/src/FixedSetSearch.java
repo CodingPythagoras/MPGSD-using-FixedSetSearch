@@ -30,6 +30,16 @@ public class FixedSetSearch {
 	 *
 	 *	 minimal acceptance rate mi
 	 */
+	
+	/**
+	 * TODO shorten, like in pseudocode?
+	 * @param g MPGSD Graph to be solved
+	 * @param t how many greedy solutions should be performed
+	 * @param m how many solutions for the FSS should be considered
+	 * @param threshold what percentage in 0. of supply should be covered to be considered
+	 * @return A list of with subraphs, one for each supply vertex
+	 * @throws IOException
+	 */
 	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m, double threshold /*, int n, int k, int MaxStag*/) throws IOException{
 		
 		
@@ -41,7 +51,7 @@ public class FixedSetSearch {
 		//m sets the amount of Solution out of which the fixed sets should be formed
 		SolvedGraph[] arrayOfBestGreedySolutions = new SolvedGraph[m];
 		
-		//solves the given graph g i times
+		//solves the given graph g t times
 		for(int i = 0; i <= t; i++) {
 			
 			//4 being random trait
@@ -68,6 +78,7 @@ public class FixedSetSearch {
 				//otherwise checks if the current solution outperforms another and replaces it
 				for(int j2 = 0; j2 <= m - 1; j2++) {
 					//TODO if abfrage vorziehen?
+					//TODO nicht das erst beste ersetzen, aber das schelchteste aus allen ersetzen
 					if(arrayOfBestGreedySolutions[j2] != null && placefound == false) {
 						if(arrayOfBestGreedySolutions[j2].getTotalCoveredDemand() < JSONGraphSolution.getTotalCoveredDemand()) {
 							arrayOfBestGreedySolutions[j2] = JSONGraphSolution;
@@ -87,12 +98,7 @@ public class FixedSetSearch {
 			arrayOfBestGreedySolutions[0] = replacementGraph;
 		}
 		
-		//m - 1; == arrayOfBestGreedySolutions.length - 1;
-		
 		//arrayOfBestGreedySolutions now contains the m best solutions
-		
-		//TODO fined fixed sets/ analyze m best solutions
-		
 		
 		LinkedList<LinkedList<SubGraph>> ListForEachSupply = new LinkedList<>();
 		
@@ -197,7 +203,15 @@ public class FixedSetSearch {
 	                addedVertices.add(targetVertexId);
 	            }
 	            fixedSet.addEdge(firstVertex, targetVertex);
-	           
+	            
+	        }
+	        if(fixedSet.checkConnectivity() == true) {
+	        	System.out.println("FS is connected");
+	        	
+	        }else {
+	        	System.out.println("FS is not connected");
+	        	JOptionPane.showMessageDialog(null, "Fixed set is not connected, Fixed Set is set to supply vertex", "InfoBox: " + "Connectivity check", JOptionPane.INFORMATION_MESSAGE);
+	        	return new SubGraph(subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex());
 	        }
 	        //iterates over the new subgraph to determine its used demand and number of demand vertices
 	        for(int k = 0; k <= fixedSet.getVertexList().size() - 1; k++) {
@@ -238,7 +252,7 @@ public class FixedSetSearch {
 			}
 		}
 		//TODO dont know if needed!
-		rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
+		//rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
 		return bestGraph;
 	}
 	

@@ -191,6 +191,23 @@ public class GreedyMPGSDSolver {
 	}
 	
 	
+	
+	public static SolvedGraph GreedySolveXTimes(int x, MPGSDGraph g) {
+		
+		SolvedGraph bestSolution = GreedySolve2(g, 5); //5 beeeing random vertex, not considering any traits
+		
+		for(int i = 0; i < x; i++) {
+			SolvedGraph s = GreedySolve2(g, 5); //5 beeeing random vertex, not considering any traits
+			if(s.getTotalCoveredDemand() > bestSolution.getTotalCoveredDemand()) {
+				bestSolution = s;
+				System.out.println("new best on trial " + i + ":" + bestSolution.getTotalCoveredDemand());
+			}
+		}
+		System.out.println("Best solution out of " + x + " times found.");
+		return bestSolution;
+		
+	}
+	
 
 
 }

@@ -47,6 +47,10 @@ public class SolvedGraph {
 		}
 	}
 	
+	/**
+	 * TODO not needed so far
+	 * @param currentSolution
+	 */
 	public SolvedGraph(SolvedGraph currentSolution) {
 		graphOfSubgraphs = currentSolution.getGraphOfSubgraphs();
 		numberOfDemandVertexes = currentSolution.getNumberOfDemandVertexes();
