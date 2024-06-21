@@ -47,21 +47,6 @@ public class SolvedGraph {
 		}
 	}
 	
-	/**
-	 * TODO not needed so far
-	 * @param currentSolution
-	 */
-	public SolvedGraph(SolvedGraph currentSolution) {
-		graphOfSubgraphs = currentSolution.getGraphOfSubgraphs();
-		numberOfDemandVertexes = currentSolution.getNumberOfDemandVertexes();
-		numberOfSupplyVertexes = currentSolution.getNumberOfSupplyVertexes();
-		setNumberOfSubgraphs(numberOfSupplyVertexes);
-		totalGivenSupply = currentSolution.getTotalGivenSupply();
-		totalUsedSupply = currentSolution.getTotalUsedSupply();
-		totalOriginalDemand = currentSolution.getTotalOriginalDemand();
-		totalCoveredDemand = currentSolution.getTotalCoveredDemand();
-		
-	}
 	
 	/*
 	 * returns the subgraph with the highest remaining supply
