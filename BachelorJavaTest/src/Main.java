@@ -19,8 +19,10 @@ public class Main {
 		
 		System.out.println("Building MPGSD graphs");
 		MPGSDGraph failureTest = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\failureTest_01_connectivityFS.json");
+		MPGSDGraph ansatzTwo = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_ansatzTwo_100x1000.json");
 		
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
+		MPGSDGraph g2 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-2.json");
 		MPGSDGraph g3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-3.json");
 		MPGSDGraph g4 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_100x300.json");
 		MPGSDGraph g5 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_v2_100x300.json");
@@ -28,7 +30,7 @@ public class Main {
 		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
 		System.out.println("Finished");
 		
-		solveGraphUsingFixedSetsSearch(failureTest, 100, 8, 100, 4);
+		solveGraphUsingFixedSetsSearch(ansatzTwo, 10000, 1, 100, 4);
 		
 		//SolvedGraph greedyX = GreedyMPGSDSolver.GreedySolveXTimes(5000, g400_4000);
 		
@@ -73,8 +75,10 @@ public class Main {
 		
 		//System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		//SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
+		SolvedGraph fixedSet = new SolvedGraph(g, fixedsetsfound);
+		System.out.println("FixedSet" + fixedSet.getSolvedGraphMathematical());
 		
-		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(100, g, solvingTrait, fixedsetsfound);
+		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(iterationsWithFS, g, solvingTrait, fixedsetsfound);
 
 		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSSolutionOfIterations);
 		
