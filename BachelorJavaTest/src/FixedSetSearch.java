@@ -54,7 +54,7 @@ public class FixedSetSearch {
 		//solves the given graph g t times
 		for(int i = 0; i <= t; i++) {
 			
-			//4 being random trait
+			//4 being random trait, 5 random vertex
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
 			int covSup = JSONGraphSolution.getTotalCoveredDemand();
@@ -148,7 +148,7 @@ public class FixedSetSearch {
 			}
 			//System.out.println("Edges: " + i + subgraphsForOneSupply.get(i).getArrayOfEdgesAsString()); 
 		}
-		System.out.println(edgeFrequency); 
+		//System.out.println(edgeFrequency); 
 		
 		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
 		// TODO at least 2 otherwise vertices could be occurring in more than one subgraph, which is to be forbidden
@@ -206,7 +206,7 @@ public class FixedSetSearch {
 	            
 	        }
 	        if(fixedSet.checkConnectivity() == true) {
-	        	System.out.println("FS is connected");
+	        	//System.out.println("FS is connected");
 	        	
 	        }else {
 	        	System.out.println("FS is not connected");

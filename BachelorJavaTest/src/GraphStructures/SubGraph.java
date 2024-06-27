@@ -282,6 +282,7 @@ public class SubGraph {
 		double x = (double)demToCov / ((double)(numberOfAdjVDemNotCovered + 1));
 		double doubleRatio = 1 / x;
 		double upscaledRatio = doubleRatio * 100;
+		//System.out.println(maxTrait + " " + doubleRatio + " " + upscaledRatio);
 		int currentRatio = (int) Math.floor(upscaledRatio);
 		if(currentRatio > maxTrait) {
 			trait[0] = 1;

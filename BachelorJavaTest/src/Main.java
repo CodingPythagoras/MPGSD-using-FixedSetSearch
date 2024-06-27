@@ -9,17 +9,16 @@ import JSONtoGraph.GraphBuilder;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		//System.out.println("Hello World");
-		
-		//createAndSolveGraph("src\\JSONforGraph\\graph-config.json");
-		
-		
-		
-		
+	
 		System.out.println("Building MPGSD graphs");
 		MPGSDGraph failureTest = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\failureTest_01_connectivityFS.json");
 		MPGSDGraph ansatzTwo = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_ansatzTwo_100x1000.json");
+		
+		MPGSDGraph ansatzTwoPt2 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_LowConnectivityAnsatzTwo_100x1000.json");
+		MPGSDGraph ansatzTwoPt3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_HighConnectivityAnsatzTwo_100x1000.json");
+		
+		MPGSDGraph ansatzThree = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_SnakeAnsatzTwo_100x1000.json");
+		MPGSDGraph ansatzFour = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_graph_100x300.json");
 		
 		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
 		MPGSDGraph g2 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-2.json");
@@ -30,11 +29,13 @@ public class Main {
 		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
 		System.out.println("Finished");
 		
-		solveGraphUsingFixedSetsSearch(ansatzTwo, 10000, 1, 100, 4);
+		solveGraphUsingFixedSetsSearch(ansatzFour, 2000, 10, 1000, 4);
+		createAndSolveGraph(ansatzFour);
 		
+		//random vertex
 		//SolvedGraph greedyX = GreedyMPGSDSolver.GreedySolveXTimes(5000, g400_4000);
 		
-		//createAndSolveGraph("src\\JSONforGraph\\graph_100x300.json");
+	
 		
 		//SolvedGraph optimal = OptimalTest.findOptimalSolution(g4);
 		
@@ -44,17 +45,15 @@ public class Main {
 		
 	}
 	
-	private static void createAndSolveGraph(String JSONPath) throws IOException {
+	private static void createAndSolveGraph(MPGSDGraph JSONPath) throws IOException {
 		
-		MPGSDGraph JSONGraph = GraphBuilder.buildGraphFromJson(JSONPath);
-		
-		SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(JSONGraph, 1);
+		SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(JSONPath, 1);
 		
 		String coverageJSON = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution);
-		
+		//System.out.println(JSONGraphSolution.getSolvedGraphMathematical());
 		System.out.println(coverageJSON);
 		
-		System.out.println(JSONGraphSolution.getSolvedGraphMathematical());
+		
 	}
 	
 	//TODO Greedy trait could be added
@@ -71,7 +70,7 @@ public class Main {
 	{
 		System.out.println("Initialize solution with FSS");
 		long startTime = System.currentTimeMillis();
-		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.80);
+		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.7);
 		
 		//System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		//SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
@@ -79,14 +78,14 @@ public class Main {
 		System.out.println("FixedSet" + fixedSet.getSolvedGraphMathematical());
 		
 		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(iterationsWithFS, g, solvingTrait, fixedsetsfound);
-
+		
 		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSSolutionOfIterations);
 		
-		System.out.println(FSSSolutionOfIterations.getSolvedGraphMathematical());
+		//System.out.println(FSSSolutionOfIterations.getSolvedGraphMathematical());
 		System.out.println(coverageFSSIt);
 		
 		long estimatedTime = System.currentTimeMillis() - startTime;
-		System.out.println("Problem solved in: " + estimatedTime + " milliseconds?");
+		System.out.println("Problem solved in: " + estimatedTime + " milliseconds");
 		
 	}
 }

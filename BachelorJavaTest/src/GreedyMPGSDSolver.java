@@ -127,8 +127,10 @@ public class GreedyMPGSDSolver {
 		int totalDemand = solvedMPGSDGraphofSubgraphs.getTotalOriginalDemand();
 		int supplyUsed = solvedMPGSDGraphofSubgraphs.getTotalUsedSupply();
 		int totalSupply = solvedMPGSDGraphofSubgraphs.getTotalGivenSupply();
+		
+		double percent = ((double) supplyUsed / (double) totalSupply) * 100;
 		return "The total coverage amounts to a total of " + totalCovDemand + "/" + totalDemand + 
-				" With a total supply use of " + supplyUsed + "/" + totalSupply;
+				" With a total supply use of " + supplyUsed + "/" + totalSupply + " that equals to a coverage of: " + percent + "%.";
 	}
 	
 	
