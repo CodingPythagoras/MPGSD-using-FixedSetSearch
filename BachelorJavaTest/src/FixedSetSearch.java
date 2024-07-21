@@ -46,7 +46,7 @@ public class FixedSetSearch {
 		
 		int amountOfSubGraphs = g.getNumberofSupplyVertexes();
 		//TODO replace with arrayList?
-		List<SubGraph> fixedSets = new LinkedList<SubGraph>();
+		List<SubGraph> fixedSets = new ArrayList<SubGraph>();
 		
 		//m sets the amount of Solution out of which the fixed sets should be formed
 		SolvedGraph[] arrayOfBestGreedySolutions = new SolvedGraph[m];
@@ -107,10 +107,10 @@ public class FixedSetSearch {
 		
 		//arrayOfBestGreedySolutions now contains the m best solutions
 		
-		LinkedList<LinkedList<SubGraph>> ListForEachSupply = new LinkedList<>();
+		ArrayList<ArrayList<SubGraph>> ListForEachSupply = new ArrayList<>();
 		
 		for(int n = 0; n <= amountOfSubGraphs - 1; n++) {
-			LinkedList<SubGraph> subgraphsForOneSupply = new LinkedList<>();
+			ArrayList<SubGraph> subgraphsForOneSupply = new ArrayList<>();
 			//get every 1st then 2nd etc... Subgraph of all Subgraphs
 			for(int p = 0; p <= arrayOfBestGreedySolutions.length - 1; p++) {
 				SolvedGraph solvOne = arrayOfBestGreedySolutions[p];
@@ -140,11 +140,11 @@ public class FixedSetSearch {
 		
 	}
 	
-	//private static SubGraph findFixedSet(LinkedList<SubGraph> subgraphsForOneSupply)
+	//private static SubGraph findFixedSet(ArrayList<SubGraph> subgraphsForOneSupply)
 	
 	
 
-	private static SubGraph findFixedSet(LinkedList<SubGraph> subgraphsForOneSupply, MPGSDGraph g) {
+	private static SubGraph findFixedSet(ArrayList<SubGraph> subgraphsForOneSupply, MPGSDGraph g) {
 		Map<String, Integer> edgeFrequency = new HashMap<>();
 		
 		for(int i = 0; i <= subgraphsForOneSupply.size() - 1;i++) {

@@ -1,6 +1,6 @@
 package GraphStructures;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -12,10 +12,10 @@ import VertexStructure.Vertex;
 
 public class SubGraph {
 	//TODO make ArrayList
-	LinkedList<Vertex> subGraph;
+	ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
 	//TODO if i dont want to create each graph new maybe.
-	private LinkedList<Edge> listOfEdges = new LinkedList<>();
+	private ArrayList<Edge> listOfEdges = new ArrayList<>();
 	boolean isComplete = false;
 	
 	private int subsCovDemand;
@@ -27,7 +27,7 @@ public class SubGraph {
 	 * @param supV  SupplyVertex as starting
 	 */
 	public SubGraph(SupplyVertex supV) {
-		subGraph = new LinkedList<>();
+		subGraph = new ArrayList<>();
 		subGraph.add(supV);
 		subgraphsSupplyVertex = supV;
 		subsNumOfDemVer = 0;
@@ -71,18 +71,18 @@ public class SubGraph {
 	
 	/**
 	 * 
-	 * @param pos position in the LinkedList, 0 beeing the supplyVertex
+	 * @param pos position in the ArrayList, 0 beeing the supplyVertex
 	 * @return Vertex on that position
 	 */
 	public Vertex getSubgraphsVertex(int pos) {
 		return subGraph.get(pos);
 	}
 	
-	public LinkedList<Vertex> getVertexList(){
+	public ArrayList<Vertex> getVertexList(){
 		return subGraph;
 	}
 	
-	public LinkedList<Edge> getListOfEdges() {
+	public ArrayList<Edge> getListOfEdges() {
 		return listOfEdges;
 	}
 	
@@ -275,7 +275,7 @@ public class SubGraph {
 	 */
 	private int[] traitDemandAdjVertexRatio(int maxTrait, Vertex k) {
 		int[] trait = new int[2];
-		LinkedList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertexes(getSubgraphsRemainingSupply());
+		ArrayList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertexes(getSubgraphsRemainingSupply());
 		int numberOfAdjVDemNotCovered = listOfAdjVDemNotCovered.size();
 		
 		int demToCov = ((DemandVertex) k).getDemand();
@@ -337,9 +337,9 @@ public class SubGraph {
 		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
 		//TODO null fix?
 		Vertex predecessor = null;
-		LinkedList<DemandVertex> listOfPossibleAdj = new LinkedList<>();
+		ArrayList<DemandVertex> listOfPossibleAdj = new ArrayList<>();
 		//TODO fix predecessor
-		LinkedList<Vertex> predecessorList = new LinkedList<>();
+		ArrayList<Vertex> predecessorList = new ArrayList<>();
 		//Iteration over every Vertex in Subgraph
 		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
 			Vertex v = subGraph.get(i);

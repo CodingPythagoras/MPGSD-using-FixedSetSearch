@@ -1,15 +1,16 @@
 package VertexStructure;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 
 
 
 public class Vertex {
-	private LinkedList<Vertex> AdjVertexList = new LinkedList<>();
+	private ArrayList<Vertex> AdjVertexList = new ArrayList<>();
 	protected boolean isSupplyVertex;
 	private int ID;
 	protected Vertex predecessor;
-	protected LinkedList<Vertex> successor = new LinkedList<>();
+	protected ArrayList<Vertex> successor = new ArrayList<>();
 	
 	/**
 	 * creates a vertex using a specified ID
@@ -51,7 +52,7 @@ public class Vertex {
 	}
 	
 	
-	public LinkedList<Vertex> getAdjVertexList() {
+	public ArrayList<Vertex> getAdjVertexList() {
 		return AdjVertexList;
 	}
 	
@@ -91,7 +92,7 @@ public class Vertex {
 	 * vertices, which are succesors to this vertex
 	 * @return LikedList of vertices
 	 */
-	public LinkedList<Vertex> getSuccessor() {
+	public ArrayList<Vertex> getSuccessor() {
 		return successor;
 	}
 	
@@ -100,8 +101,8 @@ public class Vertex {
 	 * @param remainingSupply takes the remaining supply of a graph
 	 * @return all the possible vertices which could potentially be coverd by the demand
 	 */
-	public LinkedList<Vertex> getListOfAdjNotCoveredFittingVertexes(int remainingSupply) {
-		LinkedList<Vertex> possibleAdjDemandVertexes = new LinkedList<Vertex>();
+	public ArrayList<Vertex> getListOfAdjNotCoveredFittingVertexes(int remainingSupply) {
+		ArrayList<Vertex> possibleAdjDemandVertexes = new ArrayList<Vertex>();
 		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
 			Vertex k = AdjVertexList.get(i);
 			
@@ -119,7 +120,7 @@ public class Vertex {
 	 * @return an int, as the number of vertices that could potentially be covered by the demand
 	 */
 	public int getNumberofAdjNotCoveredFittingVertexes(int remainingSupply) {
-		LinkedList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);
+		ArrayList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);
 		return possibleAdjDemandVertexes.size();
 	}
 	

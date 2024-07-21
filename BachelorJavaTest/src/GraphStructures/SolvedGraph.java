@@ -1,5 +1,5 @@
 package GraphStructures;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import VertexStructure.DemandVertex;
@@ -8,7 +8,7 @@ import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class SolvedGraph {
-	private LinkedList<SubGraph> graphOfSubgraphs = new LinkedList<>();
+	private ArrayList<SubGraph> graphOfSubgraphs = new ArrayList<>();
 	private int numberOfSubgraphs = 0;
 	private int numberOfSupplyVertexes;
 	private int numberOfDemandVertexes;
@@ -161,7 +161,7 @@ public class SolvedGraph {
 		return totalOriginalDemand;
 	}
 
-	public LinkedList<SubGraph> getGraphOfSubgraphs() {
+	public ArrayList<SubGraph> getGraphOfSubgraphs() {
 		// TODO Auto-generated method stub
 		return graphOfSubgraphs;
 	}

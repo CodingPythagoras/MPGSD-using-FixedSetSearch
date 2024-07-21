@@ -1,6 +1,7 @@
 package VertexStructure;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 public class DemandVertex extends Vertex{
 	private int demand;
@@ -65,7 +66,7 @@ public class DemandVertex extends Vertex{
 	 */
 	public void resetDemandVertex() {
 		demandIsCovered = false;
-		successor = new LinkedList<>();
+		successor = new ArrayList<>();
 		//TODO null
 		predecessor = null;
 	}

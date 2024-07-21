@@ -1,23 +1,23 @@
 package GraphStructures;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import VertexStructure.DemandVertex;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class MPGSDGraph {
-	private LinkedList<SupplyVertex> listOfSupplyVertexes;
-	private LinkedList<DemandVertex> listOfDemandVertexes;
-	private LinkedList<Vertex> listOfAllVertices;
+	private ArrayList<SupplyVertex> listOfSupplyVertexes;
+	private ArrayList<DemandVertex> listOfDemandVertexes;
+	private ArrayList<Vertex> listOfAllVertices;
 	
 	/*
 	 * creates a MPGSD graph using a List of supply vertices and List of demand vertices
 	 */
-	public MPGSDGraph(LinkedList<SupplyVertex> supList, LinkedList<DemandVertex> demList) {
+	public MPGSDGraph(ArrayList<SupplyVertex> supList, ArrayList<DemandVertex> demList) {
 		listOfSupplyVertexes = supList;
 		listOfDemandVertexes = demList;
 		
-		listOfAllVertices = new LinkedList<Vertex>();
+		listOfAllVertices = new ArrayList<Vertex>();
 		listOfAllVertices.addAll(listOfSupplyVertexes);
 		listOfAllVertices.addAll(listOfDemandVertexes);
 		
@@ -30,7 +30,7 @@ public class MPGSDGraph {
 		listOfSupplyVertexes = originalGraph.getListOfSupplyVertexes();
 		listOfDemandVertexes = originalGraph.getListOfDemandVertexes();
 		
-		listOfAllVertices = new LinkedList<Vertex>();
+		listOfAllVertices = new ArrayList<Vertex>();
 		listOfAllVertices.addAll(listOfSupplyVertexes);
 		listOfAllVertices.addAll(listOfDemandVertexes);
 		
@@ -62,11 +62,11 @@ public class MPGSDGraph {
 	}
 	
 	
-	public LinkedList<SupplyVertex> getListOfSupplyVertexes() {
+	public ArrayList<SupplyVertex> getListOfSupplyVertexes() {
 		return listOfSupplyVertexes;
 	}
 	
-	public LinkedList<DemandVertex> getListOfDemandVertexes() {
+	public ArrayList<DemandVertex> getListOfDemandVertexes() {
 		return listOfDemandVertexes;
 	}
 	
@@ -103,7 +103,7 @@ public class MPGSDGraph {
 
 	/*
 	 * searches and returns the vertex with the fitting ID
-	 * currently goes over both LinkedLists to find the fitting Vertex by ID
+	 * currently goes over both ArrayLists to find the fitting Vertex by ID
 	 */
 	public Vertex getVertexById(int source) {
 		// TODO improve by sorting ArrayList by ID and using direct access
@@ -138,7 +138,7 @@ public class MPGSDGraph {
         throw new IllegalArgumentException("Unknown vertex type");
     }
 	
-	public LinkedList<Vertex> getAllVertices(){
+	public ArrayList<Vertex> getAllVertices(){
 		return listOfAllVertices;
 	}
 	

@@ -1,6 +1,7 @@
 package VertexStructure;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 public class SupplyVertex extends Vertex{
 	private int supply;
@@ -72,7 +73,7 @@ public class SupplyVertex extends Vertex{
 		usedSupply =  0;
 		isInSubgraph = false;
 		remainingSupply = supply;
-		successor = new LinkedList<>();
+		successor = new ArrayList<>();
 		predecessor  = this;
 	}
 	
