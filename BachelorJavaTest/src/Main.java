@@ -27,10 +27,15 @@ public class Main {
 		MPGSDGraph g5 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_v2_100x300.json");
 		MPGSDGraph g400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_400x8000.json");
 		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
+		
+		MPGSDGraph testInstance_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
+		
 		System.out.println("Finished");
 		
-		solveGraphUsingFixedSetsSearch(ansatzFour, 2000, 10, 1000, 4);
-		createAndSolveGraph(ansatzFour);
+		//solveGraphUsingFixedSetsSearch(testInstance_100_300, 100, 10, 20, 1);
+		createAndSolveGraph(testInstance_100_300);
+		
+		giveTestResultsToGraph(testInstance_100_300, 100, 10, 1);
 		
 		//random vertex
 		//SolvedGraph greedyX = GreedyMPGSDSolver.GreedySolveXTimes(5000, g400_4000);
@@ -74,18 +79,60 @@ public class Main {
 		
 		//System.out.println("Sup ID: " + fixedsetsfound.get(5).getSubgraphsSupplyVertex().getID());
 		//SolvedGraph FSSJSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g1, 1, fixedsetsfound);
-		SolvedGraph fixedSet = new SolvedGraph(g, fixedsetsfound);
-		System.out.println("FixedSet" + fixedSet.getSolvedGraphMathematical());
 		
 		SolvedGraph FSSSolutionOfIterations = FixedSetSearch.getBestFSSolution(iterationsWithFS, g, solvingTrait, fixedsetsfound);
+		long estimatedTime = System.currentTimeMillis() - startTime;
 		
+		//just visual
+		SolvedGraph fixedSet = new SolvedGraph(g, fixedsetsfound);
+		System.out.println("FixedSet" + fixedSet.getSolvedGraphMathematical());
 		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSSolutionOfIterations);
 		
 		//System.out.println(FSSSolutionOfIterations.getSolvedGraphMathematical());
 		System.out.println(coverageFSSIt);
 		
-		long estimatedTime = System.currentTimeMillis() - startTime;
+		
 		System.out.println("Problem solved in: " + estimatedTime + " milliseconds");
 		
 	}
+	
+	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait) throws IOException {
+		int testResults = 500;//Assuming we want 10 solutions to get our median: testResults = 10
+		long solutionArray[][] = new long[2][testResults]; 
+		double avgTime = 0;
+		double avgDem = 0;
+		
+		for (int i = 0; i < testResults; i++) {
+			
+			long startTime = System.currentTimeMillis();
+			
+			List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.7);
+			SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(1, g, FSSgreedySolvingTrait, fixedsetsfound);
+			
+			
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			solutionArray[0][i] = (long) FSSSolution.getTotalCoveredDemand();
+			solutionArray[1][i] = estimatedTime;
+			System.out.println(i + ":= " + solutionArray[0][i] + " covered demand, " + solutionArray[1][i] + " ms");
+			avgTime = avgTime + solutionArray[1][i];
+			avgDem = avgDem + solutionArray[0][i];
+			
+		}
+		
+		System.out.println("Average demand covered" + ": " + avgDem/testResults + " Average time: " + avgTime/testResults + " ms");
+	}
+	
+	private static SolvedGraph getFSSSolution (MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int FSSgreedySolvingTrait) throws IOException {
+		List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.7);
+		SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(iterationsWithFS, g, FSSgreedySolvingTrait, fixedsetsfound);
+	
+		return FSSSolution;
+	
+	}
+	
+	//TODO Theshhold can be removed also in text/ iterations with FS can be set to 1 if we only se trait 1-3
+	
+	
+	
 }
+

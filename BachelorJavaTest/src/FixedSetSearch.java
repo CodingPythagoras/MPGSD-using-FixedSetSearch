@@ -75,19 +75,26 @@ public class FixedSetSearch {
 						break;
 					}
 				}
+				
 				//otherwise checks if the current solution outperforms another and replaces it
-				for(int j2 = 0; j2 <= m - 1; j2++) {
-					//TODO if abfrage vorziehen?
-					//TODO nicht das erst beste ersetzen, aber das schelchteste aus allen ersetzen
-					if(arrayOfBestGreedySolutions[j2] != null && placefound == false) {
-						if(arrayOfBestGreedySolutions[j2].getTotalCoveredDemand() < JSONGraphSolution.getTotalCoveredDemand()) {
-							arrayOfBestGreedySolutions[j2] = JSONGraphSolution;
-							
-							break;
+				if(placefound == false) {
+					int worstIndex = -1;
+					int worstPerformance = Integer.MAX_VALUE;
+					
+					//scans for the worst elemnt in array
+					for(int j2 = 0; j2 <= m - 1; j2++) {
+						int currentPerformance = arrayOfBestGreedySolutions[j2].getTotalCoveredDemand();
+						if(currentPerformance < worstPerformance) {
+							worstPerformance = currentPerformance;
+							worstIndex = j2;
 						}
-						
+					}
+					//checks if worse elment is outperfomred by our JSONGraphSolution
+					if(worstIndex != -1 && worstPerformance < JSONGraphSolution.getTotalCoveredDemand()) {
+						arrayOfBestGreedySolutions[worstIndex] = JSONGraphSolution;
 					}
 				}
+				
 			}
 		}
 		
