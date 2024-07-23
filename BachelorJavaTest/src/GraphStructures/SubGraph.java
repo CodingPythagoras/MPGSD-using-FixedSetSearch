@@ -11,7 +11,7 @@ import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
 public class SubGraph {
-	//TODO make ArrayList
+	
 	ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
 	//TODO if i dont want to create each graph new maybe.

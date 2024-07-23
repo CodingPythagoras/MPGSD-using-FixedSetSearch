@@ -11,40 +11,27 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	
 		System.out.println("Building MPGSD graphs");
-		MPGSDGraph failureTest = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\failureTest_01_connectivityFS.json");
-		MPGSDGraph ansatzTwo = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_ansatzTwo_100x1000.json");
-		
-		MPGSDGraph ansatzTwoPt2 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_LowConnectivityAnsatzTwo_100x1000.json");
-		MPGSDGraph ansatzTwoPt3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_HighConnectivityAnsatzTwo_100x1000.json");
-		
-		MPGSDGraph ansatzThree = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_SnakeAnsatzTwo_100x1000.json");
-		MPGSDGraph ansatzFour = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_graph_100x300.json");
-		
-		MPGSDGraph g1 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config.json");
-		MPGSDGraph g2 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-2.json");
-		MPGSDGraph g3 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph-config-3.json");
-		MPGSDGraph g4 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_100x300.json");
-		MPGSDGraph g5 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_v2_100x300.json");
-		MPGSDGraph g400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\graph_400x8000.json");
-		MPGSDGraph g400_4000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\large_graph_400x4000.json");
-		
+			
 		MPGSDGraph testInstance_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
 		
+		MPGSDGraph testInstance2_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\updated_snake_high_23072024_test1_100x300.json");
 		System.out.println("Finished");
 		
 		//solveGraphUsingFixedSetsSearch(testInstance_100_300, 100, 10, 20, 1);
-		createAndSolveGraph(testInstance_100_300);
+		solveGraphUsingTraits(testInstance_100_300);
 		
-		giveTestResultsToGraph(testInstance_100_300, 100, 10, 1);
+		int optimalSolutionsForReffernce = 3346; // As reference, to later determine the relative error
+		int testResultsForAvg = 100; // How many times our problem sould be solved to collect our data
 		
-		//random vertex
-		//SolvedGraph greedyX = GreedyMPGSDSolver.GreedySolveXTimes(5000, g400_4000);
+		int iterationsToFindFixedSet = 100; // Number of GreedySolutions to determine our fixed set
+		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
-	
 		
-		//SolvedGraph optimal = OptimalTest.findOptimalSolution(g4);
+
+		giveTestResultsToGraph(testInstance_100_300, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, optimalSolutionsForReffernce, testResultsForAvg);
 		
-		//System.out.println(optimal.getTotalUsedSupply());
+
 		
 		
 		
@@ -61,6 +48,21 @@ public class Main {
 		
 	}
 	
+	private static void solveGraphUsingTraits(MPGSDGraph JSONPath) {
+		
+		SolvedGraph JSONGraphSolution1 = GreedyMPGSDSolver.GreedySolve2(JSONPath, 1);
+		String coverageJSONTrait1 = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution1);
+		System.out.println(coverageJSONTrait1);
+		
+		SolvedGraph JSONGraphSolution2 = GreedyMPGSDSolver.GreedySolve2(JSONPath, 2);
+		String coverageJSONTrait2 = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution2);
+		System.out.println(coverageJSONTrait2);
+		
+		SolvedGraph JSONGraphSolution3 = GreedyMPGSDSolver.GreedySolve2(JSONPath, 3);
+		String coverageJSONTrait3 = GreedyMPGSDSolver.getDemandCoverage(JSONGraphSolution3);
+		System.out.println(coverageJSONTrait3);
+	}
+	
 	//TODO Greedy trait could be added
 	/**
 	 * 
@@ -71,7 +73,7 @@ public class Main {
 	 * @param solvingTrait select the trait trough which the FSS should be solved, if more than 1 iteration random trait int = "4" is recommended
 	 * @throws IOException
 	 */
-	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait) throws IOException
+	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait, int optimalSolutionsForReffernce) throws IOException
 	{
 		System.out.println("Initialize solution with FSS");
 		long startTime = System.currentTimeMillis();
@@ -96,11 +98,13 @@ public class Main {
 		
 	}
 	
-	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait) throws IOException {
-		int testResults = 500;//Assuming we want 10 solutions to get our median: testResults = 10
+	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int optimalSolutionsForReffernce, int testResultsForAvg) throws IOException {
+		int testResults = testResultsForAvg;//Assuming we want 10 solutions to get our median: testResults = 10
 		long solutionArray[][] = new long[2][testResults]; 
-		double avgTime = 0;
-		double avgDem = 0;
+		double avgTime;
+		double avgDem;
+		double totalDem = 0;
+		double totalTime = 0;
 		
 		for (int i = 0; i < testResults; i++) {
 			
@@ -114,12 +118,34 @@ public class Main {
 			solutionArray[0][i] = (long) FSSSolution.getTotalCoveredDemand();
 			solutionArray[1][i] = estimatedTime;
 			System.out.println(i + ":= " + solutionArray[0][i] + " covered demand, " + solutionArray[1][i] + " ms");
-			avgTime = avgTime + solutionArray[1][i];
-			avgDem = avgDem + solutionArray[0][i];
+			totalTime = totalTime + solutionArray[1][i];
+			totalDem = totalDem + solutionArray[0][i];
 			
 		}
+		avgDem = totalDem/testResults;
+		avgTime = totalTime/testResults;
 		
-		System.out.println("Average demand covered" + ": " + avgDem/testResults + " Average time: " + avgTime/testResults + " ms");
+		double optimalSolution = (double) optimalSolutionsForReffernce;
+		double relativeError;
+		double avgRelativeError = (1 - ((double) avgDem / optimalSolution)) * 100;;
+		double maxRelativeError = 0;
+		double standardDeviation;
+		double x = 0;
+		
+		for (int j = 0; j < testResults; j++) {
+			relativeError = (1 - ((double) solutionArray[0][j] / optimalSolution)) * 100;
+			x += ((relativeError - avgRelativeError) * (relativeError - avgRelativeError)); // standard deviation without square root
+			
+			if(relativeError > maxRelativeError) {
+				maxRelativeError = relativeError;
+				
+			}
+		}
+		x = x / (testResults);
+		standardDeviation = Math.sqrt(x);
+		
+		System.out.println("Average demand covered" + ": " + avgDem + " Average time: " + avgTime + " ms");
+		System.out.println("Average relative error" + ": " + avgRelativeError + "%," + " Max relative error: " + maxRelativeError + "%," + " Standard deviation: " + standardDeviation + "%");
 	}
 	
 	private static SolvedGraph getFSSSolution (MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int FSSgreedySolvingTrait) throws IOException {

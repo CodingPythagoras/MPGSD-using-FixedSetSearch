@@ -45,7 +45,6 @@ public class FixedSetSearch {
 		
 		
 		int amountOfSubGraphs = g.getNumberofSupplyVertexes();
-		//TODO replace with arrayList?
 		List<SubGraph> fixedSets = new ArrayList<SubGraph>();
 		
 		//m sets the amount of Solution out of which the fixed sets should be formed
@@ -159,8 +158,9 @@ public class FixedSetSearch {
 		
 		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
 		// TODO at least 2 otherwise vertices could be occurring in more than one subgraph, which is to be forbidden
-	    int threshold = subgraphsForOneSupply.size() / 2;
-	    
+		//TODO make 0.7 to user variable, where threshhold can be manually adjusted
+	    double threshold = Math.max((double) subgraphsForOneSupply.size() / 2, subgraphsForOneSupply.size() * 0.5);		
+	    //System.out.println(threshold); 
 	    // Collect all edges that meet the frequency threshold
 	    Set<String> commonEdges = new HashSet<>();
 	    for (Map.Entry<String, Integer> entry : edgeFrequency.entrySet()) {
