@@ -11,8 +11,8 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	
 		System.out.println("Building MPGSD graphs");
-	
-		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(50, 500, true);
+		MPGSDGraph test = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
+		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(400, 8000, true);
 		
 		System.out.println("Finished");
 		
@@ -20,9 +20,9 @@ public class Main {
 		solveGraphUsingTraits(graph);
 		
 		
-		int testResultsForAvg = 300; // How many times our problem sould be solved to collect our data
+		int testResultsForAvg = 500; // How many times our problem sould be solved to collect our data
 		
-		int iterationsToFindFixedSet = 100; // Number of GreedySolutions to determine our fixed set
+		int iterationsToFindFixedSet = 500; // Number of GreedySolutions to determine our fixed set
 		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		

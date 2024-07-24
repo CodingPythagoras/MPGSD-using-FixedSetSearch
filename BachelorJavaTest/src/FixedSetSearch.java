@@ -169,12 +169,12 @@ public class FixedSetSearch {
 	        }
 	    }
 	    
+	    //sortEdges(commonEdges);
+	    
 	    if (!commonEdges.isEmpty()) {
 	        // Create a new subgraph using the common edges
 	    	
-	    	//TODO freqencymap bei lücken? assure that graph is connected!
-	    	
-	    	// can take any random subgraph, because they all share the same supply Vertex
+	    	// can take any random subgraph, because they all share the same supply Vertex on position 0
 	    	SupplyVertex supplyVertex = subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex();
 	    	
 	        SubGraph fixedSet = new SubGraph(supplyVertex); // Initialize with the common supply vertex
@@ -214,31 +214,25 @@ public class FixedSetSearch {
 	            fixedSet.addEdge(firstVertex, targetVertex);
 
 	        }
-	        if(fixedSet.checkConnectivity() == true) {
-	        	//System.out.println("FS is connected");
-	        	
-	        }else {
-	        	System.out.println(commonEdges);
-	        	System.out.println("FS is not connected");
-	        	JOptionPane.showMessageDialog(null, "Fixed set is not connected, Fixed Set is set to supply vertex", "InfoBox: " + "Connectivity check", JOptionPane.INFORMATION_MESSAGE);
-	        	return new SubGraph(subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex());
-	        }
+	        //Checks for connectivity and if not extracts the part connected to the supplyvertex
+	        SubGraph connectedComponent = fixedSet.extractConnectedComponent();
+	    
+	        //TODO vorziehen, wenn Vertex geadded wird
 	        //iterates over the new subgraph to determine its used demand and number of demand vertices
-	        for(int k = 0; k <= fixedSet.getVertexList().size() - 1; k++) {
-            	if(!fixedSet.getVertexList().get(k).getIsSupplyVertex()) {
-            		DemandVertex demV = (DemandVertex)fixedSet.getVertexList().get(k);
-            		fixedSet.addOneNumDemVer();
-            		fixedSet.updateSubsCovDemand(demV.getDemand());
-            		fixedSet.getSubgraphsSupplyVertex().useSupply(demV.getDemand());
+	        for(int k = 0; k <= connectedComponent.getVertexList().size() - 1; k++) {
+            	if(!connectedComponent.getVertexList().get(k).getIsSupplyVertex()) {
+            		DemandVertex demV = (DemandVertex)connectedComponent.getVertexList().get(k);
+            		connectedComponent.addOneNumDemVer();
+            		connectedComponent.updateSubsCovDemand(demV.getDemand());
+            		connectedComponent.getSubgraphsSupplyVertex().useSupply(demV.getDemand());
             	}
             }
-	        return fixedSet;
+	        return connectedComponent;
 	    }
 	    
 	    //if no common edges found, just returns a subgraph with a supply Vertex as Start
 		return new SubGraph(subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex());
 	}
-
 
 
 	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, int trait,  List<SubGraph> fixedSets) {
@@ -296,7 +290,6 @@ public class FixedSetSearch {
 		}
 	}
 	
-
 
 
 }

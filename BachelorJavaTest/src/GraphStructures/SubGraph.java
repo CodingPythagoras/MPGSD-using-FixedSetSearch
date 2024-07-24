@@ -457,6 +457,53 @@ public class SubGraph {
 
         return visited.size() == subGraph.size();
 	}
+	
+	public SubGraph extractConnectedComponent() {
+	    if (subGraph.isEmpty()) {
+	        System.out.println("subgraph is empty");
+	        return this;
+	    }
+
+	    // Use DFS to find connected component
+	    Set<Vertex> visited = new HashSet<>();
+	    Stack<Vertex> stack = new Stack<>();
+	    stack.push(subGraph.get(0));
+
+	    while (!stack.isEmpty()) {
+	        Vertex current = stack.pop();
+	        if (!visited.contains(current)) {
+	            visited.add(current);
+	            for (Vertex neighbor : current.getAdjVertexList()) {
+	                if (subGraph.contains(neighbor) && !visited.contains(neighbor)) {
+	                    stack.push(neighbor);
+	                }
+	            }
+	        }
+	    }
+
+	    // Create a new subgraph with only the connected vertices
+	    SubGraph connectedSubGraph = new SubGraph((SupplyVertex)subGraph.get(0));
+	    for (Vertex v : visited) {
+	    	if(!connectedSubGraph.getVertexList().contains(v)) {
+	    		connectedSubGraph.addVertex(v);
+	    	}
+	        
+	        for (Vertex neighbor : v.getAdjVertexList()) {
+	            if (visited.contains(neighbor)) {
+	                connectedSubGraph.addEdge(v, neighbor);
+	            }
+	        }
+	    }
+	    
+	    // Identify disconnected vertices and reset their previous set status (predecessor/ successor/ dmeandCovered boolean)
+	    for (Vertex v : subGraph) {
+	        if (!visited.contains(v) && !v.getIsSupplyVertex()) {
+	            ((DemandVertex) v).resetDemandVertex();
+	        }
+	    }
+
+	    return connectedSubGraph;
+	}
 
 	
 
