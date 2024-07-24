@@ -14,22 +14,23 @@ public class Main {
 			
 		MPGSDGraph testInstance_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
 		
-		MPGSDGraph testInstance2_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\updated_snake_high_23072024_test1_100x300.json");
+		MPGSDGraph testInstancelow_400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updatedMK2_version2_lowConnectivity_23072024_400x8000.json");
+		MPGSDGraph testInstancehigh_400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updatedMK2_version2_highConnectivity_23072024_400x8000.json");
 		System.out.println("Finished");
 		
 		//solveGraphUsingFixedSetsSearch(testInstance_100_300, 100, 10, 20, 1);
-		solveGraphUsingTraits(testInstance_100_300);
+		solveGraphUsingTraits(testInstancelow_400_8000);
 		
-		int optimalSolutionsForReffernce = 3346; // As reference, to later determine the relative error
-		int testResultsForAvg = 100; // How many times our problem sould be solved to collect our data
+		
+		int testResultsForAvg = 10; // How many times our problem sould be solved to collect our data
 		
 		int iterationsToFindFixedSet = 100; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int mBestSolutionsToBeConsidered = 5; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
 		
 
-		giveTestResultsToGraph(testInstance_100_300, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, optimalSolutionsForReffernce, testResultsForAvg);
+		giveTestResultsToGraph(testInstancelow_400_8000, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		
 
 		
@@ -98,7 +99,7 @@ public class Main {
 		
 	}
 	
-	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int optimalSolutionsForReffernce, int testResultsForAvg) throws IOException {
+	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int testResultsForAvg) throws IOException {
 		int testResults = testResultsForAvg;//Assuming we want 10 solutions to get our median: testResults = 10
 		long solutionArray[][] = new long[2][testResults]; 
 		double avgTime;
@@ -125,7 +126,7 @@ public class Main {
 		avgDem = totalDem/testResults;
 		avgTime = totalTime/testResults;
 		
-		double optimalSolution = (double) optimalSolutionsForReffernce;
+		double optimalSolution = (double) g.getTotalMPGSDSupply();
 		double relativeError;
 		double avgRelativeError = (1 - ((double) avgDem / optimalSolution)) * 100;;
 		double maxRelativeError = 0;

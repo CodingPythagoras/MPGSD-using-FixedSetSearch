@@ -178,11 +178,13 @@ public class FixedSetSearch {
 	    	SupplyVertex supplyVertex = subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex();
 	    	
 	        SubGraph fixedSet = new SubGraph(supplyVertex); // Initialize with the common supply vertex
-
+	     
 	        // Add vertices and edges to the fixed set
 	        Set<Integer> addedVertices = new HashSet<>();
 	        addedVertices.add(supplyVertex.getID());
+	        
 	        for (String edge : commonEdges) {
+	       
 	            String[] parts = edge.split("_");
 	            int startVertexId = Integer.parseInt(parts[0]);
 	            int targetVertexId = Integer.parseInt(parts[1]);
@@ -210,12 +212,13 @@ public class FixedSetSearch {
 	                addedVertices.add(targetVertexId);
 	            }
 	            fixedSet.addEdge(firstVertex, targetVertex);
-	            
+
 	        }
 	        if(fixedSet.checkConnectivity() == true) {
 	        	//System.out.println("FS is connected");
 	        	
 	        }else {
+	        	System.out.println(commonEdges);
 	        	System.out.println("FS is not connected");
 	        	JOptionPane.showMessageDialog(null, "Fixed set is not connected, Fixed Set is set to supply vertex", "InfoBox: " + "Connectivity check", JOptionPane.INFORMATION_MESSAGE);
 	        	return new SubGraph(subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex());
