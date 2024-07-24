@@ -11,26 +11,24 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	
 		System.out.println("Building MPGSD graphs");
-			
-		MPGSDGraph testInstance_100_300 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
+	
+		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(50, 500, true);
 		
-		MPGSDGraph testInstancelow_400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updatedMK2_version2_lowConnectivity_23072024_400x8000.json");
-		MPGSDGraph testInstancehigh_400_8000 = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updatedMK2_version2_highConnectivity_23072024_400x8000.json");
 		System.out.println("Finished");
 		
 		//solveGraphUsingFixedSetsSearch(testInstance_100_300, 100, 10, 20, 1);
-		solveGraphUsingTraits(testInstancelow_400_8000);
+		solveGraphUsingTraits(graph);
 		
 		
-		int testResultsForAvg = 10; // How many times our problem sould be solved to collect our data
+		int testResultsForAvg = 300; // How many times our problem sould be solved to collect our data
 		
 		int iterationsToFindFixedSet = 100; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 5; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
 		
 
-		giveTestResultsToGraph(testInstancelow_400_8000, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		giveTestResultsToGraph(graph, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		
 
 		

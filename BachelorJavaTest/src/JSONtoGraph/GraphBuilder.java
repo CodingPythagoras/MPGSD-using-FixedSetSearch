@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import GraphStructures.MPGSDGraph;
@@ -60,27 +62,16 @@ public class GraphBuilder {
         return graph;
     }
 	
-	public static String getGraphByNumber(int gNum) {
-		switch (gNum) {
-		case 1:
-			return "src\\JSONforGraph\\graph-config.json";
-			
-		case 2:
-			return "src\\JSONforGraph\\graph-config-2.json";
-			
-		case 3:
-			
-			
-		case 4:
-			
-			
-		case 5:
-			
-			
-
-		default:
-			return "src\\JSONforGraph\\graph-config.json";
-			
+	public static MPGSDGraph getGraphSupXDem(int supply, int demand, boolean highlyConnected) throws IOException {
+		
+		String supplyAsString = Integer.toString(supply);
+		String demandAsString = Integer.toString(demand);
+		
+		if(highlyConnected == true) {
+			return GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\highConnectivity\\MPGSD_Graph_high_" + supplyAsString + "x" + demandAsString + ".json");
+		}else {
+			return GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\lowConnectivity\\MPGSD_Graph_low_" + supplyAsString + "x" + demandAsString + ".json");
 		}
+	
 	}
 }
