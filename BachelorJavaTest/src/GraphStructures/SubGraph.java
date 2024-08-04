@@ -126,6 +126,16 @@ public class SubGraph {
 		return vertexAsArray;
 	}
 	
+	public void printOutSubgraph() {
+		SupplyVertex SupplyV = (SupplyVertex) subGraph.get(0);
+		System.out.println("ID: " + SupplyV.getID() + " Sup" + SupplyV.getInitialSupply());
+		for(int i = 1; i <= subGraph.size() - 1; i++) {
+			
+			DemandVertex v = (DemandVertex) subGraph.get(i);
+			System.out.println("ID: " + v.getID() + " Dem" + v.getDemand() + " Pre: " + v.getPredecessor().getID());
+		}
+	}
+	
 
 	/**
 	 * finds a fitting Vertex to add to the Subgraph 
@@ -486,13 +496,10 @@ public class SubGraph {
 	    for (Vertex v : visited) {
 	    	if(!connectedSubGraph.getVertexList().contains(v)) {
 	    		connectedSubGraph.addVertex(v);
+	    		connectedSubGraph.addEdge(v.getPredecessor(), v);
 	    	}
 	        
-	        for (Vertex neighbor : v.getAdjVertexList()) {
-	            if (visited.contains(neighbor)) {
-	                connectedSubGraph.addEdge(v, neighbor);
-	            }
-	        }
+	     
 	    }
 	    
 	    // Identify disconnected vertices and reset their previous set status (predecessor/ successor/ dmeandCovered boolean)
@@ -503,6 +510,16 @@ public class SubGraph {
 	    }
 
 	    return connectedSubGraph;
+	}
+	
+	
+	
+	public void printEdges() {
+		String edgeString = "Edges in Subgraph: ";
+		for(Edge e: listOfEdges) {
+			edgeString = edgeString.concat( e.getEdgeKeyString() + "|");
+		}
+		System.out.println(edgeString);
 	}
 
 	
