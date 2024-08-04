@@ -66,11 +66,13 @@ public class GraphBuilder {
 		
 		String supplyAsString = Integer.toString(supply);
 		String demandAsString = Integer.toString(demand);
+		String basePathJAR = "MPGSDTestInstances";
+		String basePathEclipse = "src/JSONforGraph";
 		
 		if(highlyConnected == true) {
-			return GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\highConnectivity\\MPGSD_Graph_high_" + supplyAsString + "x" + demandAsString + ".json");
+			return GraphBuilder.buildGraphFromJson(basePathEclipse +"/highConnectivity/MPGSD_Graph_high_" + supplyAsString + "x" + demandAsString + ".json");
 		}else {
-			return GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\lowConnectivity\\MPGSD_Graph_low_" + supplyAsString + "x" + demandAsString + ".json");
+			return GraphBuilder.buildGraphFromJson(basePathEclipse +"/lowConnectivity/MPGSD_Graph_low_" + supplyAsString + "x" + demandAsString + ".json");
 		}
 	
 	}

@@ -515,6 +515,7 @@ public class SubGraph {
 	
 	
 	public void printEdges() {
+		
 		String edgeString = "Edges in Subgraph: ";
 		for(Edge e: listOfEdges) {
 			edgeString = edgeString.concat( e.getEdgeKeyString() + "|");

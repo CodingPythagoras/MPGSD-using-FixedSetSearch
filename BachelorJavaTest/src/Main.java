@@ -13,25 +13,27 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 	
 		System.out.println("Building MPGSD graphs");
-		MPGSDGraph test = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
-		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(400, 4000, true);
+		//MPGSDGraph test = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
+		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(5, 100, false);
 		
 		System.out.println("Finished");
 		
-		//solveGraphUsingFixedSetsSearch(testInstance_100_300, 100, 10, 20, 1);
+		solveGraphUsingFixedSetsSearch(graph, 50, 3, 20, 1);
 		//solveGraphUsingTraitsTXT();
-		solveGraphUsingTraits(graph);
+		//solveGraphUsingTraits(graph);
 		
 		
-		int testResultsForAvg = 500; // How many times our problem sould be solved to collect our data
+		int testResultsForAvg = 500; // How many times our problem should be solved to collect our data
 		
-		int iterationsToFindFixedSet = 500; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 25; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int iterationsToFindFixedSet = 50; // Number of GreedySolutions to determine our fixed set
+		int mBestSolutionsToBeConsidered = 3; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
 		
-		writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
-		writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, 100, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		//writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		//writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		//writeDownFSSTestResultsToGraph(4000, 200, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		//giveTestResultsToGraph(graph, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		
 
@@ -89,7 +91,7 @@ public class Main {
 	 * @param solvingTrait select the trait trough which the FSS should be solved, if more than 1 iteration random trait int = "4" is recommended
 	 * @throws IOException
 	 */
-	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait, int optimalSolutionsForReffernce) throws IOException
+	private static void solveGraphUsingFixedSetsSearch(MPGSDGraph g, int greedyIterations, int consideredSolutions, int iterationsWithFS, int solvingTrait) throws IOException
 	{
 		System.out.println("Initialize solution with FSS");
 		long startTime = System.currentTimeMillis();
@@ -103,7 +105,7 @@ public class Main {
 		
 		//just visual
 		SolvedGraph fixedSet = new SolvedGraph(g, fixedsetsfound);
-		System.out.println("FixedSet" + fixedSet.getSolvedGraphMathematical());
+		System.out.println("FixedSetSolution" + fixedSet.getSolvedGraphMathematical());
 		String coverageFSSIt = GreedyMPGSDSolver.getDemandCoverage(FSSSolutionOfIterations);
 		
 		//System.out.println(FSSSolutionOfIterations.getSolvedGraphMathematical());

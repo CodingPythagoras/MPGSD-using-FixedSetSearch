@@ -123,7 +123,7 @@ public class FixedSetSearch {
 			ListForEachSupply.add(subgraphsForOneSupply);
 			
 		}
-		
+	
 		//reset Vertices now, because they get changed by creation of the subgraphs
 		GreedyMPGSDSolver.resetGraphVertices(g);
 		//now ListForEachSupply.get(0) should contain all subgraphs representing the Subgraphs containing SupplyVertex1 and so on...
@@ -169,7 +169,6 @@ public class FixedSetSearch {
 	        }
 	    }
 	    
-	    //sortEdges(commonEdges);
 	    
 	    if (!commonEdges.isEmpty()) {
 	        // Create a new subgraph using the common edges
@@ -197,26 +196,38 @@ public class FixedSetSearch {
 	            firstVertex.setSuccessor(targetVertex);
 	            targetVertex.setPredecessor(firstVertex);
 
-	            if (!addedVertices.contains(startVertexId) && supplyVertex.getID() != startVertexId) {
+	            
+	            
+	            if (!addedVertices.contains(startVertexId) && supplyVertex.getID() != startVertexId && supplyVertex.getRemainingSupply() >= ((DemandVertex)firstVertex).getDemand()) {
 	                fixedSet.addVertex(firstVertex);
 	                if(!firstVertex.getIsSupplyVertex()) {
 	                	((DemandVertex)firstVertex).setDemandAsCovered();
+	                	supplyVertex.useSupply(((DemandVertex)firstVertex).getDemand());
 	                }
 	                addedVertices.add(startVertexId);
 	            }
-	            if (!addedVertices.contains(targetVertexId) && supplyVertex.getID() != targetVertexId) {
+	            if (!addedVertices.contains(targetVertexId) && supplyVertex.getID() != targetVertexId && supplyVertex.getRemainingSupply() >= ((DemandVertex)targetVertex).getDemand()) {
 	                fixedSet.addVertex(targetVertex);
 	                if(!targetVertex.getIsSupplyVertex()) {
 	                	((DemandVertex)targetVertex).setDemandAsCovered();
+	                	supplyVertex.useSupply(((DemandVertex)targetVertex).getDemand());
 	                }
 	                addedVertices.add(targetVertexId);
+	                fixedSet.addEdge(firstVertex, targetVertex);
 	            }
-	            fixedSet.addEdge(firstVertex, targetVertex);
+	            
 
 	        }
+	
+	        //Set new after DFS (connectivity check)
+	        fixedSet.getSubgraphsSupplyVertex().resetSupplyVertex();
+	        
 	        //Checks for connectivity and if not extracts the part connected to the supplyvertex
+
+	        
 	        SubGraph connectedComponent = fixedSet.extractConnectedComponent();
-	    
+
+	        
 	        //TODO vorziehen, wenn Vertex geadded wird
 	        //iterates over the new subgraph to determine its used demand and number of demand vertices
 	        for(int k = 0; k <= connectedComponent.getVertexList().size() - 1; k++) {
@@ -288,6 +299,9 @@ public class FixedSetSearch {
 			}
 			subsInSet.getSubgraphsSupplyVertex().useSupply(subsInSet.getSubsCovDemand());
 		}
+		//System.out.println(fixedSets.get(4).getListOfEdges().get(0).getEdgeKeyString()); 
+		//fixedSets.get(4).printOutSubgraph();
+		//fixedSets.get(4).printEdges();
 	}
 	
 
