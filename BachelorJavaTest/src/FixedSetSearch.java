@@ -220,7 +220,7 @@ public class FixedSetSearch {
 	        }
 	
 	        //Set new after DFS (connectivity check)
-	        fixedSet.getSubgraphsSupplyVertex().resetSupplyVertex();
+	        fixedSet.getSubgraphsSupplyVertex().onlyResetSupply();
 	        
 	        //Checks for connectivity and if not extracts the part connected to the supplyvertex
 
@@ -299,9 +299,7 @@ public class FixedSetSearch {
 			}
 			subsInSet.getSubgraphsSupplyVertex().useSupply(subsInSet.getSubsCovDemand());
 		}
-		//System.out.println(fixedSets.get(4).getListOfEdges().get(0).getEdgeKeyString()); 
-		//fixedSets.get(4).printOutSubgraph();
-		//fixedSets.get(4).printEdges();
+
 	}
 	
 

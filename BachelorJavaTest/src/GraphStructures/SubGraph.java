@@ -92,6 +92,10 @@ public class SubGraph {
 	 * @param succ the target vertex
 	 */
 	public void addEdge(Vertex pre, Vertex succ) {
+		if(pre == null) {
+			System.out.println(succ.getID());
+			System.out.println(succ.getIsSupplyVertex());
+		}
 		listOfEdges.add(new Edge(pre, succ));
 	}
 	
@@ -479,6 +483,8 @@ public class SubGraph {
 	    Stack<Vertex> stack = new Stack<>();
 	    stack.push(subGraph.get(0));
 
+	    SubGraph connectedSubGraph = new SubGraph((SupplyVertex)subGraph.get(0));
+	    
 	    while (!stack.isEmpty()) {
 	        Vertex current = stack.pop();
 	        if (!visited.contains(current)) {
@@ -486,17 +492,18 @@ public class SubGraph {
 	            for (Vertex neighbor : current.getAdjVertexList()) {
 	                if (subGraph.contains(neighbor) && !visited.contains(neighbor)) {
 	                    stack.push(neighbor);
+	                    connectedSubGraph.addEdge(current, neighbor);
 	                }
 	            }
 	        }
 	    }
 
 	    // Create a new subgraph with only the connected vertices
-	    SubGraph connectedSubGraph = new SubGraph((SupplyVertex)subGraph.get(0));
+	    
 	    for (Vertex v : visited) {
 	    	if(!connectedSubGraph.getVertexList().contains(v)) {
 	    		connectedSubGraph.addVertex(v);
-	    		connectedSubGraph.addEdge(v.getPredecessor(), v);
+
 	    	}
 	        
 	     

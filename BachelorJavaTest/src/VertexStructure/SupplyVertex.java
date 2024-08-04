@@ -77,4 +77,9 @@ public class SupplyVertex extends Vertex{
 		predecessor  = this;
 	}
 	
+	public void onlyResetSupply() {
+		usedSupply =  0;
+		remainingSupply = supply;
+	}
+	
 }

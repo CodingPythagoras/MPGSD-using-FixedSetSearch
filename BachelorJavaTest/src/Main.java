@@ -14,23 +14,23 @@ public class Main {
 	
 		System.out.println("Building MPGSD graphs");
 		//MPGSDGraph test = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
-		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(5, 100, false);
+		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(5, 25, false);
 		
 		System.out.println("Finished");
-		
-		solveGraphUsingFixedSetsSearch(graph, 50, 3, 20, 1);
+
+		//solveGraphUsingFixedSetsSearch(graph, 50, 3, 20, 1);
 		//solveGraphUsingTraitsTXT();
 		//solveGraphUsingTraits(graph);
 		
 		
 		int testResultsForAvg = 500; // How many times our problem should be solved to collect our data
 		
-		int iterationsToFindFixedSet = 50; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 3; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int iterationsToFindFixedSet = 500; // Number of GreedySolutions to determine our fixed set
+		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
 		
-		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		//writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		//writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
 		//writeDownFSSTestResultsToGraph(4000, 200, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
@@ -259,7 +259,7 @@ public class Main {
 	
 	private static void writeDownFSSTestResultsToGraph(int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int testResultsForAvg) throws IOException {
 		
-    	Boolean highConnectivity = false;
+    	Boolean highConnectivity = true;
     	int testResults = testResultsForAvg;//Assuming we want 10 solutions to get our median: testResults = 10
     	String txtName = "Resul_" + testResultsForAvg + "Iter_" + greedyIterations + "mbest_" + consideredSolutions + "Trait_" + FSSgreedySolvingTrait;
     	
