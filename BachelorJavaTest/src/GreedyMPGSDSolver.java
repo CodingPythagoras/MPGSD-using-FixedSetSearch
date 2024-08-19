@@ -138,7 +138,7 @@ public class GreedyMPGSDSolver {
 	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait, List<SubGraph> fixedsetsfound) {
 		//resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g, fixedsetsfound);
-		
+
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
 		
@@ -146,6 +146,7 @@ public class GreedyMPGSDSolver {
 		while(true) {
 			//always takes the Subgraph with the higest remainign Supply
 			SubGraph selctedSubGraph = graphOfSubGraphs.getSubgraphWithHigestSupply();
+			
 			//selctedSubGraph is null, when all subgraphs are complete
 			if(selctedSubGraph == null) {
 				break;
@@ -172,6 +173,7 @@ public class GreedyMPGSDSolver {
 				graphOfSubGraphs.addCoveredDemand(selctedAdjDemV.getDemand());
 				graphOfSubGraphs.addUsedSupply(selctedAdjDemV.getDemand());
 				graphOfSubGraphs.addNumberOfDemandVertexes(1);
+
 			}
 			
 		}
@@ -183,6 +185,7 @@ public class GreedyMPGSDSolver {
 	
 	
 	public static void resetGraphVertices(MPGSDGraph g) {
+		
 	    for (Vertex vertex : g.getAllVertices()) {  // Assuming you have a method to get all vertices
 	        if (vertex instanceof DemandVertex) {
 	            ((DemandVertex)vertex).resetDemandVertex();

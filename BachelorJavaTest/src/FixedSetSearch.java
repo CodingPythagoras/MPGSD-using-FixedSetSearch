@@ -53,6 +53,7 @@ public class FixedSetSearch {
 		//solves the given graph g t times
 		for(int i = 0; i <= t; i++) {
 			
+			//TODO change back to 4 if results turn out worse
 			//4 being random trait, 5 random vertex
 			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
 			
@@ -247,24 +248,30 @@ public class FixedSetSearch {
 
 
 	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, int trait,  List<SubGraph> fixedSets) {
-		//TODO doesnt work beacuse its not resettet, need to outsource the whole fixed set generation process
-		// from above and put that after the reset in MPGSDSolver2 with FSS
 		
+		//TODO if printing fixedSet here before rebuild sometimes predecessor is null
 		
 		int currentBest = 0;
 		SolvedGraph bestGraph = null;
+
 		for(int i = 1; i <= iterations; i++) {
+		
 			
 			//Resets the Vertices from previous solutions and rebuilds the Subsets
 			GreedyMPGSDSolver.resetGraphVertices(g);
 			rebuildFixedSetVertices(fixedSets);
 			
 			SolvedGraph solved = GreedyMPGSDSolver.GreedySolve2(g, trait, fixedSets);
+			String x = solved.getSolvedGraphMathematical();
+			
 			int currentDemCov = solved.getTotalCoveredDemand();
+			
 			if(currentBest < currentDemCov) {
+				
 				currentBest = currentDemCov;
 				bestGraph = solved;
 			}
+			
 		}
 		//TODO dont know if needed!
 		//rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
@@ -277,6 +284,7 @@ public class FixedSetSearch {
 	 * @param fixedSets a list of Subgraphs
 	 */
 	public static void rebuildFixedSetVertices(List<SubGraph> fixedSets) {
+		
 		for(SubGraph subsInSet: fixedSets) {
 			
 			for(int i = 0; i <= subsInSet.getListOfEdges().size() - 1; i++) {
@@ -298,6 +306,7 @@ public class FixedSetSearch {
 				
 			}
 			subsInSet.getSubgraphsSupplyVertex().useSupply(subsInSet.getSubsCovDemand());
+			//System.out.println("cov:_" + subsInSet.getSubsCovDemand());
 		}
 
 	}

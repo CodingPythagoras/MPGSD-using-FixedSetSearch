@@ -15,7 +15,7 @@ public class SubGraph {
 	ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
 	//TODO if i dont want to create each graph new maybe.
-	private ArrayList<Edge> listOfEdges = new ArrayList<>();
+	private ArrayList<Edge> listOfEdges;
 	boolean isComplete = false;
 	
 	private int subsCovDemand;
@@ -31,6 +31,28 @@ public class SubGraph {
 		subGraph.add(supV);
 		subgraphsSupplyVertex = supV;
 		subsNumOfDemVer = 0;
+		listOfEdges = new ArrayList<>();
+	}
+	
+	public SubGraph(SubGraph fixedSet) {
+		//Deep Copy, to keep fixedSetUntouched
+	    subGraph = new ArrayList<>();
+	    for (Vertex v : fixedSet.getVertexList()) {
+	        // Vertices don't need a copy constructor, because they re being reset.
+	        subGraph.add(v);
+	    }
+		
+	    //Deep copy of listOfEdges list
+	    listOfEdges = new ArrayList<>();
+	    for (Edge e : fixedSet.getListOfEdges()) {
+	        // Assuming Edge has a copy constructor or a method to create a new instance
+	        listOfEdges.add(e);
+	    }
+	    
+	    //just integer values
+		subgraphsSupplyVertex = fixedSet.getSubgraphsSupplyVertex();
+		subsNumOfDemVer = fixedSet.getSubsNumOfDemVer();
+		subsCovDemand = fixedSet.getSubsCovDemand();
 	}
 	
 	/**
@@ -121,6 +143,14 @@ public class SubGraph {
 			}
 			if(!v.getIsSupplyVertex()) {
 				vertexAsArray[i][1] = -((DemandVertex)v).getDemand();
+				if(((DemandVertex)v).getPredecessor() == null) {
+					
+					System.out.println(((DemandVertex)v).getID());
+					System.out.println(this.getVertexList());
+					printEdges();
+				}
+				
+				
 				vertexAsArray[i][2] = ((DemandVertex)v).getPredecessor().getID(); //TODO sometimes throws nullpointer exception
 			}
 			
@@ -161,6 +191,20 @@ public class SubGraph {
 			
 		}else if(traitNumber == 5) { //5 beeing random vertex
 			return getRandomVertex();
+			
+			
+		}else if(traitNumber == 6){
+			//TODO remove later if not used, if used replace trait 4
+			Random randomNumberTest = new Random();
+			int ranOneTwoThreeFour = randomNumberTest.nextInt(4) + 1;
+			//System.out.println(ranOneTwoThreeFour);
+			if(ranOneTwoThreeFour == 4) {
+				return getRandomVertex();
+			}else {
+				traitNum = ranOneTwoThreeFour;
+			}
+			
+			
 		}else {
 			traitNum = traitNumber;
 		}

@@ -14,27 +14,48 @@ public class Main {
 	
 		System.out.println("Building MPGSD graphs");
 		//MPGSDGraph test = GraphBuilder.buildGraphFromJson("src\\JSONforGraph\\snake_updated_version_19072024_100x300.json");
-		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(5, 25, false);
+		MPGSDGraph graph = GraphBuilder.getGraphSupXDem(400, 2000, true);
 		
 		System.out.println("Finished");
 
-		//solveGraphUsingFixedSetsSearch(graph, 50, 3, 20, 1);
+		//solveGraphUsingFixedSetsSearch(graph, 100, 10, 20, 1);
 		//solveGraphUsingTraitsTXT();
 		//solveGraphUsingTraits(graph);
 		
-		
-		int testResultsForAvg = 500; // How many times our problem should be solved to collect our data
-		
-		int iterationsToFindFixedSet = 500; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 10; // Number of best solutions out of these greedy iterations to consider for our fixed set search
-		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
+		//TODO now its set so 1000 iterations after finding Fixed Set
+		int testResultsForAvg = 100; // How many times our problem should be solved to collect our data
 		
 		
-		writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
-		//writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
-		//writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
-		//writeDownFSSTestResultsToGraph(4000, 200, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
-		//giveTestResultsToGraph(graph, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg);
+		int iterationsToFindFixedSet = 1000; // Number of GreedySolutions to determine our fixed set
+		int mBestSolutionsToBeConsidered = 50; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int solvingTraitForGreedyWithFixedSet = 4; // Trait which is used to generate a final solution for the Problem, which given fixed set
+		
+		int solvesUsingFixedSet = 1000;
+		
+		//TODO now its trait 4, without random vertex trait 6 is with random vertex here and then
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, 300, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, 300, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, 500, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, 500, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(500, 10, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(500, 10, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(500, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(500, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(500, 100, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(500, 100, solvingTraitForGreedyWithFixedSet, testResultsForAvg, false);
+		
+		
+		
+		//writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, testResultsForAvg, true);
+		giveTestResultsToGraph(graph, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet,solvesUsingFixedSet, testResultsForAvg);
 		
 
 		
@@ -116,7 +137,7 @@ public class Main {
 		
 	}
 	
-	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int testResultsForAvg) throws IOException {
+	private static void giveTestResultsToGraph(MPGSDGraph g, int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait,int solvesUsingFixedSet, int testResultsForAvg) throws IOException {
 		int testResults = testResultsForAvg;//Assuming we want 10 solutions to get our median: testResults = 10
 		long solutionArray[][] = new long[2][testResults]; 
 		double avgTime;
@@ -129,7 +150,7 @@ public class Main {
 			long startTime = System.currentTimeMillis();
 			
 			List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(g, greedyIterations, consideredSolutions, 0.7);
-			SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(1, g, FSSgreedySolvingTrait, fixedsetsfound);
+			SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(solvesUsingFixedSet, g, FSSgreedySolvingTrait, fixedsetsfound);
 			
 			
 			long estimatedTime = System.currentTimeMillis() - startTime;
@@ -180,7 +201,11 @@ public class Main {
 	
 	private static void solveGraphUsingTraitsTXT() {
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("resultsNormalTraits.txt"))) {
-	    	Boolean highConnectivity = true;
+	    	
+	    	
+	    	
+	    	
+	    	Boolean highConnectivity = false;
 	    	
 	    	MPGSDGraph graph1 = GraphBuilder.getGraphSupXDem(2, 6, highConnectivity);
 	    	MPGSDGraph graph2 = GraphBuilder.getGraphSupXDem(2, 10, highConnectivity);
@@ -257,11 +282,18 @@ public class Main {
 	
 	
 	
-	private static void writeDownFSSTestResultsToGraph(int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int testResultsForAvg) throws IOException {
+	private static void writeDownFSSTestResultsToGraph(int greedyIterations, int consideredSolutions, int FSSgreedySolvingTrait, int testResultsForAvg, boolean connectivityHigh) throws IOException {
 		
-    	Boolean highConnectivity = true;
+    	Boolean highConnectivity = connectivityHigh;
+    	String connect = "";
+    	if(highConnectivity == true) {
+    		connect = "High";
+    	}
+    	if(highConnectivity == false) {
+    		connect = "Low";
+    	}
     	int testResults = testResultsForAvg;//Assuming we want 10 solutions to get our median: testResults = 10
-    	String txtName = "Resul_" + testResultsForAvg + "Iter_" + greedyIterations + "mbest_" + consideredSolutions + "Trait_" + FSSgreedySolvingTrait;
+    	String txtName = "Resul_" + testResultsForAvg + "Iter_" + greedyIterations + "mbest_" + consideredSolutions + "Trait_" + FSSgreedySolvingTrait + "_" + connect;
     	
 		BufferedWriter writerAvg = new BufferedWriter(new FileWriter("resultsFSSAvgRelativeError"+ txtName +".txt"));
 		BufferedWriter writerMax = new BufferedWriter(new FileWriter("resultsFSSMaxRelativeError"+ txtName +".txt"));
@@ -332,7 +364,7 @@ public class Main {
     			long startTime = System.currentTimeMillis();
     			
     			List<SubGraph> fixedsetsfound = FixedSetSearch.getFixedSets(currentGraph, greedyIterations, consideredSolutions, 0.7);
-    			SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(1, currentGraph, FSSgreedySolvingTrait, fixedsetsfound);
+    			SolvedGraph FSSSolution = FixedSetSearch.getBestFSSolution(1000, currentGraph, FSSgreedySolvingTrait, fixedsetsfound);
     			
     			
     			long estimatedTime = System.currentTimeMillis() - startTime;

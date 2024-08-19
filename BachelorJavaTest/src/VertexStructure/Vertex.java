@@ -20,6 +20,7 @@ public class Vertex {
 		ID = id;
 	}
 	
+	
 	/**
 	 * adds an adjacent vertex to the current vertex
 	 * @param v the adjacent vertex

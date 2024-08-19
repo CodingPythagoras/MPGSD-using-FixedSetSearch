@@ -39,10 +39,10 @@ public class SolvedGraph {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
 		
 		for (int i = 0; i <= fixedsetsfound.size() - 1; i++) {
-			
-			graphOfSubgraphs.add(fixedsetsfound.get(i));
-			this.addUsedSupply(fixedsetsfound.get(i).getSubsCovDemand());
-			this.addCoveredDemand(fixedsetsfound.get(i).getSubsCovDemand());
+			SubGraph clonedFixedSet = new SubGraph(fixedsetsfound.get(i));
+			graphOfSubgraphs.add(clonedFixedSet);
+			this.addUsedSupply(clonedFixedSet.getSubsCovDemand());
+			this.addCoveredDemand(clonedFixedSet.getSubsCovDemand());
 			numberOfSubgraphs += 1;
 		}
 	}
