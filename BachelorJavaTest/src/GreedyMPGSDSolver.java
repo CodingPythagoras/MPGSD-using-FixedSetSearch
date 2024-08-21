@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import GraphStructures.MPGSDGraph;
@@ -12,7 +13,7 @@ public class GreedyMPGSDSolver {
 	/*
 	 * Solves the MPGSD Graph by completing one Subgraph and then continues
 	 */
-	public static SolvedGraph GreedySolve1(MPGSDGraph g,int trait) {
+	public static SolvedGraph GreedySolve1(MPGSDGraph g, int trait) {
 		resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());

@@ -12,7 +12,7 @@ import VertexStructure.Vertex;
 
 public class SubGraph {
 	
-	ArrayList<Vertex> subGraph;
+	private ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
 	//TODO if i dont want to create each graph new maybe.
 	private ArrayList<Edge> listOfEdges;

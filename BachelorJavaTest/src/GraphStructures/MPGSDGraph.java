@@ -10,6 +10,9 @@ public class MPGSDGraph {
 	private ArrayList<DemandVertex> listOfDemandVertexes;
 	private ArrayList<Vertex> listOfAllVertices;
 	
+	private int totalMPGSDSupply;
+	private int totalMPGSDDemand;
+	
 	/*
 	 * creates a MPGSD graph using a List of supply vertices and List of demand vertices
 	 */
@@ -20,6 +23,16 @@ public class MPGSDGraph {
 		listOfAllVertices = new ArrayList<Vertex>();
 		listOfAllVertices.addAll(listOfSupplyVertexes);
 		listOfAllVertices.addAll(listOfDemandVertexes);
+		
+		for (SupplyVertex k: listOfSupplyVertexes) {
+			totalMPGSDSupply += k.getInitialSupply();
+		}
+		
+		for (DemandVertex k: listOfDemandVertexes) {
+			totalMPGSDDemand += k.getDemand();
+		}
+		
+		
 		
 	}
 	
@@ -33,6 +46,14 @@ public class MPGSDGraph {
 		listOfAllVertices = new ArrayList<Vertex>();
 		listOfAllVertices.addAll(listOfSupplyVertexes);
 		listOfAllVertices.addAll(listOfDemandVertexes);
+		
+		for (SupplyVertex k: listOfSupplyVertexes) {
+			totalMPGSDSupply += k.getInitialSupply();
+		}
+		
+		for (DemandVertex k: listOfDemandVertexes) {
+			totalMPGSDDemand += k.getDemand();
+		}
 		
 	}
 	
@@ -74,22 +95,15 @@ public class MPGSDGraph {
 	 * returns the total demand of all demand vertices in the graph
 	 */
 	public int getTotalMPGSDDemand() {
-		int totalMPGSDDem = 0;
-		for (DemandVertex k: listOfDemandVertexes) {
-			totalMPGSDDem += k.getDemand();
-		}
-		return totalMPGSDDem;
+
+		return totalMPGSDDemand;
 	}
 	
 	/*
 	 * returns the total supply of all supply vertices in the graph
 	 */
 	public int getTotalMPGSDSupply() {
-		int totalMPGSDSup = 0;
-		for (SupplyVertex k: listOfSupplyVertexes) {
-			totalMPGSDSup += k.getInitialSupply();
-		}
-		return totalMPGSDSup;
+		return totalMPGSDSupply;
 	}
 	
 	/*
