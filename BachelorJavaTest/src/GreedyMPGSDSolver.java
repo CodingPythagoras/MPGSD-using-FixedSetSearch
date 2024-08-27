@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
@@ -139,7 +141,9 @@ public class GreedyMPGSDSolver {
 	public static SolvedGraph GreedySolve2(MPGSDGraph g, int trait, List<SubGraph> fixedsetsfound) {
 		//resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g, fixedsetsfound);
-
+		
+		
+		
 		graphOfSubGraphs.setTotalGivenSupply(g.getTotalMPGSDSupply());
 		graphOfSubGraphs.setTotalOriginalDemand(g.getTotalMPGSDDemand());
 		
@@ -171,8 +175,7 @@ public class GreedyMPGSDSolver {
 				selctedSubGraph.getSubgraphsSupplyVertex().useSupply(selctedAdjDemV.getDemand());
 				selctedAdjDemV.setDemandAsCovered();
 						
-				graphOfSubGraphs.addCoveredDemand(selctedAdjDemV.getDemand());
-				graphOfSubGraphs.addUsedSupply(selctedAdjDemV.getDemand());
+				graphOfSubGraphs.addSupplyAndDemand(selctedAdjDemV.getDemand());
 				graphOfSubGraphs.addNumberOfDemandVertexes(1);
 
 			}
@@ -196,6 +199,8 @@ public class GreedyMPGSDSolver {
 	    }
 	}
 	
+	
+
 	
 	
 	public static SolvedGraph GreedySolveXTimes(int x, MPGSDGraph g) {

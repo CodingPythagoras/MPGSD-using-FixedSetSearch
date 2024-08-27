@@ -262,7 +262,7 @@ public class FixedSetSearch {
 			rebuildFixedSetVertices(fixedSets);
 			
 			SolvedGraph solved = GreedyMPGSDSolver.GreedySolve2(g, trait, fixedSets);
-			String x = solved.getSolvedGraphMathematical();
+			//String x = solved.getSolvedGraphMathematical();
 			
 			int currentDemCov = solved.getTotalCoveredDemand();
 			
@@ -274,7 +274,7 @@ public class FixedSetSearch {
 			
 		}
 		//TODO dont know if needed!
-		//rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
+		rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
 		return bestGraph;
 	}
 	

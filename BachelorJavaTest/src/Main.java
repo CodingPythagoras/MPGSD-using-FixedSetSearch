@@ -23,23 +23,32 @@ public class Main {
 		//solveGraphUsingTraits(graph);
 		
 		//TODO now its set so 1000 iterations after finding Fixed Set
-		int testResultsForAvg = 15; // How many times our problem should be solved to collect our data
+		int testResultsForAvg = 50; // How many times our problem should be solved to collect our data
 		
 		
-		int iterationsToFindFixedSet = 500; // Number of GreedySolutions to determine our fixed set
-		int mBestSolutionsToBeConsidered = 25; // Number of best solutions out of these greedy iterations to consider for our fixed set search
-		int solvingTraitForGreedyWithFixedSet = 4; // Trait which is used to generate a final solution for the Problem, which given fixed set
+		int iterationsToFindFixedSet = 50; // Number of GreedySolutions to determine our fixed set
+		int mBestSolutionsToBeConsidered = 50; // Number of best solutions out of these greedy iterations to consider for our fixed set search
+		int solvingTraitForGreedyWithFixedSet = 1; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		
-		int solvesUsingFixedSet = 50;
+		int solvesUsingFixedSet = 3;
 		
 		
 		//TODO now its trait 4, without random vertex trait 6 is with random vertex here and then
-		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, true);
-		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, false);
+		writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, true);
+		writeDownFSSTestResultsToGraph(100, 5, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, false);
 		
 		
-		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, 100, testResultsForAvg, true);
-		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, 100, testResultsForAvg, false);
+		writeDownFSSTestResultsToGraph(500, 25, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, true);
+		writeDownFSSTestResultsToGraph(500, 25, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, false);
+		
+		writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, true);
+		writeDownFSSTestResultsToGraph(1000, 50, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, false);
+		
+		writeDownFSSTestResultsToGraph(4000, 200, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, true);
+		writeDownFSSTestResultsToGraph(4000, 200, solvingTraitForGreedyWithFixedSet, solvesUsingFixedSet, testResultsForAvg, false);
+		
+		//writeDownFSSTestResultsToGraph(50, 50, solvingTraitForGreedyWithFixedSet, 150, testResultsForAvg, true);
+		//writeDownFSSTestResultsToGraph(50, 50, solvingTraitForGreedyWithFixedSet, 150, testResultsForAvg, false);
 		
 		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, 250, testResultsForAvg, true);
 		//writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvingTraitForGreedyWithFixedSet, 250, testResultsForAvg, false);

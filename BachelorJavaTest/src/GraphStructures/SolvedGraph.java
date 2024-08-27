@@ -50,6 +50,7 @@ public class SolvedGraph {
 	
 	/*
 	 * returns the subgraph with the highest remaining supply
+	 *TODO implement as Stack
 	 */
 	public SubGraph getSubgraphWithHigestSupply() {
 		int maxSupply = 0;
@@ -115,6 +116,11 @@ public class SolvedGraph {
 	
 	public void addCoveredDemand(int dem) {
 		totalCoveredDemand += dem;
+	}
+	
+	public void addSupplyAndDemand(int dem) {
+		totalCoveredDemand += dem;
+		totalUsedSupply += dem;
 	}
 	
 	public void addUsedSupply(int sup) {
