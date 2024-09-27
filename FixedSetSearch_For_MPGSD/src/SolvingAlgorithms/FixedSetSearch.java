@@ -1,3 +1,4 @@
+package SolvingAlgorithms;
 import java.io.IOException;
 import java.util.*;
 import javax.swing.JFrame;

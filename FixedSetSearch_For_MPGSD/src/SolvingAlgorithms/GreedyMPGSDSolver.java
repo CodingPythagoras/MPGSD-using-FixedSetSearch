@@ -1,3 +1,4 @@
+package SolvingAlgorithms;
 import java.util.List;
 import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;

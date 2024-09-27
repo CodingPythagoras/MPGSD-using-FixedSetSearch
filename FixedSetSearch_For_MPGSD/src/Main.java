@@ -7,6 +7,8 @@ import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
 import GraphStructures.SubGraph;
 import JSONtoGraph.GraphBuilder;
+import SolvingAlgorithms.FixedSetSearch;
+import SolvingAlgorithms.GreedyMPGSDSolver;
 
 
 /**
