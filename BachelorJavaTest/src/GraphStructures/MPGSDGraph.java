@@ -1,99 +1,137 @@
 package GraphStructures;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import VertexStructure.DemandVertex;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
+
+/**
+ * defines a MPGSD graph with its operations and attributes
+ * @author Manuel
+ *
+ */
 public class MPGSDGraph {
-	private LinkedList<SupplyVertex> listOfSupplyVertexes;
-	private LinkedList<DemandVertex> listOfDemandVertexes;
-	private LinkedList<Vertex> listOfAllVertices;
+	private ArrayList<SupplyVertex> listOfSupplyVertexes;
+	private ArrayList<DemandVertex> listOfDemandVertexes;
+	private ArrayList<Vertex> listOfAllVertices;
 	
-	/*
+	private int totalMPGSDSupply;
+	private int totalMPGSDDemand;
+	
+	/**
 	 * creates a MPGSD graph using a List of supply vertices and List of demand vertices
+	 * @param supList List of supply vertices
+	 * @param demList List of demand vertices
 	 */
-	public MPGSDGraph(LinkedList<SupplyVertex> supList, LinkedList<DemandVertex> demList) {
+	public MPGSDGraph(ArrayList<SupplyVertex> supList, ArrayList<DemandVertex> demList) {
 		listOfSupplyVertexes = supList;
 		listOfDemandVertexes = demList;
 		
-		listOfAllVertices = new LinkedList<Vertex>();
+		listOfAllVertices = new ArrayList<Vertex>();
 		listOfAllVertices.addAll(listOfSupplyVertexes);
 		listOfAllVertices.addAll(listOfDemandVertexes);
 		
-	}
-	
-	/*
-	 * copy constructor
-	 */
-	public MPGSDGraph(MPGSDGraph originalGraph) {
-		listOfSupplyVertexes = originalGraph.getListOfSupplyVertexes();
-		listOfDemandVertexes = originalGraph.getListOfDemandVertexes();
+		for (SupplyVertex k: listOfSupplyVertexes) {
+			totalMPGSDSupply += k.getInitialSupply();
+		}
 		
-		listOfAllVertices = new LinkedList<Vertex>();
-		listOfAllVertices.addAll(listOfSupplyVertexes);
-		listOfAllVertices.addAll(listOfDemandVertexes);
+		for (DemandVertex k: listOfDemandVertexes) {
+			totalMPGSDDemand += k.getDemand();
+		}
+		
+		
 		
 	}
 	
-	/*
-	 * returns the highest supply vertex in the MPGSD graph
-	 * TODO dont know if used
+//	/* TODO can be deleted?
+//	 * copy constructor
+//	 */
+//	public MPGSDGraph(MPGSDGraph originalGraph) {
+//		listOfSupplyVertexes = originalGraph.getListOfSupplyVertexes();
+//		listOfDemandVertexes = originalGraph.getListOfDemandVertexes();
+//		
+//		listOfAllVertices = new ArrayList<Vertex>();
+//		listOfAllVertices.addAll(listOfSupplyVertexes);
+//		listOfAllVertices.addAll(listOfDemandVertexes);
+//		
+//		for (SupplyVertex k: listOfSupplyVertexes) {
+//			totalMPGSDSupply += k.getInitialSupply();
+//		}
+//		
+//		for (DemandVertex k: listOfDemandVertexes) {
+//			totalMPGSDDemand += k.getDemand();
+//		}
+//		
+//	}
+	
+//	/**
+//	 * gives the highest 
+//	 * @return
+//	 */ TODO can be deleted
+//	public SupplyVertex getHighestSupplyVertex() {
+//		int currentMaxSupply = 0;
+//		SupplyVertex currentMaxSupplyVertex = null;
+//		for(int i = 0; i <= listOfSupplyVertexes.size() - 1; i++) {
+//			SupplyVertex k = listOfSupplyVertexes.get(i);
+//			int currentSupply = k.getRemainingSupply();
+//			if (currentSupply > currentMaxSupply) {
+//				currentMaxSupply = currentSupply;
+//				currentMaxSupplyVertex = k;
+//			}
+//			
+//		}
+//		if (currentMaxSupply == 0) {
+//			//TODO FixNull?
+//			return null;
+//		}
+//		else {
+//			return currentMaxSupplyVertex;
+//		}
+//	}
+	
+	
+	
+	/**
+	 * 
+	 * @return List of all supply vertices in the MPGSD graph
 	 */
-	public SupplyVertex getHighestSupplyVertex() {
-		int currentMaxSupply = 0;
-		SupplyVertex currentMaxSupplyVertex = null;
-		for(int i = 0; i <= listOfSupplyVertexes.size() - 1; i++) {
-			SupplyVertex k = listOfSupplyVertexes.get(i);
-			int currentSupply = k.getRemainingSupply();
-			if (currentSupply > currentMaxSupply) {
-				currentMaxSupply = currentSupply;
-				currentMaxSupplyVertex = k;
-			}
-			
-		}
-		if (currentMaxSupply == 0) {
-			//TODO FixNull?
-			return null;
-		}
-		else {
-			return currentMaxSupplyVertex;
-		}
-	}
-	
-	
-	public LinkedList<SupplyVertex> getListOfSupplyVertexes() {
+	public ArrayList<SupplyVertex> getListOfSupplyVertexes() {
 		return listOfSupplyVertexes;
 	}
 	
-	public LinkedList<DemandVertex> getListOfDemandVertexes() {
+	
+	/**
+	 * 
+	 * @return List of all demand vertices in the MPGSD graph
+	 */
+	public ArrayList<DemandVertex> getListOfDemandVertexes() {
 		return listOfDemandVertexes;
 	}
 	
-	/*
-	 * returns the total demand of all demand vertices in the graph
+
+	/**
+	 * 
+	 * @return the total demand of all demand vertices in the graph
 	 */
 	public int getTotalMPGSDDemand() {
-		int totalMPGSDDem = 0;
-		for (DemandVertex k: listOfDemandVertexes) {
-			totalMPGSDDem += k.getDemand();
-		}
-		return totalMPGSDDem;
+
+		return totalMPGSDDemand;
 	}
 	
-	/*
-	 * returns the total supply of all supply vertices in the graph
+
+	/**
+	 * 
+	 * @return the total initial supply, the sum of all supply vertices in the graph
 	 */
 	public int getTotalMPGSDSupply() {
-		int totalMPGSDSup = 0;
-		for (SupplyVertex k: listOfSupplyVertexes) {
-			totalMPGSDSup += k.getInitialSupply();
-		}
-		return totalMPGSDSup;
+		return totalMPGSDSupply;
 	}
 	
-	/*
-	 * returns the number of supply vertices, which the MPGSD graph contains
+
+	/**
+	 * 
+	 * @return the number of supply vertices, which the MPGSD graph contains
 	 */
 	public int getNumberofSupplyVertexes() {
 		int num = listOfSupplyVertexes.size();
@@ -101,9 +139,12 @@ public class MPGSDGraph {
 	}
 	
 
-	/*
+
+	/**
 	 * searches and returns the vertex with the fitting ID
-	 * currently goes over both LinkedLists to find the fitting Vertex by ID
+	 * currently goes over both ArrayLists to find the fitting Vertex by ID
+	 * @param source the ID, which will be looked for
+	 * @return the corresponding Vertex to the ID
 	 */
 	public Vertex getVertexById(int source) {
 		// TODO improve by sorting ArrayList by ID and using direct access
@@ -112,24 +153,39 @@ public class MPGSDGraph {
 				return supv;
 			}
 		}
-		for(DemandVertex supv: listOfDemandVertexes) {
-			if (supv.getID() == source) {
-				return supv;
+		for(DemandVertex demv: listOfDemandVertexes) {
+			if (demv.getID() == source) {
+				return demv;
 			}
 		}
 		return null;
 	}
 	
-	/*
-	 * creates a Vertex manually
+	
+	/**
+	 * 
+	 * @return a List containing all vertices in the graph
+	 */
+	public ArrayList<Vertex> getAllVertices(){
+		return listOfAllVertices;
+	}
+	
+	/**
+	 * Is not being used, was used during testing!
+	 * 
+	 * can be used to create a Vertex manually
 	 * with type being either demand or supply
-	 * TODO is obsolete?
+	 * @param type either "supply" or "demand", based on what type the vertex should be
+	 * @param id the id of the manually created vertex
+	 * @param value the value (demand or supply based on its type) of the vertex
+	 * @return
 	 */
 	public Vertex createVertex(String type, int id, int value) {
         if ("supply".equals(type)) {
         	SupplyVertex v = new SupplyVertex(id, value);
         	listOfSupplyVertexes.add(v);
             return v;
+            
         } else if ("demand".equals(type)) {
         	DemandVertex d = new DemandVertex(id, value);
         	listOfDemandVertexes.add(d);
@@ -138,9 +194,7 @@ public class MPGSDGraph {
         throw new IllegalArgumentException("Unknown vertex type");
     }
 	
-	public LinkedList<Vertex> getAllVertices(){
-		return listOfAllVertices;
-	}
+	
 	
 	
 	

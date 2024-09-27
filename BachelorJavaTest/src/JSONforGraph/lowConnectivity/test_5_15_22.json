@@ -1,0 +1,226 @@
+{
+    "supplyVertices": [
+        {
+            "id": 2,
+            "value": 64
+        },
+        {
+            "id": 7,
+            "value": 59
+        },
+        {
+            "id": 9,
+            "value": 38
+        },
+        {
+            "id": 12,
+            "value": 75
+        },
+        {
+            "id": 15,
+            "value": 49
+        }
+    ],
+    "demandVertices": [
+        {
+            "id": 1,
+            "value": 11
+        },
+        {
+            "id": 3,
+            "value": 34
+        },
+        {
+            "id": 4,
+            "value": 21
+        },
+        {
+            "id": 5,
+            "value": 17
+        },
+        {
+            "id": 6,
+            "value": 12
+        },
+        {
+            "id": 8,
+            "value": 20
+        },
+        {
+            "id": 10,
+            "value": 34
+        },
+        {
+            "id": 11,
+            "value": 17
+        },
+        {
+            "id": 13,
+            "value": 33
+        },
+        {
+            "id": 14,
+            "value": 25
+        },
+        {
+            "id": 16,
+            "value": 38
+        },
+        {
+            "id": 17,
+            "value": 18
+        },
+        {
+            "id": 18,
+            "value": 12
+        },
+        {
+            "id": 19,
+            "value": 16
+        },
+        {
+            "id": 20,
+            "value": 12
+        }
+    ],
+    "adjacencies": [
+        {
+            "source": 1,
+            "targets": [
+                8
+            ]
+        },
+        {
+            "source": 2,
+            "targets": [
+                8,
+                13
+            ]
+        },
+        {
+            "source": 3,
+            "targets": [
+                7
+            ]
+        },
+        {
+            "source": 4,
+            "targets": [
+                15
+            ]
+        },
+        {
+            "source": 5,
+            "targets": [
+                10,
+                11,
+                12
+            ]
+        },
+        {
+            "source": 6,
+            "targets": [
+                10
+            ]
+        },
+        {
+            "source": 7,
+            "targets": [
+                3,
+                14
+            ]
+        },
+        {
+            "source": 8,
+            "targets": [
+                1,
+                2,
+                9,
+                14,
+                19
+            ]
+        },
+        {
+            "source": 9,
+            "targets": [
+                8,
+                16
+            ]
+        },
+        {
+            "source": 10,
+            "targets": [
+                5,
+                6,
+                15,
+                18
+            ]
+        },
+        {
+            "source": 11,
+            "targets": [
+                5,
+                17
+            ]
+        },
+        {
+            "source": 12,
+            "targets": [
+                5
+            ]
+        },
+        {
+            "source": 13,
+            "targets": [
+                2
+            ]
+        },
+        {
+            "source": 14,
+            "targets": [
+                7,
+                8
+            ]
+        },
+        {
+            "source": 15,
+            "targets": [
+                4,
+                10,
+                19,
+                20
+            ]
+        },
+        {
+            "source": 16,
+            "targets": [
+                9
+            ]
+        },
+        {
+            "source": 17,
+            "targets": [
+                11
+            ]
+        },
+        {
+            "source": 18,
+            "targets": [
+                10
+            ]
+        },
+        {
+            "source": 19,
+            "targets": [
+                8,
+                15
+            ]
+        },
+        {
+            "source": 20,
+            "targets": [
+                15
+            ]
+        }
+    ]
+}

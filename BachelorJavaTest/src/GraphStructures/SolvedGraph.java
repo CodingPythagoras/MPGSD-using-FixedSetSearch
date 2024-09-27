@@ -1,15 +1,19 @@
 package GraphStructures;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import VertexStructure.DemandVertex;
-import VertexStructure.Edge;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
+
+/**
+ * defines a Solved Graph graph with its operations and attributes
+ * @author Manuel
+ *
+ */
 public class SolvedGraph {
-	private LinkedList<SubGraph> graphOfSubgraphs = new LinkedList<>();
-	private int numberOfSubgraphs = 0;
+	private ArrayList<SubGraph> graphOfSubgraphs = new ArrayList<>();
+	//TODO remove private int numberOfSubgraphs = 0;
 	private int numberOfSupplyVertexes;
 	private int numberOfDemandVertexes;
 	private int totalGivenSupply;
@@ -17,58 +21,98 @@ public class SolvedGraph {
 	private int totalOriginalDemand;
 	private int totalCoveredDemand;
 	
-	/*
+
+	
+	/**
 	 * takes a MPGSD graph g, and creates a unique subgraph for each supply vertex in g
+	 * @param g MPGSD graph
 	 */
 	public SolvedGraph(MPGSDGraph g) {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
+		
+		//extract the supply vertices and create one new subgraph for each one
 		for (int i = 0; i <= numberOfSupplyVertexes - 1; i++) {
 			SubGraph sub = new SubGraph(g.getListOfSupplyVertexes().get(i));
 			graphOfSubgraphs.add(sub);
-			numberOfSubgraphs += 1;
+			//TODO remove numberOfSubgraphs += 1;
 		}
 	}
 	
 	/**
 	 * only with fixedSets!
-	 * corrects the used Supply and Covered Demand!
-	 * @param g
-	 * @param fixedsetsfound
+	 * initializes a new solved graph, using the found fixed sets
+	 * and corrects the used Supply and Covered Demand!
+	 * @param g MPGSD graph
+	 * @param fixedsetsfound List<SubGraph> the fixed sets
 	 */
 	public SolvedGraph(MPGSDGraph g, List<SubGraph> fixedsetsfound) {
 		numberOfSupplyVertexes = g.getListOfSupplyVertexes().size();
 		
 		for (int i = 0; i <= fixedsetsfound.size() - 1; i++) {
+			SubGraph clonedFixedSet = new SubGraph(fixedsetsfound.get(i));
+			graphOfSubgraphs.add(clonedFixedSet);
 			
-			graphOfSubgraphs.add(fixedsetsfound.get(i));
-			this.addUsedSupply(fixedsetsfound.get(i).getSubsCovDemand());
-			this.addCoveredDemand(fixedsetsfound.get(i).getSubsCovDemand());
-			numberOfSubgraphs += 1;
+			//update supply and demand of the new subgraph with pre selected elements
+			this.addUsedSupply(clonedFixedSet.getSubsCovDemand());
+			this.addCoveredDemand(clonedFixedSet.getSubsCovDemand());
+			//TODO remove numberOfSubgraphs += 1 numberOfSubgraphs += 1;
 		}
 	}
 	
 	
-	/*
+	/**
 	 * returns the subgraph with the highest remaining supply
+	 * TODO implement as Stack
+	 * @return SubGraph with highest remaining Supply
 	 */
 	public SubGraph getSubgraphWithHigestSupply() {
 		int maxSupply = 0;
 		SubGraph currentMaxSupplySubgraph = null;
 		
-		for(int i = 0; i <= numberOfSubgraphs - 1; i++) {
-			int currentSup = graphOfSubgraphs.get(i).getSubgraphsSupplyVertex().getRemainingSupply();
-			//Only returns Subgraphs when its not complete
-			if(maxSupply < currentSup && !graphOfSubgraphs.get(i).isComplete) {
+		
+		//goes over every subgraphs supply vertex
+		for(SubGraph subG: graphOfSubgraphs) {
+			SupplyVertex supV = subG.getSubgraphsSupplyVertex();
+			int currentSup = supV.getRemainingSupply();
+			
+			if(maxSupply < currentSup && !subG.isComplete()) {
 				maxSupply = currentSup;
-				currentMaxSupplySubgraph = graphOfSubgraphs.get(i);
+				currentMaxSupplySubgraph = subG;
 			}
 		}
+		
+		
 		return currentMaxSupplySubgraph;
 	}
 	
-	/*
-	 * returns an String/ Array if changed representation of the solves Subgraph
-	 * possible use of StringBuilder to increase performance
+	/**
+	 * returns the subgraph with the lowest remaining supply
+	 * TODO implement as Stack
+	 * @return SubGraph with lowest remaining Supply
+	 */
+	public SubGraph getSubgraphWithLowestSupply() {
+		int minSupply = Integer.MAX_VALUE;
+		SubGraph currentMinSupplySubgraph = null;
+		
+		for(SubGraph subG: graphOfSubgraphs) {
+			SupplyVertex supV = subG.getSubgraphsSupplyVertex();
+			int currentSup = supV.getRemainingSupply();
+			
+			if(minSupply > currentSup && !subG.isComplete()) {
+				minSupply = currentSup;
+				currentMinSupplySubgraph = subG;
+			}
+		}
+		
+		
+		return currentMinSupplySubgraph;
+	}
+	
+
+	
+	/**
+	 * returns an String/ Array if changed representation of the solved Graph
+	 * @return String representation of the solved Graph
 	 */
 	public String getSolvedGraphMathematical() {
 		String solutionString = "";
@@ -95,6 +139,12 @@ public class SolvedGraph {
 	}
 	
 	
+	
+	/**
+	 * searches for a vertex in the solved graph with the requested ID
+	 * @param source ID to search for
+	 * @return Vertex corresponding to the ID
+	 */
 	public Vertex findVertexById(int source) {
 		// TODO improve by sorting ArrayList by ID and using direct access
 		for(SubGraph subs: graphOfSubgraphs) {
@@ -109,12 +159,34 @@ public class SolvedGraph {
 		return null;
 	}
 	
+	/**
+	 * used to get the subgraph to a specific supply vertex
+	 * @param supplyVertex the vertex of the subgraphs which should be returned
+	 * @return subGraph with corresponding supply vertex
+	 */
+	public SubGraph getSubgraphWithSupplyVertex(SupplyVertex supplyVertex) {
+		for(int i = 0; i < graphOfSubgraphs.size() - 1; i++) {
+			if(graphOfSubgraphs.get(i).getSubgraphsSupplyVertex().getID() == supplyVertex.getID()) {
+				return graphOfSubgraphs.get(i);
+			}
+		}
+		return null;
+	}
+	
+	
+	//getters and setters
+	
 	public SubGraph getSubgraph(int pos) {
 		return graphOfSubgraphs.get(pos);
 	}
 	
 	public void addCoveredDemand(int dem) {
 		totalCoveredDemand += dem;
+	}
+	
+	public void addSupplyAndDemand(int dem) {
+		totalCoveredDemand += dem;
+		totalUsedSupply += dem;
 	}
 	
 	public void addUsedSupply(int sup) {
@@ -141,10 +213,6 @@ public class SolvedGraph {
 		return numberOfDemandVertexes;
 	}
 	
-	public void setNumberOfSubgraphs(int num) {
-		numberOfSubgraphs = num;
-	}
-	
 	public void setTotalGivenSupply(int num) {
 		totalGivenSupply = num;
 	}
@@ -161,17 +229,9 @@ public class SolvedGraph {
 		return totalOriginalDemand;
 	}
 
-	public LinkedList<SubGraph> getGraphOfSubgraphs() {
-		// TODO Auto-generated method stub
+	public ArrayList<SubGraph> getGraphOfSubgraphs() {
 		return graphOfSubgraphs;
 	}
 	
-	public SubGraph getSubgraphWithSupplyVertex(SupplyVertex supplyVertex) {
-		for(int i = 0; i < graphOfSubgraphs.size() - 1; i++) {
-			if(graphOfSubgraphs.get(i).getSubgraphsSupplyVertex().getID() == supplyVertex.getID()) {
-				return graphOfSubgraphs.get(i);
-			}
-		}
-		return null;
-	}
+
 }

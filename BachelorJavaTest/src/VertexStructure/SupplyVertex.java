@@ -1,11 +1,16 @@
 package VertexStructure;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
+/**
+ * extends Vertex
+ * defines what a supply vertex is and its specific attributes and operations
+ * @author Manuel
+ *
+ */
 public class SupplyVertex extends Vertex{
 	private int supply;
 	private int usedSupply;
-	private boolean isInSubgraph;
 	private int remainingSupply;
 	
 	
@@ -19,23 +24,10 @@ public class SupplyVertex extends Vertex{
 		supply = setSupply;
 		isSupplyVertex = true;
 		usedSupply = 0;
-		isInSubgraph = false;
 		predecessor = this;
 		remainingSupply = supply;
 	}
 	
-	/**
-	 * creates a SupplyVertex with a random supply
-	 * @param id int which functions as identification of the vertex
-	 */
-	public SupplyVertex(int id) {
-		super(id);
-		supply = (int) Math.floor(Math.random() * 10);
-		isSupplyVertex = true;
-		usedSupply = 0;
-		isInSubgraph = false;
-		predecessor = this;
-	}
 	
 	/**
 	 * 
@@ -70,10 +62,17 @@ public class SupplyVertex extends Vertex{
 	 */
 	public void resetSupplyVertex() {
 		usedSupply =  0;
-		isInSubgraph = false;
 		remainingSupply = supply;
-		successor = new LinkedList<>();
+		successor = new ArrayList<>();
 		predecessor  = this;
+	}
+	/**
+	 * only resets the supply of the vertex, but not its successor
+	 * important, when later extracting the fixed set
+	 */
+	public void onlyResetSupply() {
+		usedSupply =  0;
+		remainingSupply = supply;
 	}
 	
 }

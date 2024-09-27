@@ -1,0 +1,138 @@
+{
+    "supplyVertices": [
+        {
+            "id": 6,
+            "value": 76
+        },
+        {
+            "id": 10,
+            "value": 173
+        }
+    ],
+    "demandVertices": [
+        {
+            "id": 1,
+            "value": 12
+        },
+        {
+            "id": 2,
+            "value": 38
+        },
+        {
+            "id": 3,
+            "value": 19
+        },
+        {
+            "id": 4,
+            "value": 31
+        },
+        {
+            "id": 5,
+            "value": 38
+        },
+        {
+            "id": 7,
+            "value": 28
+        },
+        {
+            "id": 8,
+            "value": 30
+        },
+        {
+            "id": 9,
+            "value": 25
+        },
+        {
+            "id": 11,
+            "value": 26
+        },
+        {
+            "id": 12,
+            "value": 30
+        }
+    ],
+    "adjacencies": [
+        {
+            "source": 1,
+            "targets": [
+                6
+            ]
+        },
+        {
+            "source": 2,
+            "targets": [
+                3
+            ]
+        },
+        {
+            "source": 3,
+            "targets": [
+                2,
+                4,
+                8,
+                10,
+                12
+            ]
+        },
+        {
+            "source": 4,
+            "targets": [
+                3,
+                7
+            ]
+        },
+        {
+            "source": 5,
+            "targets": [
+                6
+            ]
+        },
+        {
+            "source": 6,
+            "targets": [
+                1,
+                5,
+                9,
+                11
+            ]
+        },
+        {
+            "source": 7,
+            "targets": [
+                4
+            ]
+        },
+        {
+            "source": 8,
+            "targets": [
+                3
+            ]
+        },
+        {
+            "source": 9,
+            "targets": [
+                6,
+                10
+            ]
+        },
+        {
+            "source": 10,
+            "targets": [
+                3,
+                9
+            ]
+        },
+        {
+            "source": 11,
+            "targets": [
+                6
+            ]
+        },
+        {
+            "source": 12,
+            "targets": [
+                3
+            ]
+        }
+    ]
+}

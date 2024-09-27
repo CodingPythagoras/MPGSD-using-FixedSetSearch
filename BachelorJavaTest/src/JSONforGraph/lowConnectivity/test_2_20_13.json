@@ -1,0 +1,248 @@
+{
+    "supplyVertices": [
+        {
+            "id": 5,
+            "value": 247
+        },
+        {
+            "id": 18,
+            "value": 178
+        }
+    ],
+    "demandVertices": [
+        {
+            "id": 1,
+            "value": 17
+        },
+        {
+            "id": 2,
+            "value": 32
+        },
+        {
+            "id": 3,
+            "value": 29
+        },
+        {
+            "id": 4,
+            "value": 22
+        },
+        {
+            "id": 6,
+            "value": 37
+        },
+        {
+            "id": 7,
+            "value": 27
+        },
+        {
+            "id": 8,
+            "value": 12
+        },
+        {
+            "id": 9,
+            "value": 14
+        },
+        {
+            "id": 10,
+            "value": 33
+        },
+        {
+            "id": 11,
+            "value": 24
+        },
+        {
+            "id": 12,
+            "value": 23
+        },
+        {
+            "id": 13,
+            "value": 18
+        },
+        {
+            "id": 14,
+            "value": 20
+        },
+        {
+            "id": 15,
+            "value": 15
+        },
+        {
+            "id": 16,
+            "value": 34
+        },
+        {
+            "id": 17,
+            "value": 39
+        },
+        {
+            "id": 19,
+            "value": 11
+        },
+        {
+            "id": 20,
+            "value": 12
+        },
+        {
+            "id": 21,
+            "value": 39
+        },
+        {
+            "id": 22,
+            "value": 12
+        }
+    ],
+    "adjacencies": [
+        {
+            "source": 1,
+            "targets": [
+                7,
+                12
+            ]
+        },
+        {
+            "source": 2,
+            "targets": [
+                9
+            ]
+        },
+        {
+            "source": 3,
+            "targets": [
+                12
+            ]
+        },
+        {
+            "source": 4,
+            "targets": [
+                9
+            ]
+        },
+        {
+            "source": 5,
+            "targets": [
+                8
+            ]
+        },
+        {
+            "source": 6,
+            "targets": [
+                7,
+                13
+            ]
+        },
+        {
+            "source": 7,
+            "targets": [
+                1,
+                6,
+                8,
+                11
+            ]
+        },
+        {
+            "source": 8,
+            "targets": [
+                5,
+                7,
+                17
+            ]
+        },
+        {
+            "source": 9,
+            "targets": [
+                2,
+                4,
+                12
+            ]
+        },
+        {
+            "source": 10,
+            "targets": [
+                19
+            ]
+        },
+        {
+            "source": 11,
+            "targets": [
+                7
+            ]
+        },
+        {
+            "source": 12,
+            "targets": [
+                1,
+                3,
+                9,
+                18,
+                19
+            ]
+        },
+        {
+            "source": 13,
+            "targets": [
+                6,
+                16
+            ]
+        },
+        {
+            "source": 14,
+            "targets": [
+                19,
+                20
+            ]
+        },
+        {
+            "source": 15,
+            "targets": [
+                18
+            ]
+        },
+        {
+            "source": 16,
+            "targets": [
+                13,
+                21
+            ]
+        },
+        {
+            "source": 17,
+            "targets": [
+                8
+            ]
+        },
+        {
+            "source": 18,
+            "targets": [
+                12,
+                15,
+                22
+            ]
+        },
+        {
+            "source": 19,
+            "targets": [
+                10,
+                12,
+                14
+            ]
+        },
+        {
+            "source": 20,
+            "targets": [
+                14
+            ]
+        },
+        {
+            "source": 21,
+            "targets": [
+                16
+            ]
+        },
+        {
+            "source": 22,
+            "targets": [
+                18
+            ]
+        }
+    ]
+}

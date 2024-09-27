@@ -2,7 +2,7 @@ package JSONtoGraph;
 import java.util.List;
 
 /**
- * sets the adjacencies between the vertices, using the JSON
+ * sets the adjacentcies between the vertices, using the JSON
  * @author Manuel
  *
  */
