@@ -44,52 +44,6 @@ public class MPGSDGraph {
 		
 	}
 	
-//	/* TODO can be deleted?
-//	 * copy constructor
-//	 */
-//	public MPGSDGraph(MPGSDGraph originalGraph) {
-//		listOfSupplyVertexes = originalGraph.getListOfSupplyVertexes();
-//		listOfDemandVertexes = originalGraph.getListOfDemandVertexes();
-//		
-//		listOfAllVertices = new ArrayList<Vertex>();
-//		listOfAllVertices.addAll(listOfSupplyVertexes);
-//		listOfAllVertices.addAll(listOfDemandVertexes);
-//		
-//		for (SupplyVertex k: listOfSupplyVertexes) {
-//			totalMPGSDSupply += k.getInitialSupply();
-//		}
-//		
-//		for (DemandVertex k: listOfDemandVertexes) {
-//			totalMPGSDDemand += k.getDemand();
-//		}
-//		
-//	}
-	
-//	/**
-//	 * gives the highest 
-//	 * @return
-//	 */ TODO can be deleted
-//	public SupplyVertex getHighestSupplyVertex() {
-//		int currentMaxSupply = 0;
-//		SupplyVertex currentMaxSupplyVertex = null;
-//		for(int i = 0; i <= listOfSupplyVertexes.size() - 1; i++) {
-//			SupplyVertex k = listOfSupplyVertexes.get(i);
-//			int currentSupply = k.getRemainingSupply();
-//			if (currentSupply > currentMaxSupply) {
-//				currentMaxSupply = currentSupply;
-//				currentMaxSupplyVertex = k;
-//			}
-//			
-//		}
-//		if (currentMaxSupply == 0) {
-//			//TODO FixNull?
-//			return null;
-//		}
-//		else {
-//			return currentMaxSupplyVertex;
-//		}
-//	}
-	
 	
 	
 	/**

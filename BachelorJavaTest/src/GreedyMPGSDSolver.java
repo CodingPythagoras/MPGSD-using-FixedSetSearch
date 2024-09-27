@@ -30,7 +30,7 @@ public class GreedyMPGSDSolver {
 	 * @return a solved graph of the MPGSD problem
 	 */
 	public static SolvedGraph greedySolve(MPGSDGraph g, int trait) {
-		//TODO careful predecessor, successors etc at Vertex deleted as well if needed/ need to create a new Graph every time with own vertices
+		
 		resetGraphVertices(g);
 		SolvedGraph graphOfSubGraphs = new SolvedGraph(g);
 		
@@ -193,7 +193,7 @@ public class GreedyMPGSDSolver {
 
 	
 	/**
-	 * TODO method can be removed
+	 * TODO method can be removed, if not used
 	 * Just greedy solves a given graph X amount of times and returns the best one
 	 * implemented for test purposes of random vertex selection
 	 * @param x times to solve

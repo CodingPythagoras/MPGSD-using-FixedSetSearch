@@ -13,7 +13,6 @@ import VertexStructure.Vertex;
  */
 public class SolvedGraph {
 	private ArrayList<SubGraph> graphOfSubgraphs = new ArrayList<>();
-	//TODO remove private int numberOfSubgraphs = 0;
 	private int numberOfSupplyVertexes;
 	private int numberOfDemandVertexes;
 	private int totalGivenSupply;
@@ -34,7 +33,6 @@ public class SolvedGraph {
 		for (int i = 0; i <= numberOfSupplyVertexes - 1; i++) {
 			SubGraph sub = new SubGraph(g.getListOfSupplyVertexes().get(i));
 			graphOfSubgraphs.add(sub);
-			//TODO remove numberOfSubgraphs += 1;
 		}
 	}
 	
@@ -55,14 +53,13 @@ public class SolvedGraph {
 			//update supply and demand of the new subgraph with pre selected elements
 			this.addUsedSupply(clonedFixedSet.getSubsCovDemand());
 			this.addCoveredDemand(clonedFixedSet.getSubsCovDemand());
-			//TODO remove numberOfSubgraphs += 1 numberOfSubgraphs += 1;
 		}
 	}
 	
 	
 	/**
 	 * returns the subgraph with the highest remaining supply
-	 * TODO implement as Stack
+	 * TODO possible to implement as Stack
 	 * @return SubGraph with highest remaining Supply
 	 */
 	public SubGraph getSubgraphWithHigestSupply() {
@@ -87,7 +84,7 @@ public class SolvedGraph {
 	
 	/**
 	 * returns the subgraph with the lowest remaining supply
-	 * TODO implement as Stack
+	 * TODO possible to implement as Stack
 	 * @return SubGraph with lowest remaining Supply
 	 */
 	public SubGraph getSubgraphWithLowestSupply() {
@@ -146,7 +143,7 @@ public class SolvedGraph {
 	 * @return Vertex corresponding to the ID
 	 */
 	public Vertex findVertexById(int source) {
-		// TODO improve by sorting ArrayList by ID and using direct access
+		// TODO possible to improve by sorting ArrayList by ID and using direct access
 		for(SubGraph subs: graphOfSubgraphs) {
 			for(Vertex vert: subs.getVertexList()) {
 				if (vert.getID() == source) {

@@ -20,7 +20,6 @@ public class SubGraph {
 	
 	private ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
-	//TODO if i dont want to create each graph new maybe.
 	private ArrayList<Edge> listOfEdges;
 	private boolean isComplete = false;
 	
@@ -226,7 +225,7 @@ public class SubGraph {
 			
 			
 		}else if(traitNumber == 6){
-			//TODO remove later if not used, if used replace trait 4
+			
 			Random randomNumberTest = new Random();
 			int ranOneTwoThreeFour = randomNumberTest.nextInt(4) + 1;
 			

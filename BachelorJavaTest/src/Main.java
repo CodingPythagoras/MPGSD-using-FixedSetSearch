@@ -55,6 +55,7 @@ public class Main {
 		
 		
 		
+		//Example methods in usage, please look up documentation
 		solveGraphUsingFixedSetsSearch(graphLiteratur, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold);
 		
 		giveTestResultsToGraph(graphLiteratur, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold, testResultsForAvg);

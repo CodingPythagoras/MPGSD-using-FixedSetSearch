@@ -20,7 +20,7 @@ public class FixedSetSearch {
 
 	
 	/**
-	 * TODO shorten, like in pseudo-code?
+	 * 
 	 * 
 	 * Algorithm for generating t amount of solutions and finding a corresponding fixed set out m best of these solutions
 	 * @param g MPGSD Graph to be solved
@@ -286,7 +286,7 @@ public class FixedSetSearch {
 	 */
 	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, int trait,  List<SubGraph> fixedSets) {
 		
-		//TODO if printing fixedSet here before rebuild sometimes predecessor is null
+		
 		
 		int currentBest = 0;
 		SolvedGraph bestGraph = null;
