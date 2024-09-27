@@ -1,5 +1,13 @@
 package VertexStructure;
 
+
+
+/**
+ * 
+ * allows to creates edges between to vertices
+ * @author Manuel
+ *
+ */
 public class Edge {
 	private Vertex startingVertex;
 	private Vertex targetVertex;
@@ -7,9 +15,9 @@ public class Edge {
 
 	/**
 	 * creates an edge object between two vertices
-	 * is later used to reconstruct the graph, after restetting the vertices itself
+	 * is later used to reconstruct the graph, after reseting the vertices itself
 	 * @param pre the predecessor vertex
-	 * @param succ the taget vertex
+	 * @param succ the target vertex
 	 */
 	public Edge(Vertex pre, Vertex succ) {
 		startingVertex = pre;

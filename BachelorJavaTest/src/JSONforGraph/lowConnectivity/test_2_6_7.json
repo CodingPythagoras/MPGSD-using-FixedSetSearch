@@ -1,0 +1,94 @@
+{
+    "supplyVertices": [
+        {
+            "id": 3,
+            "value": 103
+        },
+        {
+            "id": 5,
+            "value": 62
+        }
+    ],
+    "demandVertices": [
+        {
+            "id": 1,
+            "value": 22
+        },
+        {
+            "id": 2,
+            "value": 34
+        },
+        {
+            "id": 4,
+            "value": 36
+        },
+        {
+            "id": 6,
+            "value": 32
+        },
+        {
+            "id": 7,
+            "value": 26
+        },
+        {
+            "id": 8,
+            "value": 15
+        }
+    ],
+    "adjacencies": [
+        {
+            "source": 1,
+            "targets": [
+                2,
+                8
+            ]
+        },
+        {
+            "source": 2,
+            "targets": [
+                1,
+                4
+            ]
+        },
+        {
+            "source": 3,
+            "targets": [
+                6
+            ]
+        },
+        {
+            "source": 4,
+            "targets": [
+                2,
+                5,
+                7
+            ]
+        },
+        {
+            "source": 5,
+            "targets": [
+                4
+            ]
+        },
+        {
+            "source": 6,
+            "targets": [
+                3,
+                8
+            ]
+        },
+        {
+            "source": 7,
+            "targets": [
+                4
+            ]
+        },
+        {
+            "source": 8,
+            "targets": [
+                1,
+                6
+            ]
+        }
+    ]
+}

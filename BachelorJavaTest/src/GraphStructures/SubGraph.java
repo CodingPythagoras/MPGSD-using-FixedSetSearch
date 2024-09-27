@@ -10,13 +10,19 @@ import VertexStructure.Edge;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
+
+/**
+ * defines a Sub Graph graph with one corresponding supply vertex and its operations and attributes
+ * @author Manuel
+ *
+ */
 public class SubGraph {
 	
 	private ArrayList<Vertex> subGraph;
 	private SupplyVertex subgraphsSupplyVertex;
 	//TODO if i dont want to create each graph new maybe.
 	private ArrayList<Edge> listOfEdges;
-	boolean isComplete = false;
+	private boolean isComplete = false;
 	
 	private int subsCovDemand;
 	private int subsNumOfDemVer;
@@ -34,6 +40,11 @@ public class SubGraph {
 		listOfEdges = new ArrayList<>();
 	}
 	
+	
+	/**
+	 * creates a copy of a subgraph
+	 * @param fixedSet subgraph which will be copied
+	 */
 	public SubGraph(SubGraph fixedSet) {
 		//Deep Copy, to keep fixedSetUntouched
 	    subGraph = new ArrayList<>();
@@ -87,23 +98,35 @@ public class SubGraph {
 		return subgraphsSupplyVertex;
 	}
 	
+	/**
+	 * 
+	 * @return the remaining supply of the subgraphs supply vertex
+	 */
 	public int getSubgraphsRemainingSupply() {
 		return getSubgraphsSupplyVertex().getRemainingSupply();
 	}
 	
 	/**
-	 * 
-	 * @param pos position in the ArrayList, 0 beeing the supplyVertex
+	 * returns a specific vertex of the subgraph with 0 being its supply vertex
+	 * @param pos position in the ArrayList, 0 being the supplyVertex
 	 * @return Vertex on that position
 	 */
 	public Vertex getSubgraphsVertex(int pos) {
 		return subGraph.get(pos);
 	}
 	
+	/**
+	 * get all the vertices in the subgraph as a List
+	 * @return ArrayList<Vertex> The List of vertices in the subgraph
+	 */
 	public ArrayList<Vertex> getVertexList(){
 		return subGraph;
 	}
 	
+	/**
+	 * get the list of edges in the subgraph, later used to rebuild the fixed set
+	 * @return ArrayList of the edges of the subgraph
+	 */
 	public ArrayList<Edge> getListOfEdges() {
 		return listOfEdges;
 	}
@@ -128,6 +151,7 @@ public class SubGraph {
 	 * following this scheme [vertex position(i)][ID]
 	 * 											 [supply/demand]
 	 * 											 [ID of predecessor]
+	 * used in solvedGraph 
 	 * @return an Array representation of the Subgraph
 	 */
 	public int[][] getMathematicalRepresentationOfSubgraph() {
@@ -160,6 +184,10 @@ public class SubGraph {
 		return vertexAsArray;
 	}
 	
+	
+	/**
+	 * prints representation of the subgraph in the console
+	 */
 	public void printOutSubgraph() {
 		SupplyVertex SupplyV = (SupplyVertex) subGraph.get(0);
 		System.out.println("ID: " + SupplyV.getID() + " Sup" + SupplyV.getInitialSupply());
@@ -173,23 +201,27 @@ public class SubGraph {
 
 	/**
 	 * finds a fitting Vertex to add to the Subgraph 
-	 * 1: trait, which selects based on the max demand, which can be fullfilled
+	 * 1: trait, which selects based on the max demand, which can be fulfilled
 	 * 2: trait, which selects based on the number of Adj. Vertices
 	 * 3: trait, which uses the Ratio between Demand / number of Adj Vertices
 	 * 4: by using random traits of the first three
-	 * 5: beeing a random vertex that is adjacent and fitts
+	 * 
+	 * newly added traits, not used in thesis:
+	 * 5: being a random vertex that is adjacent and fits
+	 * 6: a random trait between trait 1, 2, 3, 5
 	 * @param traitNumber selects by which criteria the Vertex should be selected
-	 * @return Vertex to add that fitts the demand
+	 * @return Array with a Vertex to add that fits the demand and its predecessor
 	 */
 	public Vertex[] getVertexToAdd(int traitNumber) {
 		//that the trait is set for the new Vertex, so only one trait is used for every new vertex
 		int traitNum;
-		if(traitNumber == 4) { //4 beeing random trait 
+		if(traitNumber == 4) { //4 being random trait 
 			Random randomNumber = new Random();
 			int ranOneTwoThree = randomNumber.nextInt(3) + 1;
 			traitNum = ranOneTwoThree;
 			
-		}else if(traitNumber == 5) { //5 beeing random vertex
+			
+		}else if(traitNumber == 5) { //5 being random vertex
 			return getRandomVertex();
 			
 			
@@ -197,7 +229,7 @@ public class SubGraph {
 			//TODO remove later if not used, if used replace trait 4
 			Random randomNumberTest = new Random();
 			int ranOneTwoThreeFour = randomNumberTest.nextInt(4) + 1;
-			//System.out.println(ranOneTwoThreeFour);
+			
 			if(ranOneTwoThreeFour == 4) {
 				return getRandomVertex();
 			}else {
@@ -221,7 +253,7 @@ public class SubGraph {
 		for (int i = 0; i <= subGraph.size() - 1; i++ ) {
 			Vertex v = subGraph.get(i);
 			
-			//Iteration over ervery Adj Vertex of Vertex v
+			//Iteration over every Adj. Vertex of Vertex v
 			for (int j = 0; j <= v.getAdjVertexList().size() - 1; j++) {
 				Vertex k = v.getAdjVertexList().get(j);
 				if(!k.getIsSupplyVertex()) {
@@ -231,7 +263,6 @@ public class SubGraph {
 						int[] trait = new int[2];
 						
 						
-						//TODO (IMPORTANT) can be changed to random trait
 						//implement trait by which element should be selected
 						trait = selectTrait(traitNum, maxTrait, k);
 						
@@ -255,11 +286,11 @@ public class SubGraph {
 	
 	
 	/**
-	 * selctets the trait based on the int numberOfTrait
+	 * selects the trait based on the int: numberOfTrait
 	 * @param numberOfTrait selected trait
 	 * @param currentMax current best trait
-	 * @param k Vertex for which the trait is beeing checked
-	 * @return array [0]= 1 if vertex k outperformces current 
+	 * @param k Vertex for which the trait is being checked
+	 * @return array [0]= 1 if vertex k outperforms current 
 	 */
 	private int[] selectTrait(int numberOfTrait, int currentMax, Vertex k) {
 		switch (numberOfTrait) {
@@ -282,8 +313,9 @@ public class SubGraph {
 	
 	/**
 	 * trait 1
-	 * returns an Array with [0] if vertex k outperformces current best and [1] being its demand
-	 * selects the best fitting vertex by selecting the adjacent vertex, which has the most uncovered demand
+	 * returns an Array with [0] = 1 if vertex k outperforms current best and [1] = being its demand
+	 * gets called in getVertexToAdd for every possible adjacent vertex of the subgraph 
+	 * checks if it outperforms the previous best in terms of total demand that can be covered
 	 * @param maxTrait current max
 	 * @param k Vertex
 	 * @return array[0][1]
@@ -304,8 +336,9 @@ public class SubGraph {
 
 	/**
 	 * trait 2
-	 * returns an Array with [0] if vertex k outperformces current best and [1] being its number of adjacent vertices
-	 * selects the best fitting vertex by selecting the one with the most adjacent vertices, which demand is not yet covered
+	 * returns an Array with [0] = 1 if vertex k outperforms current best and [1] = being its number of adjacent vertices
+	 * gets called in getVertexToAdd for every possible adjacent vertex of the subgraph 
+	 * checks if it outperforms the previous best in terms of number of adjacent vertices
 	 * @param maxTrait current max
 	 * @param k Vertex
 	 * @return
@@ -325,15 +358,16 @@ public class SubGraph {
 	
 	/**
 	 * trait 3
-	 * returns an Array with [0] if vertex k outperformces current best and [1] being the ratio between demand / number of vertices
-	 * selects the best fitting vertex by using a ratio of Demand/Number of adjacent vertices
+	 * returns an Array with [0] = 1 if vertex k outperforms current best and [1] = being the ratio between demand / number of vertices
+	 * gets called in getVertexToAdd for every possible adjacent vertex of the subgraph 
+	 * checks if it outperforms the previous best in terms of a ratio of Demand/Number of adjacent vertices
 	 * @param maxTrait current max
 	 * @param k Vertex
 	 * @return
 	 */
 	private int[] traitDemandAdjVertexRatio(int maxTrait, Vertex k) {
 		int[] trait = new int[2];
-		ArrayList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertexes(getSubgraphsRemainingSupply());
+		ArrayList<Vertex> listOfAdjVDemNotCovered = k.getListOfAdjNotCoveredFittingVertices(getSubgraphsRemainingSupply());
 		int numberOfAdjVDemNotCovered = listOfAdjVDemNotCovered.size();
 		
 		int demToCov = ((DemandVertex) k).getDemand();
@@ -357,7 +391,7 @@ public class SubGraph {
 	/**
 	 * trait 4
 	 * uses a random trait of 3 as criteria
-	 * returns an Array with [0] if vertex k outperformces current best and [1] being the maximum
+	 * returns an Array with [0] = 1 if vertex k outperforms current best and [1] = being the value
 	 * @param maxTrait current max 
 	 * @param k Vertex 
 	 * @return
@@ -387,15 +421,14 @@ public class SubGraph {
 	/**
 	 * returns an Array with [0] being a random Vertex and [1] being its predecessor
 	 * with the vertex being a random adjacent vertex
-	 * is not a trait like the others, but a function, which can replace the main function
-	 * or now in addation can be used as "trait" if traitNumber = 5
+	 * is not a trait like the others, but can be used as "trait" if traitNumber = 5
 	 * @return Array[Vertex][Predecessor]
 	 */
-	public Vertex[] getRandomVertex() {
+	private Vertex[] getRandomVertex() {
 		int remainingSupply = getSubgraphsSupplyVertex().getRemainingSupply();
-		//TODO null fix?
 		Vertex predecessor = null;
 		ArrayList<DemandVertex> listOfPossibleAdj = new ArrayList<>();
+		
 		//TODO fix predecessor
 		ArrayList<Vertex> predecessorList = new ArrayList<>();
 		//Iteration over every Vertex in Subgraph
@@ -429,7 +462,8 @@ public class SubGraph {
 	}
 	
 	/**
-	 * creates an array of Strings that represents the edges that represent the subgraph
+	 * very important for finding the fixed set, based of recurring edges
+	 * creates an array of Strings that represents the edges which represent the whole subgraph
 	 * @return Array of Strings representing the edges
 	 */
 	public String[] getSubgraphsEdgesStringArray() {
@@ -490,7 +524,7 @@ public class SubGraph {
 	 */
 	public boolean checkConnectivity() {
 		
-		//just in case, but wont happen, due to supply vertex initialisation
+		//just in case, but wont happen, due to supply vertex initialization
 		if(subGraph.isEmpty()) {
 			System.out.println("subgraph is empty");
 			return true;
@@ -516,6 +550,12 @@ public class SubGraph {
         return visited.size() == subGraph.size();
 	}
 	
+	/**
+	 * Checks the subgraph for connectivity using a DFS
+	 * And only returns the portion of the whole subgraph that is connected within the portion containing the supply vertex
+	 * very important after finding the initial fixed set to contain one whole of a subgraph 
+	 * @return
+	 */
 	public SubGraph extractConnectedComponent() {
 	    if (subGraph.isEmpty()) {
 	        System.out.println("subgraph is empty");
@@ -564,7 +604,9 @@ public class SubGraph {
 	}
 	
 	
-	
+	/**
+	 * prints all the edges of the subgraph into the console
+	 */
 	public void printEdges() {
 		
 		String edgeString = "Edges in Subgraph: ";

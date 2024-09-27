@@ -1,46 +1,36 @@
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import GraphStructures.MPGSDGraph;
 import GraphStructures.SolvedGraph;
 import GraphStructures.SubGraph;
-import JSONtoGraph.GraphBuilder;
 import VertexStructure.DemandVertex;
 import VertexStructure.SupplyVertex;
 import VertexStructure.Vertex;
 
+
+/**
+ * contains methods for getting the fixed set, rebuilding it
+ * as well as finding the best solution after generating the fixed set
+ * @author Manuel
+ *
+ */
 public class FixedSetSearch {
 
-	/*
-	 * Input: t total number of iterations, 
-	 * m number of best solutions used for randomly selecting the base solution
-	 *  n and k specify the set of solutions Skn
-	 *   control parameter for the stagnation in the FSS MaxStag
-	 *   //--> Greedy
-	 *   size of the initial population N
-	 *   problem instance G = (V, E, w)
-	 *   size of the RCL α
-	 *   initial temperature Tinit,
-	 *	 control parameter for the number of solution change attempts δ, 
-	 *	 cooling factor  and the 
-	 *
-	 *	 minimal acceptance rate mi
-	 */
 	
 	/**
-	 * TODO shorten, like in pseudocode?
+	 * TODO shorten, like in pseudo-code?
+	 * 
+	 * Algorithm for generating t amount of solutions and finding a corresponding fixed set out m best of these solutions
 	 * @param g MPGSD Graph to be solved
 	 * @param t how many greedy solutions should be performed
 	 * @param m how many solutions for the FSS should be considered
-	 * @param threshold what percentage in 0. of supply should be covered to be considered
-	 * @return A list of with subraphs, one for each supply vertex
+	 * @param threshold what percentage in 0. of supply should be covered to be considered (0.7 = 70% of supply coverage)
+	 * @return A list of with subgraphs, one for each supply vertex
 	 * @throws IOException
 	 */
-	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m, double threshold /*, int n, int k, int MaxStag*/) throws IOException{
+	public static List<SubGraph> getFixedSets(MPGSDGraph g, int t, int m, double threshold) throws IOException{
 		
 		
 		
@@ -53,15 +43,13 @@ public class FixedSetSearch {
 		//solves the given graph g t times
 		for(int i = 0; i <= t; i++) {
 			
-			//TODO change back to 4 if results turn out worse
+			
 			//4 being random trait, 5 random vertex
-			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.GreedySolve2(g, 4);
+			SolvedGraph JSONGraphSolution = GreedyMPGSDSolver.greedySolve(g, 4);
 			
 			int covSup = JSONGraphSolution.getTotalCoveredDemand();
 			int totalSup = JSONGraphSolution.getTotalGivenSupply();
 			double supPercentCovered = (double)covSup / (double)totalSup;
-			//System.out.println(covSup + "/" + totalSup);
-			//System.out.println(supPercentCovered);
 			
 			//if the solution graph full fills a certain percentage of covered demand, it is viewed as one of the best solutions
 			if(supPercentCovered > threshold) {
@@ -81,7 +69,7 @@ public class FixedSetSearch {
 					int worstIndex = -1;
 					int worstPerformance = Integer.MAX_VALUE;
 					
-					//scans for the worst elemnt in array
+					//scans for the worst element in array
 					for(int j2 = 0; j2 <= m - 1; j2++) {
 						int currentPerformance = arrayOfBestGreedySolutions[j2].getTotalCoveredDemand();
 						if(currentPerformance < worstPerformance) {
@@ -89,7 +77,7 @@ public class FixedSetSearch {
 							worstIndex = j2;
 						}
 					}
-					//checks if worse elment is outperfomred by our JSONGraphSolution
+					//checks if worse element is outperformed by our JSONGraphSolution
 					if(worstIndex != -1 && worstPerformance < JSONGraphSolution.getTotalCoveredDemand()) {
 						arrayOfBestGreedySolutions[worstIndex] = JSONGraphSolution;
 					}
@@ -100,14 +88,14 @@ public class FixedSetSearch {
 		
 		if(arrayOfBestGreedySolutions[0] == null) {
 			JOptionPane.showMessageDialog(new JFrame(), "No best Solutions could be found: please reduce Threshold.");
-			//create a solved graph with only SupplyVertices
+			//create a solved graph with only supply vertices
 			SolvedGraph replacementGraph = new SolvedGraph(g);
 			arrayOfBestGreedySolutions[0] = replacementGraph;
 		}
 		
 		//arrayOfBestGreedySolutions now contains the m best solutions
 		
-		ArrayList<ArrayList<SubGraph>> ListForEachSupply = new ArrayList<>();
+		ArrayList<ArrayList<SubGraph>> listForEachSupply = new ArrayList<>();
 		
 		for(int n = 0; n <= amountOfSubGraphs - 1; n++) {
 			ArrayList<SubGraph> subgraphsForOneSupply = new ArrayList<>();
@@ -115,21 +103,20 @@ public class FixedSetSearch {
 			for(int p = 0; p <= arrayOfBestGreedySolutions.length - 1; p++) {
 				SolvedGraph solvOne = arrayOfBestGreedySolutions[p];
 				if(solvOne == null) {
-					//System.out.println("Only found " + p + " best solutions: please reduce Threshold");
 					break;
 				}
 				subgraphsForOneSupply.add(solvOne.getSubgraph(n));   
 				
 		    }
-			ListForEachSupply.add(subgraphsForOneSupply);
+			listForEachSupply.add(subgraphsForOneSupply);
 			
 		}
 	
 		//reset Vertices now, because they get changed by creation of the subgraphs
 		GreedyMPGSDSolver.resetGraphVertices(g);
 		//now ListForEachSupply.get(0) should contain all subgraphs representing the Subgraphs containing SupplyVertex1 and so on...
-		for(int x = 0; x <= ListForEachSupply.size() - 1; x++) {
-			SubGraph fixedSet = findFixedSet(ListForEachSupply.get(x), g);
+		for(int x = 0; x <= listForEachSupply.size() - 1; x++) {
+			SubGraph fixedSet = findFixedSet(listForEachSupply.get(x), g);
 			fixedSets.add(fixedSet);
 		}
 		
@@ -140,10 +127,14 @@ public class FixedSetSearch {
 		
 	}
 	
-	//private static SubGraph findFixedSet(ArrayList<SubGraph> subgraphsForOneSupply)
-	
-	
 
+	
+	/**
+	 * finds the fixed set for an amount of subgraphs, all containing the same supply vertex, by analyzing its edge frequency
+	 * @param subgraphsForOneSupply subgraphs, all containing the same supply vertex
+	 * @param g MPGSDGraph used to find the vertices by ID
+	 * @return
+	 */
 	private static SubGraph findFixedSet(ArrayList<SubGraph> subgraphsForOneSupply, MPGSDGraph g) {
 		Map<String, Integer> edgeFrequency = new HashMap<>();
 		
@@ -158,8 +149,7 @@ public class FixedSetSearch {
 		//System.out.println(edgeFrequency); 
 		
 		// Determine the threshold for an edge to be considered common, e.g., appears in more than half of the subgraphs
-		// TODO at least 2 otherwise vertices could be occurring in more than one subgraph, which is to be forbidden
-		//TODO make 0.7 to user variable, where threshhold can be manually adjusted
+		// 0.5 can be changed by the user, to a higher value, yet 0.5 will always be the minimum, otherwise vertices could occur in multiple subgraphs
 	    double threshold = Math.max((double) subgraphsForOneSupply.size() / 2, subgraphsForOneSupply.size() * 0.5);		
 	    //System.out.println(threshold); 
 	    // Collect all edges that meet the frequency threshold
@@ -177,18 +167,19 @@ public class FixedSetSearch {
 	    	// can take any random subgraph, because they all share the same supply Vertex on position 0
 	    	SupplyVertex supplyVertex = subgraphsForOneSupply.get(0).getSubgraphsSupplyVertex();
 	    	
-	        SubGraph fixedSet = new SubGraph(supplyVertex); // Initialize with the common supply vertex
+	        SubGraph commonSet = new SubGraph(supplyVertex); // Initialize with the common supply vertex
 	     
 	        // Add vertices and edges to the fixed set
 	        Set<Integer> addedVertices = new HashSet<>();
 	        addedVertices.add(supplyVertex.getID());
 	        
+	        //creates the fixedSet using the common edges
 	        for (String edge : commonEdges) {
 	       
 	            String[] parts = edge.split("_");
 	            int startVertexId = Integer.parseInt(parts[0]);
 	            int targetVertexId = Integer.parseInt(parts[1]);
-
+	            //rebuilds the vertices
 	            Vertex firstVertex = g.getVertexById(startVertexId);
 	            Vertex targetVertex = g.getVertexById(targetVertexId);
 	            
@@ -198,9 +189,9 @@ public class FixedSetSearch {
 	            targetVertex.setPredecessor(firstVertex);
 
 	            
-	            
+	            //then adds them to the common set
 	            if (!addedVertices.contains(startVertexId) && supplyVertex.getID() != startVertexId && supplyVertex.getRemainingSupply() >= ((DemandVertex)firstVertex).getDemand()) {
-	                fixedSet.addVertex(firstVertex);
+	                commonSet.addVertex(firstVertex);
 	                if(!firstVertex.getIsSupplyVertex()) {
 	                	((DemandVertex)firstVertex).setDemandAsCovered();
 	                	supplyVertex.useSupply(((DemandVertex)firstVertex).getDemand());
@@ -208,38 +199,39 @@ public class FixedSetSearch {
 	                addedVertices.add(startVertexId);
 	            }
 	            if (!addedVertices.contains(targetVertexId) && supplyVertex.getID() != targetVertexId && supplyVertex.getRemainingSupply() >= ((DemandVertex)targetVertex).getDemand()) {
-	                fixedSet.addVertex(targetVertex);
+	                commonSet.addVertex(targetVertex);
 	                if(!targetVertex.getIsSupplyVertex()) {
 	                	((DemandVertex)targetVertex).setDemandAsCovered();
 	                	supplyVertex.useSupply(((DemandVertex)targetVertex).getDemand());
 	                }
 	                addedVertices.add(targetVertexId);
-	                fixedSet.addEdge(firstVertex, targetVertex);
+	                commonSet.addEdge(firstVertex, targetVertex);
 	            }
 	            
 
 	        }
 	
-	        //Set new after DFS (connectivity check)
-	        fixedSet.getSubgraphsSupplyVertex().onlyResetSupply();
 	        
-	        //Checks for connectivity and if not extracts the part connected to the supplyvertex
+	        //only resets supply, to later just add the supply of the extracted component back
+	        //this way we don't reset all the vertices, which would cause them to be disconnected
+	        //Resets supply vertex, to later only cover the supply of the connected components
+	        commonSet.getSubgraphsSupplyVertex().onlyResetSupply();
+	        
+	        //Checks for connectivity and if not extracts the part connected to the supply vertex
+	        SubGraph fixedSet = commonSet.extractConnectedComponent();
 
 	        
-	        SubGraph connectedComponent = fixedSet.extractConnectedComponent();
-
-	        
-	        //TODO vorziehen, wenn Vertex geadded wird
+	        //TODO could be moved into the extractConnectedComponent() method
 	        //iterates over the new subgraph to determine its used demand and number of demand vertices
-	        for(int k = 0; k <= connectedComponent.getVertexList().size() - 1; k++) {
-            	if(!connectedComponent.getVertexList().get(k).getIsSupplyVertex()) {
-            		DemandVertex demV = (DemandVertex)connectedComponent.getVertexList().get(k);
-            		connectedComponent.addOneNumDemVer();
-            		connectedComponent.updateSubsCovDemand(demV.getDemand());
-            		connectedComponent.getSubgraphsSupplyVertex().useSupply(demV.getDemand());
+	        for(int k = 0; k <= fixedSet.getVertexList().size() - 1; k++) {
+            	if(!fixedSet.getVertexList().get(k).getIsSupplyVertex()) {
+            		DemandVertex demV = (DemandVertex)fixedSet.getVertexList().get(k);
+            		fixedSet.addOneNumDemVer();
+            		fixedSet.updateSubsCovDemand(demV.getDemand());
+            		fixedSet.getSubgraphsSupplyVertex().useSupply(demV.getDemand());
             	}
             }
-	        return connectedComponent;
+	        return fixedSet;
 	    }
 	    
 	    //if no common edges found, just returns a subgraph with a supply Vertex as Start
@@ -247,36 +239,9 @@ public class FixedSetSearch {
 	}
 
 
-	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, int trait,  List<SubGraph> fixedSets) {
-		
-		//TODO if printing fixedSet here before rebuild sometimes predecessor is null
-		
-		int currentBest = 0;
-		SolvedGraph bestGraph = null;
+	
+	
 
-		for(int i = 1; i <= iterations; i++) {
-		
-			
-			//Resets the Vertices from previous solutions and rebuilds the Subsets
-			GreedyMPGSDSolver.resetGraphVertices(g);
-			rebuildFixedSetVertices(fixedSets);
-			
-			SolvedGraph solved = GreedyMPGSDSolver.GreedySolve2(g, trait, fixedSets);
-			//String x = solved.getSolvedGraphMathematical();
-			
-			int currentDemCov = solved.getTotalCoveredDemand();
-			
-			if(currentBest < currentDemCov) {
-				
-				currentBest = currentDemCov;
-				bestGraph = solved;
-			}
-			
-		}
-		//TODO dont know if needed!
-		rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
-		return bestGraph;
-	}
 	
 	/**
 	 * rebuilds the Subgraphs after Vertices have been reseted using its edges
@@ -302,13 +267,51 @@ public class FixedSetSearch {
                 	((DemandVertex)target).setDemandAsCovered();
                 }
 				
-				//Demand coverage needs to be adjusted
+				
 				
 			}
+			//Demand coverage gets adjusted
 			subsInSet.getSubgraphsSupplyVertex().useSupply(subsInSet.getSubsCovDemand());
-			//System.out.println("cov:_" + subsInSet.getSubsCovDemand());
 		}
 
+	}
+	
+	/**
+	 * takes the fixed set, solves it a given amount of times using a given trait and returns the best found solution out of these
+	 * @param iterations to solve the MPGSD using the fixed set
+	 * @param g MPGSDGraph to be solved
+	 * @param trait for vertex selection
+	 * @param fixedSets fixed set used as initial solution, to build upon
+	 * @return
+	 */
+	public static SolvedGraph getBestFSSolution(int iterations, MPGSDGraph g, int trait,  List<SubGraph> fixedSets) {
+		
+		//TODO if printing fixedSet here before rebuild sometimes predecessor is null
+		
+		int currentBest = 0;
+		SolvedGraph bestGraph = null;
+
+		for(int i = 1; i <= iterations; i++) {
+		
+			
+			//Resets the Vertices from previous solutions and rebuilds the Subsets
+			GreedyMPGSDSolver.resetGraphVertices(g);
+			rebuildFixedSetVertices(fixedSets);
+			
+			SolvedGraph solved = GreedyMPGSDSolver.greedySolve(g, trait, fixedSets);
+			
+			int currentDemCov = solved.getTotalCoveredDemand();
+			
+			if(currentBest < currentDemCov) {
+				
+				currentBest = currentDemCov;
+				bestGraph = solved;
+			}
+			
+		}
+		//rebuild the best solution one last time, to then be able to display the SolvedGraph
+		rebuildFixedSetVertices(bestGraph.getGraphOfSubgraphs());
+		return bestGraph;
 	}
 	
 

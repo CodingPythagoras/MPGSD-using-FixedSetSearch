@@ -2,7 +2,12 @@ package VertexStructure;
 
 import java.util.ArrayList;
 
-
+/**
+ * extends Vertex
+ * defines what a demand vertex is and its specific attributes and operations
+ * @author Manuel
+ *
+ */
 public class DemandVertex extends Vertex{
 	private int demand;
 	private boolean demandIsCovered;
@@ -12,7 +17,7 @@ public class DemandVertex extends Vertex{
 	/**
 	 * creates a DemandVertex with a specific demand
 	 * @param id int which functions as identification of the vertex
-	 * @param setDemand int that sets the required deamand of the ertex
+	 * @param setDemand int that sets the required demand of the vertex
 	 */
 	public DemandVertex(int id, int setDemand) {
 		super(id);
@@ -22,18 +27,6 @@ public class DemandVertex extends Vertex{
 		demandIsCovered = false;
 	}
 	
-	/**
-	 * creates a DemandVertex with a random demand
-	 * @param id int which functions as identification of the vertex
-	 */
-	public DemandVertex(int id) {
-		super(id);
-		demand = (int) Math.floor(Math.random() * 10);
-		
-		isSupplyVertex = false;
-		demandIsCovered = false;
-		
-	}
 	
 	/**
 	 * 
@@ -51,8 +44,8 @@ public class DemandVertex extends Vertex{
 	}
 	
 	/**
-	 * checks if the vertex is already beeing covered
-	 * @return boolean, if the vertex is already beeing covered by a supplyVertex or not
+	 * checks if the vertex is already being covered
+	 * @return boolean, if the vertex is already being covered by a supplyVertex or not
 	 */
 	public boolean getDemandIsCovered() {
 		return demandIsCovered;
@@ -67,7 +60,6 @@ public class DemandVertex extends Vertex{
 	public void resetDemandVertex() {
 		demandIsCovered = false;
 		successor = new ArrayList<>();
-		//TODO null
 		predecessor = null;
 	}
 	

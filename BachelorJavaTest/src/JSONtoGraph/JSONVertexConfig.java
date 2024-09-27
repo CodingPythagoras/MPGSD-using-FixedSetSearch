@@ -1,8 +1,8 @@
 package JSONtoGraph;
-import com.google.gson.annotations.SerializedName;
+
 
 /**
- * gives a bleprint to convert the JSON in vertices
+ * gives a blueprint to convert the JSON in vertices
  * used in GrpahBuilder
  * @author Manuel
  *
@@ -10,9 +10,10 @@ import com.google.gson.annotations.SerializedName;
 public class JSONVertexConfig {
     private int id;
     
-    private int value;  // This will be used for either supply or demand
+    //value will be used for either supply or demand, depending on type of vertex
+    private int value;  
     
-    // Getters and setters
+    //getters and setters
 	public int getId() {
 		return id;
 	}

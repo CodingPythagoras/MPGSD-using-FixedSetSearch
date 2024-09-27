@@ -3,8 +3,11 @@ import java.util.ArrayList;
 
 
 
-
-
+/**
+ * the parent class to define the general concept of a vertex
+ * @author Manuel
+ *
+ */
 public class Vertex {
 	private ArrayList<Vertex> AdjVertexList = new ArrayList<>();
 	protected boolean isSupplyVertex;
@@ -52,11 +55,18 @@ public class Vertex {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @return List of adjacent vertices
+	 */
 	public ArrayList<Vertex> getAdjVertexList() {
 		return AdjVertexList;
 	}
 	
+	/**
+	 * 
+	 * @return ID of the vertex
+	 */
 	public int getID() {
 		return ID;
 	}
@@ -77,6 +87,10 @@ public class Vertex {
 		predecessor = v;
 	}
 	
+	/**
+	 * 
+	 * @return the vertex, which was crucial for adding the vertex
+	 */
 	public Vertex getPredecessor() {
 		return predecessor;
 	}
@@ -90,7 +104,7 @@ public class Vertex {
 	}
 	
 	/**
-	 * vertices, which are succesors to this vertex
+	 * vertices, which are successors to this vertex
 	 * @return LikedList of vertices
 	 */
 	public ArrayList<Vertex> getSuccessor() {
@@ -99,19 +113,24 @@ public class Vertex {
 	
 	/**
 	 * 
+	 * retrieves a list of adjacent demand vertices that are not covered and can potentially
+	 * be covered by the remaining supply of the graph.
+	 * 
 	 * @param remainingSupply takes the remaining supply of a graph
 	 * @return all the possible vertices which could potentially be coverd by the demand
 	 */
-	public ArrayList<Vertex> getListOfAdjNotCoveredFittingVertexes(int remainingSupply) {
-		ArrayList<Vertex> possibleAdjDemandVertexes = new ArrayList<Vertex>();
+	public ArrayList<Vertex> getListOfAdjNotCoveredFittingVertices(int remainingSupply) {
+		
+		//goes over every adjacent vertex and checks, if it would be a possible to cover its demand with the given supply
+		ArrayList<Vertex> possibleAdjDemandVertices = new ArrayList<Vertex>();
 		for (int i = 0; i <= AdjVertexList.size() - 1; i++) {
 			Vertex k = AdjVertexList.get(i);
 			
 			if(!k.isSupplyVertex && ((DemandVertex) k).getDemandIsCovered() == false && remainingSupply >= ((DemandVertex) k).getDemand()) {
-				possibleAdjDemandVertexes.add(k);
+				possibleAdjDemandVertices.add(k);
 			}
 		}
-		return possibleAdjDemandVertexes;
+		return possibleAdjDemandVertices;
 	}
 	
 
@@ -121,8 +140,8 @@ public class Vertex {
 	 * @return an int, as the number of vertices that could potentially be covered by the demand
 	 */
 	public int getNumberofAdjNotCoveredFittingVertexes(int remainingSupply) {
-		ArrayList<Vertex> possibleAdjDemandVertexes = getListOfAdjNotCoveredFittingVertexes(remainingSupply);
-		return possibleAdjDemandVertexes.size();
+		ArrayList<Vertex> possibleAdjDemandVertices = getListOfAdjNotCoveredFittingVertices(remainingSupply);
+		return possibleAdjDemandVertices.size();
 	}
 	
 	
