@@ -59,7 +59,7 @@ public class SolvedGraph {
 	
 	/**
 	 * returns the subgraph with the highest remaining supply
-	 * TODO possible to implement as Stack
+	 * 
 	 * @return SubGraph with highest remaining Supply
 	 */
 	public SubGraph getSubgraphWithHigestSupply() {
@@ -84,7 +84,7 @@ public class SolvedGraph {
 	
 	/**
 	 * returns the subgraph with the lowest remaining supply
-	 * TODO possible to implement as Stack
+	 * 
 	 * @return SubGraph with lowest remaining Supply
 	 */
 	public SubGraph getSubgraphWithLowestSupply() {
@@ -143,7 +143,7 @@ public class SolvedGraph {
 	 * @return Vertex corresponding to the ID
 	 */
 	public Vertex findVertexById(int source) {
-		// TODO possible to improve by sorting ArrayList by ID and using direct access
+		
 		for(SubGraph subs: graphOfSubgraphs) {
 			for(Vertex vert: subs.getVertexList()) {
 				if (vert.getID() == source) {

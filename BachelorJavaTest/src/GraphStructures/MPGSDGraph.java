@@ -101,7 +101,7 @@ public class MPGSDGraph {
 	 * @return the corresponding Vertex to the ID
 	 */
 	public Vertex getVertexById(int source) {
-		// TODO improve by sorting ArrayList by ID and using direct access
+		
 		for(SupplyVertex supv: listOfSupplyVertexes) {
 			if (supv.getID() == source) {
 				return supv;

@@ -174,7 +174,7 @@ public class SubGraph {
 				}
 				
 				
-				vertexAsArray[i][2] = ((DemandVertex)v).getPredecessor().getID(); //TODO sometimes throws nullpointer exception
+				vertexAsArray[i][2] = ((DemandVertex)v).getPredecessor().getID();
 			}
 			
 		}
@@ -428,7 +428,7 @@ public class SubGraph {
 		Vertex predecessor = null;
 		ArrayList<DemandVertex> listOfPossibleAdj = new ArrayList<>();
 		
-		//TODO fix predecessor
+		
 		ArrayList<Vertex> predecessorList = new ArrayList<>();
 		//Iteration over every Vertex in Subgraph
 		for (int i = 0; i <= subGraph.size() - 1; i++ ) {

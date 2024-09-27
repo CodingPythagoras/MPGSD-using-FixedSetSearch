@@ -221,7 +221,7 @@ public class FixedSetSearch {
 	        SubGraph fixedSet = commonSet.extractConnectedComponent();
 
 	        
-	        //TODO could be moved into the extractConnectedComponent() method
+	       
 	        //iterates over the new subgraph to determine its used demand and number of demand vertices
 	        for(int k = 0; k <= fixedSet.getVertexList().size() - 1; k++) {
             	if(!fixedSet.getVertexList().get(k).getIsSupplyVertex()) {
