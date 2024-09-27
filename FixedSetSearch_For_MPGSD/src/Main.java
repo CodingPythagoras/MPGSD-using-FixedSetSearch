@@ -47,9 +47,9 @@ public class Main {
 		
 		
 		
-		int testResultsForAvg = 5; // How many times our problem should be solved to collect our data
+		int testResultsForAvg = 10; // How many times our problem should be solved to collect our data
 		
-		int iterationsToFindFixedSet = 1000; // Number of GreedySolutions to determine our fixed set
+		int iterationsToFindFixedSet =500; // Number of GreedySolutions to determine our fixed set
 		int mBestSolutionsToBeConsidered = 25; // Number of best solutions out of these greedy iterations to consider for our fixed set search
 		int solvingTraitForGreedyWithFixedSet = 4; // Trait which is used to generate a final solution for the Problem, which given fixed set
 		int solvesUsingFixedSet = 1000; // How many solves should be performed with the found fixed set to solve the problem
