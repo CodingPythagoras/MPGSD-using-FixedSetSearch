@@ -45,7 +45,7 @@ public class Main {
 		
 		
 		
-		int testResultsForAvg = 10; // How many times our problem should be solved to collect our data
+		int testResultsForAvg = 5; // How many times our problem should be solved to collect our data
 		
 		int iterationsToFindFixedSet = 1000; // Number of GreedySolutions to determine our fixed set
 		int mBestSolutionsToBeConsidered = 25; // Number of best solutions out of these greedy iterations to consider for our fixed set search
