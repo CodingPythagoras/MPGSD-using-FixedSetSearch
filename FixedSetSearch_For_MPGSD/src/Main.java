@@ -38,8 +38,12 @@ public class Main {
 		
 		
 		//Example methods explained below
+		//Currently all are uncommented, please comment the ones you do not want to use
+		//Solves a graph using greedy approach and writes results into the console
 		createAndSolveGraph(graph, 1);
 		
+		
+		//Solves a graph with trait 1, 2 and 3 and prints results
 		solveGraphUsingTraits(graphLiteratur);
 		
 		
@@ -57,15 +61,24 @@ public class Main {
 		
 		
 		
-		//Example methods in usage, please look up documentation
+		//Example methods in usage, please look up more detailed documentation
+		//Method to solve a graph once using FSS approach and prints results in console
 		solveGraphUsingFixedSetsSearch(graphLiteratur, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold);
 		
+		
+		//Method to solve a graph multiple times using FSS approach and prints results in console
 		giveTestResultsToGraph(graphLiteratur, iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold, testResultsForAvg);
 		
+		
+		//Method to solve all graphs with just a plain greedy approach, writes results in folder
 		solveGraphUsingTraitsTXT(1);
 		
+		
+		//Solves all 32 graphs, high or low connectivity and writes results in folder
 		writeDownFSSTestResultsToGraph(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold, testResultsForAvg, false);
 		
+		
+		//Solves one graph from the literature, but all its 40 variants and writes results in folder
 		FSSResults2015LitGraphs(iterationsToFindFixedSet, mBestSolutionsToBeConsidered, solvesUsingFixedSet, solvingTraitForGreedyWithFixedSet, threshold, testResultsForAvg, false, 5, 15);
 		
 	
